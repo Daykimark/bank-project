@@ -9,11 +9,12 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface AccountDetailsIdMapper {
 
-
+    @Mapping(target = "id", source = "id")
     @Mapping(target = "accountId", source = "accountId")
-    @Mapping(target = "profile.accountId", source = "profile.accountId")
+    @Mapping(target = "profile", source = "profile")
     AccountDetailsIdEntity toEntity(AccountDetailsIdDto accountDetailsIdDto);
 
+    @Mapping(target = "id", source = "id")
     @Mapping(target = "accountId", source = "accountId")
     @Mapping(target = "profile", source = "profile")
     AccountDetailsIdDto toDto(AccountDetailsIdEntity accountDetailsIdEntity);

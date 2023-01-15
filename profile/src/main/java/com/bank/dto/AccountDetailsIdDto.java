@@ -13,6 +13,8 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 public class AccountDetailsIdDto implements Serializable {
+
+    private Long id;
     private Integer accountId;
     private ProfileDto profile;
 }
