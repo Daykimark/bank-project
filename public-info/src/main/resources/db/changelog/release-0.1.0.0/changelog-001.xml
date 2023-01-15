@@ -22,7 +22,7 @@
         </createTable>
     </changeSet>
     <changeSet author="Рустам" id="1672955251679-2">
-        <createTable remarks="аудит" tableName="audit">
+        <createTable remarks="аудит" tableName="auditEntity">
             <column autoIncrement="true" name="id" remarks="технический идентификатор" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="audit_pkey"/>
             </column>

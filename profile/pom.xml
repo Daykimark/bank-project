@@ -9,10 +9,10 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>profile</artifactId>
+    <artifactId>profileEntity</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>profile</name>
-    <description>profile</description>
+    <name>model</name>
+    <description>model</description>
 
     <properties>
         <java.version>17</java.version>
