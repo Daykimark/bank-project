@@ -9,14 +9,17 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
-@AllArgsConstructor
-@NoArgsConstructor
+
 @Getter
 @Setter
 @Entity
 @Table(name = "profile", schema = "profile")
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProfileEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -42,15 +45,16 @@ public class ProfileEntity {
     private Long snils;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "passport_id", nullable = false)
-    private PassportEntity passportEntity;
+    private PassportEntity passport;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "actual_registration_id")
-    private ActualRegistrationEntity actualRegistrationEntity;
+    private ActualRegistrationEntity actualRegistration;
 
-    @OneToMany(mappedBy = "profile", cascade = CascadeType.ALL)
-    private Set<AccountDetailsIdEntity> accountDetails = new LinkedHashSet<>();
+    @OneToMany(mappedBy = "profile"/*, cascade = {CascadeType.DETACH,
+            CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}*/)
+    private List<AccountDetailsIdEntity> accountDetails = new LinkedList<>();
 
 }

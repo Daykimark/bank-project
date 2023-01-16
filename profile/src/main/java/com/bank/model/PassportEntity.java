@@ -1,5 +1,6 @@
 package com.bank.model;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,6 +53,7 @@ public class PassportEntity {
     @Column(name = "gender", nullable = false, length = 3)
     private String gender;
 
+
     @NotNull
     @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
@@ -66,6 +68,7 @@ public class PassportEntity {
     @Type(type = "org.hibernate.type.TextType")
     private String issuedBy;
 
+
     @NotNull
     @Column(name = "date_of_issue", nullable = false)
     private LocalDate dateOfIssue;
@@ -74,15 +77,16 @@ public class PassportEntity {
     @Column(name = "division_code", nullable = false)
     private Integer divisionCode;
 
+
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "registration_id", nullable = false)
-    private RegistrationEntity registrationEntity;
+    private RegistrationEntity registration;
 
-    @OneToMany(mappedBy = "passportEntity")
+    @OneToMany(mappedBy = "passport", cascade = CascadeType.ALL)
     private Set<ProfileEntity> profileEntities = new LinkedHashSet<>();
 
 }

@@ -1,17 +1,21 @@
 package com.bank.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import com.bank.model.ProfileEntity;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 /**
  * A DTO for the {@link ProfileEntity} entity
  */
 @Data
+@AllArgsConstructor
 public class ProfileDto implements Serializable {
     private Long id;
     @NotNull
@@ -25,5 +29,5 @@ public class ProfileDto implements Serializable {
     @NotNull
     private PassportDto passport;
     private ActualRegistrationDto actualRegistration;
-    private Set<AccountDetailsIdDto> accountDetails;
+    private List<AccountDetailsIdDto> accountDetails = new ArrayList<>();
 }

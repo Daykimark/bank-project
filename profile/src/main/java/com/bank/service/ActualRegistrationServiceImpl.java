@@ -10,8 +10,8 @@ import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class ActualRegistrationServiceImpl implements ActualRegistrationService {
     private final ActualRegistrationDao actualRegistrationDao;
     private final ActualRegistrationMapper actualRegistrationMapper;
@@ -47,6 +47,7 @@ public class ActualRegistrationServiceImpl implements ActualRegistrationService 
      */
     @Override
     public ActualRegistrationDto save(ActualRegistrationDto actualRegistrationDto) {
-        return actualRegistrationMapper.toDto(actualRegistrationDao.save(actualRegistrationMapper.toEntity(actualRegistrationDto)));
+        actualRegistrationDao.save(actualRegistrationMapper.toEntity(actualRegistrationDto));
+        return actualRegistrationDto;
     }
 }

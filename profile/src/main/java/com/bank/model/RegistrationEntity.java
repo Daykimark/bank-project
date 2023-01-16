@@ -67,7 +67,7 @@ public class RegistrationEntity {
     @Column(name = "\"Column\"")
     private Integer column;
 
-    @OneToMany(mappedBy = "registrationEntity")
+    @OneToMany(mappedBy = "registration")
     private Set<PassportEntity> passportEntities = new LinkedHashSet<>();
 
 }

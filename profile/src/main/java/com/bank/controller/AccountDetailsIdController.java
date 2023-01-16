@@ -11,18 +11,15 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/accountId")
 public class AccountDetailsIdController {
 
     @Autowired
     private AccountDetailsIdService accountDetailsIdService;
 
-    @Autowired
-    private AccountDetailsIdMapper accountDetailsIdMapper;
-
     @GetMapping("/get")
-    public ResponseEntity<AccountDetailsIdDto> get(@RequestParam(name = "ids") List<Long> ids) {
-        AccountDetailsIdEntity o = new AccountDetailsIdEntity();
-        return ResponseEntity.ok(accountDetailsIdService.save(accountDetailsIdMapper.toDto(o)));
+    public ResponseEntity<List<AccountDetailsIdDto>> get(@RequestParam(name = "ids") List<Long> ids) {
+        return ResponseEntity.ok(accountDetailsIdService.findAllById(ids));
     }
 
     @PostMapping("/save")

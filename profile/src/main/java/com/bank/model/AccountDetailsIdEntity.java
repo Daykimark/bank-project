@@ -20,6 +20,6 @@ public class AccountDetailsIdEntity {
     private Integer accountId;
 
 
-    @ManyToOne()
+    @ManyToOne
     private ProfileEntity profile;
 }
