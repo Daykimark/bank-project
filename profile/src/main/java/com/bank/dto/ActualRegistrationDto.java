@@ -1,7 +1,10 @@
 package com.bank.dto;
 
-import lombok.Data;
 import com.bank.model.ActualRegistrationEntity;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -10,10 +13,13 @@ import java.io.Serializable;
 /**
  * A DTO for the {@link ActualRegistrationEntity} entity
  */
-@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
 public class ActualRegistrationDto implements Serializable {
     private Long id;
-    @Size(max = 40)
+    @Size(max=40)
     @NotNull
     private String country;
     @Size(max = 160)

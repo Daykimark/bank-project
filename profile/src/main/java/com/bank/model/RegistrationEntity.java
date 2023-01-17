@@ -5,18 +5,21 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "registration", schema = "profile")
+@Table(name = "registration_entity", schema = "profile")
 public class RegistrationEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -63,11 +66,4 @@ public class RegistrationEntity {
     @NotNull
     @Column(name = "index", nullable = false)
     private Long index;
-
-    @Column(name = "\"Column\"")
-    private Integer column;
-
-    @OneToMany(mappedBy = "registration")
-    private Set<PassportEntity> passportEntities = new LinkedHashSet<>();
-
 }

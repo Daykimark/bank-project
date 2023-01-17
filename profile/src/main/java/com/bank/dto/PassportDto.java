@@ -1,14 +1,13 @@
 package com.bank.dto;
 
+import com.bank.model.PassportEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import com.bank.model.PassportEntity;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.Set;
 
 /**
  * A DTO for the {@link PassportEntity} entity
@@ -48,6 +47,4 @@ public class PassportDto implements Serializable {
     private LocalDate expirationDate;
     @NotNull
     private RegistrationDto registration;
-    @NotNull
-    private Set<ProfileDto> profiles;
 }

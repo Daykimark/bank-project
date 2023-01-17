@@ -2,13 +2,12 @@ package com.bank.service;
 
 import com.bank.dao.AccountDetailsIdDao;
 import com.bank.dto.AccountDetailsIdDto;
+import com.bank.mapper.AccountDetailsIdMapper;
 import com.bank.model.AccountDetailsIdEntity;
 import lombok.RequiredArgsConstructor;
-import com.bank.mapper.AccountDetailsIdMapper;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,12 +25,16 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService{
     }
 
     /**
-     * @param id
+     * @param ids
      * @return
      */
     @Override
-    public List<AccountDetailsIdDto> findAllById(Iterable<Long> id) {
-        return accountDetailsIdMapper.toDtoList(new ArrayList<>(accountDetailsIdDao.findAllById(id)));
+    public List<AccountDetailsIdDto> findAllById(List<Long> ids) {
+        List<AccountDetailsIdEntity> dtoList = accountDetailsIdDao.findAllById(ids);
+        if (dtoList.size() < ids.size()) {
+            throw new EntityNotFoundException("one of ids doesn't exist " + ids);
+        }
+        return accountDetailsIdMapper.toDtoList(dtoList);
     }
 
     /**
@@ -48,7 +51,7 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService{
      */
     @Override
     public AccountDetailsIdDto save(AccountDetailsIdDto accountDetailsIdDto) {
-        AccountDetailsIdEntity entity = accountDetailsIdMapper.toEntity(accountDetailsIdDto);
-        return accountDetailsIdMapper.toDto(accountDetailsIdDao.save(entity));
+        accountDetailsIdDao.save(accountDetailsIdMapper.toEntity(accountDetailsIdDto));
+        return accountDetailsIdDto;
     }
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public interface RegistrationService {
     RegistrationDto findById(Long id);
 
-    List<RegistrationDto> findAllById(Iterable<Long> id);
+    List<RegistrationDto> findAllById(List<Long> ids);
 
     List<RegistrationDto> findAll();
 

@@ -10,7 +10,7 @@ public interface AccountDetailsIdService {
 
     AccountDetailsIdDto findById(Long id);
 
-    List<AccountDetailsIdDto> findAllById(Iterable<Long> id);
+    List<AccountDetailsIdDto> findAllById(List<Long> ids);
 
     List<AccountDetailsIdDto> findAll();
 

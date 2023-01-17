@@ -5,19 +5,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.LinkedHashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
 
 
 @Getter
 @Setter
 @Entity
-@Table(name = "profile", schema = "profile")
+@Table(name = "profile_entity", schema = "profile")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfileEntity {
@@ -38,23 +43,18 @@ public class ProfileEntity {
     @Column(name = "name_on_card", length = 370)
     private String nameOnCard;
 
-    @Column(name = "inn")
+    @Column(name = "inn", unique = true)
     private Long inn;
 
-    @Column(name = "snils")
+    @Column(name = "snils", unique = true)
     private Long snils;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "passport_id", nullable = false)
     private PassportEntity passport;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "actual_registration_id")
     private ActualRegistrationEntity actualRegistration;
-
-    @OneToMany(mappedBy = "profile"/*, cascade = {CascadeType.DETACH,
-            CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH}*/)
-    private List<AccountDetailsIdEntity> accountDetails = new LinkedList<>();
-
 }

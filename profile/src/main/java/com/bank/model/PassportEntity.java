@@ -1,25 +1,31 @@
 package com.bank.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "passport", schema = "profile")
+@Table(name = "passport_entity", schema = "profile")
 public class PassportEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -82,11 +88,8 @@ public class PassportEntity {
     private LocalDate expirationDate;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "registration_id", nullable = false)
     private RegistrationEntity registration;
-
-    @OneToMany(mappedBy = "passport", cascade = CascadeType.ALL)
-    private Set<ProfileEntity> profileEntities = new LinkedHashSet<>();
 
 }

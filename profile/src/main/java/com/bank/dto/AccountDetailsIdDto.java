@@ -1,10 +1,9 @@
 package com.bank.dto;
 
+import com.bank.model.AccountDetailsIdEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import com.bank.model.AccountDetailsIdEntity;
 
-import javax.persistence.Column;
 import java.io.Serializable;
 
 /**

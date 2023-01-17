@@ -7,7 +7,7 @@ import java.util.List;
 public interface PassportService {
     PassportDto findById(Long id);
 
-    List<PassportDto> findAllById(Iterable<Long> id);
+    List<PassportDto> findAllById(List<Long> ids);
 
     List<PassportDto> findAll();
 
