@@ -5,7 +5,6 @@ import com.bank.dto.AccountDetailsIdDto;
 import com.bank.mapper.AccountDetailsIdMapper;
 import com.bank.model.AccountDetailsIdEntity;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
@@ -16,7 +15,6 @@ import java.util.List;
  * @see com.bank.service.AccountDetailsIdService*/
 @Service
 @RequiredArgsConstructor
-@Slf4j
 public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
     private final AccountDetailsIdDao accountDetailsIdDao;
     private final AccountDetailsIdMapper accountDetailsIdMapper;
@@ -26,12 +24,10 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
      */
     @Override
     public AccountDetailsIdDto findById(Long id) {
-        return accountDetailsIdMapper.
-                toDto(accountDetailsIdDao.
+        return accountDetailsIdMapper.toDto(accountDetailsIdDao.
                         findById(id).
                         orElseThrow(() ->
-                        {log.error("Сущности AccountDetailsId с айди " + id + " нет в БД");
-                        return new EntityNotFoundException("Сущности AccountDetailsId с айди " + id + " нет в БД");}));
+                                new EntityNotFoundException("Сущности AccountDetailsId с айди " + id + " нет в БД")));
     }
 
     /**
@@ -42,7 +38,6 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
     public List<AccountDetailsIdDto> findAllById(List<Long> ids) {
         final List<AccountDetailsIdEntity> dtoList = accountDetailsIdDao.findAllById(ids);
         if (dtoList.size() < ids.size()) {
-            log.error("Одной или нескольких сущностей с такими айди не существует " + ids);
             throw new EntityNotFoundException("Одной или нескольких сущностей с такими айди не существует " + ids);
         }
         return accountDetailsIdMapper.toDtoList(dtoList);
