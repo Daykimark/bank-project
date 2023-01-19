@@ -2,7 +2,7 @@ package com.bank.controller;
 
 import com.bank.dto.AccountDetailsIdDto;
 import com.bank.service.AccountDetailsIdService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,10 +20,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/accountId")
+@RequiredArgsConstructor
 public class AccountDetailsIdController {
 
-    @Autowired
-    private AccountDetailsIdService accountDetailsIdService;
+    private final AccountDetailsIdService accountDetailsIdService;
 
     /**
      * Метод отдает одну сущность из БД по айди в пути и возвращает ее

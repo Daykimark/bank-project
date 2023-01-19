@@ -2,7 +2,7 @@ package com.bank.controller;
 
 import com.bank.dto.ProfileDto;
 import com.bank.service.ProfileService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,10 +17,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/profile")
+@RequiredArgsConstructor
 public class ProfileController {
 
-    @Autowired
-    private ProfileService profileService;
+    private final ProfileService profileService;
 
     /**
      * Метод сохраняет в БД одну сущность и возвращает ее

@@ -3,7 +3,7 @@ package com.bank.controller;
 
 import com.bank.dto.RegistrationDto;
 import com.bank.service.RegistrationService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,10 +18,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("registration")
+@RequiredArgsConstructor
 public class RegistrationController {
 
-    @Autowired
-    private RegistrationService registrationService;
+    private final RegistrationService registrationService;
 
     /**
      * Метод сохраняет в БД одну сущность и возвращает ее
