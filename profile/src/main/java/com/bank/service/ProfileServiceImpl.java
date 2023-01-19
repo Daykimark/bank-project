@@ -5,14 +5,19 @@ import com.bank.dto.ProfileDto;
 import com.bank.mapper.ProfileMapper;
 import com.bank.model.ProfileEntity;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+/**
+ * Реализация
+ * @see com.bank.service.ProfileService*/
 @Service
 @RequiredArgsConstructor
-public class ProfileServiceImpl implements ProfileService{
+@Slf4j
+public class ProfileServiceImpl implements ProfileService {
     private final ProfileDao profileDao;
     private final ProfileMapper profileMapper;
     /**
@@ -21,7 +26,12 @@ public class ProfileServiceImpl implements ProfileService{
      */
     @Override
     public ProfileDto findById(Long id) {
-        return profileMapper.toDto(profileDao.findById(id).orElseThrow(EntityNotFoundException::new));
+        return profileMapper.
+                toDto(profileDao.
+                        findById(id).
+                        orElseThrow(() ->
+                        {log.error("Сущности AccountDetailsId с айди " + id + " нет в БД");
+                            return new EntityNotFoundException("Сущности AccountDetailsId с айди " + id + " нет в БД");}));
     }
 
     /**
@@ -30,9 +40,10 @@ public class ProfileServiceImpl implements ProfileService{
      */
     @Override
     public List<ProfileDto> findAllById(List<Long> ids) {
-        List<ProfileEntity> dtoList = profileDao.findAllById(ids);
+        final List<ProfileEntity> dtoList = profileDao.findAllById(ids);
         if (dtoList.size() < ids.size()) {
-            throw new EntityNotFoundException("one of ids doesn't exist " + ids);
+            log.error("Одной или нескольких сущностей с такими айди не существует " + ids);
+            throw new EntityNotFoundException("Одной или нескольких сущностей с такими айди не существует " + ids);
         }
         return profileMapper.toDtoList(dtoList);
     }

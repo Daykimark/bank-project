@@ -5,14 +5,19 @@ import com.bank.dto.PassportDto;
 import com.bank.mapper.PassportMapper;
 import com.bank.model.PassportEntity;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+/**
+ * Реализация
+ * @see com.bank.service.PassportService*/
 @Service
 @RequiredArgsConstructor
-public class PassportSerivceImpl implements PassportService{
+@Slf4j
+public class PassportSerivceImpl implements PassportService {
     private final PassportDao passportDao;
     private final PassportMapper passportMapper;
     /**
@@ -21,7 +26,12 @@ public class PassportSerivceImpl implements PassportService{
      */
     @Override
     public PassportDto findById(Long id) {
-        return passportMapper.toDto(passportDao.findById(id).orElseThrow(EntityNotFoundException::new));
+        return passportMapper.
+                toDto(passportDao.
+                        findById(id).
+                        orElseThrow(() ->
+                        {log.error("Сущности AccountDetailsId с айди " + id + " нет в БД");
+                            return new EntityNotFoundException("Сущности AccountDetailsId с айди " + id + " нет в БД");}));
     }
 
     /**
@@ -30,9 +40,10 @@ public class PassportSerivceImpl implements PassportService{
      */
     @Override
     public List<PassportDto> findAllById(List<Long> ids) {
-        List<PassportEntity> dtoList = passportDao.findAllById(ids);
+        final List<PassportEntity> dtoList = passportDao.findAllById(ids);
         if (dtoList.size() < ids.size()) {
-            throw new EntityNotFoundException("one of ids doesn't exist " + ids);
+            log.error("Одной или нескольких сущностей с такими айди не существует " + ids);
+            throw new EntityNotFoundException("Одной или нескольких сущностей с такими айди не существует " + ids);
         }
         return passportMapper.toDtoList(dtoList);
     }

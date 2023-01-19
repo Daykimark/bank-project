@@ -22,7 +22,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @Entity
-@Table(name = "profile_entity", schema = "profile")
+@Table(name = "profile", schema = "profile")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfileEntity {

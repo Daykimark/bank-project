@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Setter
 public class ActualRegistrationDto implements Serializable {
     private Long id;
-    @Size(max=40)
+    @Size(max = 40)
     @NotNull
     private String country;
     @Size(max = 160)

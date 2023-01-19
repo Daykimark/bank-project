@@ -14,6 +14,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+/**
+ * Сущность которая представляет таблицу actual_registration*/
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

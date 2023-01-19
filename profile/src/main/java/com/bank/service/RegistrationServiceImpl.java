@@ -5,14 +5,19 @@ import com.bank.dto.RegistrationDto;
 import com.bank.mapper.RegistrationMapper;
 import com.bank.model.RegistrationEntity;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+/**
+ * Реализация
+ * @see com.bank.service.RegistrationService*/
 @Service
 @RequiredArgsConstructor
-public class RegistrationServiceImpl implements RegistrationService{
+@Slf4j
+public class RegistrationServiceImpl implements RegistrationService {
     private final RegistrationDao registrationDao;
     private final RegistrationMapper registrationMapper;
     /**
@@ -21,7 +26,12 @@ public class RegistrationServiceImpl implements RegistrationService{
      */
     @Override
     public RegistrationDto findById(Long id) {
-        return registrationMapper.toDto(registrationDao.findById(id).orElseThrow(EntityNotFoundException::new));
+        return registrationMapper.
+                toDto(registrationDao.
+                        findById(id).
+                        orElseThrow(() ->
+                        {log.error("Сущности AccountDetailsId с айди " + id + " нет в БД");
+                            return new EntityNotFoundException("Сущности AccountDetailsId с айди " + id + " нет в БД");}));
     }
 
     /**
@@ -30,9 +40,10 @@ public class RegistrationServiceImpl implements RegistrationService{
      */
     @Override
     public List<RegistrationDto> findAllById(List<Long> ids) {
-        List<RegistrationEntity> dtoList = registrationDao.findAllById(ids);
+        final List<RegistrationEntity> dtoList = registrationDao.findAllById(ids);
         if (dtoList.size() < ids.size()) {
-            throw new EntityNotFoundException("one of ids doesn't exist " + ids);
+            log.error("Одной или нескольких сущностей с такими айди не существует " + ids);
+            throw new EntityNotFoundException("Одной или нескольких сущностей с такими айди не существует " + ids);
         }
         return registrationMapper.toDtoList(dtoList);
     }

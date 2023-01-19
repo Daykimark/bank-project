@@ -32,7 +32,8 @@ public class PassportDto implements Serializable {
     private String gender;
 
     @NotNull
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")      private LocalDate birthDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
+    private LocalDate birthDate;
     @Size(max = 480)
     @NotNull
     private String birthPlace;

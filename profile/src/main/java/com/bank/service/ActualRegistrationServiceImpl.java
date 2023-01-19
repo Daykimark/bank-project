@@ -5,13 +5,18 @@ import com.bank.dto.ActualRegistrationDto;
 import com.bank.mapper.ActualRegistrationMapper;
 import com.bank.model.ActualRegistrationEntity;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
+/**
+ * Реализация
+ * @see com.bank.service.ActualRegistrationService*/
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ActualRegistrationServiceImpl implements ActualRegistrationService {
     private final ActualRegistrationDao actualRegistrationDao;
     private final ActualRegistrationMapper actualRegistrationMapper;
@@ -21,7 +26,12 @@ public class ActualRegistrationServiceImpl implements ActualRegistrationService 
      */
     @Override
     public ActualRegistrationDto findById(Long id) {
-        return actualRegistrationMapper.toDto(actualRegistrationDao.findById(id).orElseThrow(EntityNotFoundException::new));
+        return actualRegistrationMapper.
+                toDto(actualRegistrationDao.
+                        findById(id).
+                        orElseThrow(() ->
+                        {log.error("Сущности AccountDetailsId с айди " + id + " нет в БД");
+                            return new EntityNotFoundException("Сущности AccountDetailsId с айди " + id + " нет в БД");}));
     }
 
     /**
@@ -30,9 +40,10 @@ public class ActualRegistrationServiceImpl implements ActualRegistrationService 
      */
     @Override
     public List<ActualRegistrationDto> findAllById(List<Long> ids) {
-        List<ActualRegistrationEntity> dtoList = actualRegistrationDao.findAllById(ids);
+        final List<ActualRegistrationEntity> dtoList = actualRegistrationDao.findAllById(ids);
         if (dtoList.size() < ids.size()) {
-            throw new EntityNotFoundException("one of ids doesn't exist " + ids);
+            log.error("Одной или нескольких сущностей с такими айди не существует " + ids);
+            throw new EntityNotFoundException("Одной или нескольких сущностей с такими айди не существует " + ids);
         }
         return actualRegistrationMapper.toDtoList(dtoList);
     }

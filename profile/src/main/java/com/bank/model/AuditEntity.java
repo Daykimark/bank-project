@@ -16,12 +16,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
 
+/**
+ * Сущность которая представляет таблицу audit_entity*/
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "audit_entity", schema = "profile")
+@Table(name = "audit", schema = "profile")
 public class AuditEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

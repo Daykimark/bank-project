@@ -20,12 +20,14 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
+/**
+ * Сущность которая представляет passport_entity*/
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-@Table(name = "passport_entity", schema = "profile")
+@Table(name = "passport", schema = "profile")
 public class PassportEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
