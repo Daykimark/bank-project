@@ -1,13 +1,12 @@
 package com.bank.service;
 
 import com.bank.dto.AccountDetailsIdDto;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 /**
  * Интерфейс-прослойка между сервисным слоем и слоем DAO для сущности {@link com.bank.model.AccountDetailsIdEntity}*/
-@Service
+
 public interface AccountDetailsIdService {
 
     /**
