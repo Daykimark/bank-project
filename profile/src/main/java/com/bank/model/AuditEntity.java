@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,7 +16,9 @@ import javax.validation.constraints.Size;
 import java.time.OffsetDateTime;
 
 /**
- * Сущность которая представляет таблицу audit_entity*/
+ * Сущность, которая представляет таблицу audit
+ */
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -57,11 +58,9 @@ public class AuditEntity {
     private OffsetDateTime modifiedAt;
 
     @Column(name = "new_entity_json")
-    @Type(type = "org.hibernate.type.TextType")
     private String newEntityJson;
 
     @NotNull
     @Column(name = "entity_json", nullable = false)
-    @Type(type = "org.hibernate.type.TextType")
     private String entityJson;
 }

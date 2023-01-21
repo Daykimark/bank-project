@@ -2,7 +2,9 @@ package com.bank.dto;
 
 import com.bank.model.PassportEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -12,7 +14,9 @@ import java.time.LocalDate;
 /**
  * A DTO for the {@link PassportEntity} entity
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class PassportDto implements Serializable {
     private Long id;
     @NotNull

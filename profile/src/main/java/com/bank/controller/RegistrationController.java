@@ -1,7 +1,7 @@
 package com.bank.controller;
 
-
 import com.bank.dto.RegistrationDto;
+import com.bank.model.RegistrationEntity;
 import com.bank.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,49 +16,50 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Контроллер для {@link RegistrationEntity}
+ */
+
 @RestController
-@RequestMapping("registration")
+@RequestMapping("/registration/")
 @RequiredArgsConstructor
 public class RegistrationController {
 
-    private final RegistrationService registrationService;
+    private final RegistrationService service;
 
     /**
-     * Метод сохраняет в БД одну сущность и возвращает ее
-     * @param dto - сущность для сохранения в виде ДТО*/
+     * @param id технический идентификатор {@link RegistrationEntity}
+     * @return сущность в виде {@link ResponseEntity<RegistrationDto>}
+     */
+    @GetMapping("/read/{id}")
+    public ResponseEntity<RegistrationDto> read(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(service.findById(id));
+    }
+
+    /**
+     * @param dto - сущность для сохранения в виде {@link RegistrationDto}
+     * @return сохраненная сущность в виде {@link ResponseEntity<RegistrationDto>}
+     */
     @PostMapping("/save")
     public ResponseEntity<RegistrationDto> save(@RequestBody RegistrationDto dto) {
-        return ResponseEntity.ok(registrationService.save(dto));
+        return ResponseEntity.ok(service.save(dto));
     }
 
     /**
-     * Метод отдает одну сущность из БД по айди в пути и возвращает ее
-     * @param id - айди пользователя которого нужно вернуть*/
-    @GetMapping("/get/{id}")
-    public ResponseEntity<RegistrationDto> getById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(registrationService.findById(id));
-    }
-
-    /**
-     * Метод возвращает одну или несколько записей в таблице по листу айди
-     * @param ids - айди сущностей, которые вернет метод*/
-    @GetMapping("/getAllById")
-    public ResponseEntity<List<RegistrationDto>> getAllById(@RequestParam List<Long> ids) {
-        return ResponseEntity.ok(registrationService.findAllById(ids));
-    }
-
-    /**
-     * Метод обновляет одну сущность из БД и возвращает ее
-     * @param dto - сущность для обновления в виде ДТО*/
+     * @param dto - сущность для обновления в виде {@link RegistrationDto}
+     * @return обновленная сущность в виде {@link ResponseEntity<RegistrationDto>}
+     */
     @PutMapping("/update")
     public ResponseEntity<RegistrationDto> update(@RequestBody RegistrationDto dto) {
-        return ResponseEntity.ok(registrationService.save(dto));
+        return ResponseEntity.ok(service.save(dto));
     }
 
     /**
-     * Метод возвращает все записи из таблицы*/
-    @GetMapping("/getAll")
-    public ResponseEntity<List<RegistrationDto>> getAll() {
-        return ResponseEntity.ok(registrationService.findAll());
+     * @param ids лист технических идентификаторов {@link RegistrationEntity}
+     * @return сущности в виде {@link ResponseEntity<List<RegistrationDto>>}
+     */
+    @GetMapping("readAllById")
+    public ResponseEntity<List<RegistrationDto>> readAllById(@RequestParam List<Long> ids) {
+        return ResponseEntity.ok(service.findAllById(ids));
     }
 }

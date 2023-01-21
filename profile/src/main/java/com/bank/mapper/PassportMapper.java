@@ -3,30 +3,36 @@ package com.bank.mapper;
 import com.bank.dto.PassportDto;
 import com.bank.model.PassportEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
-
 import java.util.List;
 
 /**
- * Интерфейс позволяет конвертировать сущности
- * типа {@link PassportEntity} в ДТО типа{@link PassportDto}*/
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
+ * Маппер для {@link PassportEntity} в {@link PassportDto} и обратно
+ */
+@Mapper(componentModel = "spring")
 public interface PassportMapper {
 
     /**
-     * Конвертирует одну ДТО {@link PassportDto} в одну сущность {@link PassportEntity}*/
-    PassportEntity toEntity(PassportDto passportDto);
+     * @param auditDto {@link PassportDto}
+     * @return {@link PassportEntity}
+     */
+    PassportEntity toEntity(PassportDto auditDto);
 
     /**
-     * Конвертирует одну сущность {@link PassportEntity} в одну ДТО {@link PassportDto}*/
-    PassportDto toDto(PassportEntity passportEntity);
+     * @param auditEntity {@link PassportEntity}
+     * @return {@link PassportDto}
+     */
+    PassportDto toDto(PassportEntity auditEntity);
 
     /**
-     * Конвертирует список сущностей {@link PassportEntity} в список ДТО {@link PassportDto}*/
+     * @param entities {@link List<PassportEntity>}
+     * @return {@link List<PassportDto>}
+     */
     List<PassportDto> toDtoList(List<PassportEntity> entities);
 
     /**
-     * Конвертирует список ДТО {@link PassportDto} в список сущностей {@link PassportEntity}*/
-    List<PassportEntity> toEntityList(List<PassportDto> entities);
-    
+     * @param dto {@link List<PassportDto>}
+     * @return {@link List<PassportEntity>}
+     */
+    List<PassportEntity> toEntityList(List<PassportDto> dto);
+
 }

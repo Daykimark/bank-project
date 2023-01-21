@@ -1,7 +1,9 @@
 package com.bank.dto;
 
-import lombok.Data;
 import com.bank.model.AuditEntity;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -11,7 +13,9 @@ import java.time.OffsetDateTime;
 /**
  * A DTO for the {@link AuditEntity} entity
  */
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class AuditDto implements Serializable {
     private Long id;
     @Size(max = 40)

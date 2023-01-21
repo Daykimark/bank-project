@@ -14,7 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
- * Сущность которая представляет таблицу account_details_id*/
+ * Сущность которая представляет таблицу account_details_id
+ */
 
 @AllArgsConstructor
 @NoArgsConstructor

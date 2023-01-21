@@ -1,6 +1,8 @@
 package com.bank.controller;
 
+
 import com.bank.dto.PassportDto;
+import com.bank.model.PassportEntity;
 import com.bank.service.PassportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,49 +17,50 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Контроллер для {@link PassportEntity}
+ */
+
 @RestController
-@RequestMapping("passport")
+@RequestMapping("/passport/")
 @RequiredArgsConstructor
 public class PassportController {
 
-    private final PassportService passportService;
+    private final PassportService service;
 
     /**
-     * Метод сохраняет в БД одну сущность и возвращает ее
-     * @param dto - сущность для сохранения в виде ДТО*/
+     * @param id технический идентификатор {@link PassportEntity}
+     * @return сущность в виде {@link ResponseEntity<PassportDto>}
+     */
+    @GetMapping("/read/{id}")
+    public ResponseEntity<PassportDto> read(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(service.findById(id));
+    }
+
+    /**
+     * @param dto - сущность для сохранения в виде {@link PassportDto}
+     * @return сохраненная сущность в виде {@link ResponseEntity<PassportDto>}
+     */
     @PostMapping("/save")
     public ResponseEntity<PassportDto> save(@RequestBody PassportDto dto) {
-        return ResponseEntity.ok(passportService.save(dto));
+        return ResponseEntity.ok(service.save(dto));
     }
 
     /**
-     * Метод отдает одну сущность из БД по айди в пути и возвращает ее
-     * @param id - айди пользователя которого нужно вернуть*/
-    @GetMapping("/get/{id}")
-    public ResponseEntity<PassportDto> getById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(passportService.findById(id));
-    }
-
-    /**
-     * Метод возвращает одну или несколько записей в таблице по листу айди
-     * @param ids - айди сущностей, которые вернет метод*/
-    @GetMapping("/getAllById")
-    public ResponseEntity<List<PassportDto>> getAllById(@RequestParam List<Long> ids) {
-        return ResponseEntity.ok(passportService.findAllById(ids));
-    }
-
-    /**
-     * Метод обновляет одну сущность из БД и возвращает ее
-     * @param dto - сущность для обновления в виде ДТО*/
+     * @param dto - сущность для обновления в виде {@link PassportDto}
+     * @return обновленная сущность в виде {@link ResponseEntity<PassportDto>}
+     */
     @PutMapping("/update")
     public ResponseEntity<PassportDto> update(@RequestBody PassportDto dto) {
-        return ResponseEntity.ok(passportService.save(dto));
+        return ResponseEntity.ok(service.save(dto));
     }
 
     /**
-     * Метод возвращает все записи из таблицы*/
-    @GetMapping("/getAll")
-    public ResponseEntity<List<PassportDto>> getAll() {
-        return ResponseEntity.ok(passportService.findAll());
+     * @param ids лист технических идентификаторов {@link PassportDto}
+     * @return сущности в виде {@link ResponseEntity<List<PassportDto>>}
+     */
+    @GetMapping("readAllById")
+    public ResponseEntity<List<PassportDto>> readAllById(@RequestParam List<Long> ids) {
+        return ResponseEntity.ok(service.findAllById(ids));
     }
 }

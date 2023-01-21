@@ -1,6 +1,6 @@
 package com.bank.service;
 
-import com.bank.dao.ProfileDao;
+import com.bank.repository.ProfileRepository;
 import com.bank.dto.ProfileDto;
 import com.bank.mapper.ProfileMapper;
 import com.bank.model.ProfileEntity;
@@ -11,53 +11,47 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 /**
- * Реализация
- * @see com.bank.service.ProfileService*/
+ * Реализация {@link ProfileService}
+ */
 @Service
 @RequiredArgsConstructor
 public class ProfileServiceImpl implements ProfileService {
-    private final ProfileDao profileDao;
-    private final ProfileMapper profileMapper;
+    private final ProfileRepository repository;
+
+    private final ProfileMapper mapper;
+
     /**
-     * @param id
-     * @return
+     * @param id технический идентификатор {@link ProfileEntity}
+     * @return {@link ProfileDto}
      */
     @Override
     public ProfileDto findById(Long id) {
-        return profileMapper.toDto(profileDao.
-                findById(id).
-                orElseThrow(() ->
+        return mapper.toDto(repository
+                .findById(id)
+                .orElseThrow(() ->
                         new EntityNotFoundException("Сущности Profile с айди " + id + " нет в БД")));
     }
 
     /**
-     * @param ids
-     * @return
+     * @param ids лист технических идентификаторов
+     * @return {@link List<ProfileDto>}
      */
     @Override
     public List<ProfileDto> findAllById(List<Long> ids) {
-        final List<ProfileEntity> dtoList = profileDao.findAllById(ids);
+        final List<ProfileEntity> dtoList = repository.findAllById(ids);
         if (dtoList.size() < ids.size()) {
             throw new EntityNotFoundException("Одной или нескольких сущностей с такими айди не существует " + ids);
         }
-        return profileMapper.toDtoList(dtoList);
+        return mapper.toDtoList(dtoList);
     }
 
     /**
-     * @return
+     * @param dto {@link ProfileDto}
+     * @return {@link ProfileDto}
      */
     @Override
-    public List<ProfileDto> findAll() {
-        return profileMapper.toDtoList(profileDao.findAll());
-    }
-
-    /**
-     * @param profileDto
-     * @return
-     */
-    @Override
-    public ProfileDto save(ProfileDto profileDto) {
-        profileDao.save(profileMapper.toEntity(profileDto));
-        return profileDto;
+    public ProfileDto save(ProfileDto dto) {
+        ProfileEntity entity = repository.save(mapper.toEntity(dto));
+        return mapper.toDto(entity);
     }
 }

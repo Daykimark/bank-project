@@ -1,7 +1,6 @@
 package com.bank.dto;
 
 import com.bank.model.ActualRegistrationEntity;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,10 +12,9 @@ import java.io.Serializable;
 /**
  * A DTO for the {@link ActualRegistrationEntity} entity
  */
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
+@NoArgsConstructor
 public class ActualRegistrationDto implements Serializable {
     private Long id;
     @Size(max = 40)

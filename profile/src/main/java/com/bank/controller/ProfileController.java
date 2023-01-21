@@ -1,6 +1,8 @@
 package com.bank.controller;
 
+
 import com.bank.dto.ProfileDto;
+import com.bank.model.ProfileEntity;
 import com.bank.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,49 +17,50 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * Контроллер для {@link ProfileEntity}
+ */
+
 @RestController
-@RequestMapping("/profile")
+@RequestMapping("/profile/")
 @RequiredArgsConstructor
 public class ProfileController {
 
-    private final ProfileService profileService;
+    private final ProfileService service;
 
     /**
-     * Метод сохраняет в БД одну сущность и возвращает ее
-     * @param dto - сущность для сохранения в виде ДТО*/
+     * @param id технический идентификатор {@link ProfileEntity}
+     * @return сущность в виде {@link ResponseEntity<ProfileDto>}
+     */
+    @GetMapping("/read/{id}")
+    public ResponseEntity<ProfileDto> read(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(service.findById(id));
+    }
+
+    /**
+     * @param dto - сущность для сохранения в виде {@link ProfileDto}
+     * @return сохраненная сущность в виде {@link ResponseEntity<ProfileDto>}
+     */
     @PostMapping("/save")
     public ResponseEntity<ProfileDto> save(@RequestBody ProfileDto dto) {
-        return ResponseEntity.ok(profileService.save(dto));
+        return ResponseEntity.ok(service.save(dto));
     }
 
     /**
-     * Метод отдает одну сущность из БД по айди в пути и возвращает ее
-     * @param id - айди пользователя которого нужно вернуть*/
-    @GetMapping("/get/{id}")
-    public ResponseEntity<ProfileDto> getById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(profileService.findById(id));
-    }
-
-    /**
-     * Метод возвращает одну или несколько записей в таблице по листу айди
-     * @param ids - айди сущностей, которые вернет метод*/
-    @GetMapping("/getAllById")
-    public ResponseEntity<List<ProfileDto>> getAllById(@RequestParam List<Long> ids) {
-        return ResponseEntity.ok(profileService.findAllById(ids));
-    }
-
-    /**
-     * Метод обновляет одну сущность из БД и возвращает ее
-     * @param dto - сущность для обновления в виде ДТО*/
+     * @param dto - сущность для обновления в виде {@link ProfileDto}
+     * @return обновленная сущность в виде {@link ResponseEntity<ProfileDto>}
+     */
     @PutMapping("/update")
     public ResponseEntity<ProfileDto> update(@RequestBody ProfileDto dto) {
-        return ResponseEntity.ok(profileService.save(dto));
+        return ResponseEntity.ok(service.save(dto));
     }
 
     /**
-     * Метод возвращает все записи из таблицы*/
-    @GetMapping("/getAll")
-    public ResponseEntity<List<ProfileDto>> getAll() {
-        return ResponseEntity.ok(profileService.findAll());
+     * @param ids лист технических идентификаторов {@link com.bank.model.ProfileEntity}
+     * @return сущности в виде {@link ResponseEntity<List<ProfileDto>>}
+     */
+    @GetMapping("readAllById")
+    public ResponseEntity<List<ProfileDto>> readAllById(@RequestParam List<Long> ids) {
+        return ResponseEntity.ok(service.findAllById(ids));
     }
 }

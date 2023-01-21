@@ -1,29 +1,31 @@
 package com.bank.service;
 
 import com.bank.dto.ProfileDto;
+import com.bank.model.ProfileEntity;
 
 import java.util.List;
 
 /**
- * Интерфейс-прослойка между сервисным слоем и слоем DAO для сущности {@link com.bank.model.ProfileEntity}*/
+ * Сервис {@link ProfileEntity} {@link ProfileDto}
+ */
+
 public interface ProfileService {
 
     /**
-     * Метод ищет одного пользователя по его айди и возвращает его
-     * @param id*/
+     * @param id технический идентификатор {@link ProfileEntity}
+     * @return {@link ProfileDto}
+     */
     ProfileDto findById(Long id);
 
     /**
-     * Метод ищет пользователей у которых айди равен айди из параметра метода
-     * @param ids - айди пользователей, которых надо найти*/
+     * @param ids лист технических идентификаторов
+     * @return {@link List<ProfileDto>}
+     */
     List<ProfileDto> findAllById(List<Long> ids);
 
     /**
-     * Метод ищет и возвращает всех пользователей*/
-    List<ProfileDto> findAll();
-
-    /**
-     * Метод сохраняет сушность, которая подается на вход в виде ДТО, а потом конвертируется
-     * {@link com.bank.mapper.ProfileMapper} в сущность*/
-    ProfileDto save(ProfileDto profileDto);
+     * @param dto {@link ProfileDto}
+     * @return {@link ProfileDto}
+     */
+    ProfileDto save(ProfileDto dto);
 }

@@ -1,6 +1,7 @@
 package com.bank.controller;
 
 import com.bank.dto.AccountDetailsIdDto;
+import com.bank.model.AccountDetailsIdEntity;
 import com.bank.service.AccountDetailsIdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,51 +17,49 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * Контроллер для {@link com.bank.model.AccountDetailsIdEntity}*/
+ * Контроллер для {@link AccountDetailsIdEntity}
+ */
 
 @RestController
-@RequestMapping("/accountId")
+@RequestMapping("/accountDetails/")
 @RequiredArgsConstructor
 public class AccountDetailsIdController {
 
-    private final AccountDetailsIdService accountDetailsIdService;
+    private final AccountDetailsIdService service;
 
     /**
-     * Метод отдает одну сущность из БД по айди в пути и возвращает ее
-     * @param id - айди пользователя которого нужно вернуть*/
-    @GetMapping("/get/{id}")
-    public ResponseEntity<AccountDetailsIdDto> get(@PathVariable("id") Long id) {
-        return ResponseEntity.ok(accountDetailsIdService.findById(id));
+     * @param id технический идентификатор {@link com.bank.model.AccountDetailsIdEntity}
+     * @return сущность в виде {@link ResponseEntity<AccountDetailsIdDto>}
+     */
+    @GetMapping("/read/{id}")
+    public ResponseEntity<AccountDetailsIdDto> read(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(service.findById(id));
     }
 
     /**
-     * Метод сохраняет в БД одну сущность и возвращает ее
-     * @param dto - сущность для сохранения в виде ДТО*/
+     * @param dto - сущность для сохранения в виде {@link AccountDetailsIdDto}
+     * @return сохраненная сущность в виде {@link ResponseEntity<AccountDetailsIdDto>}
+     */
     @PostMapping("/save")
     public ResponseEntity<AccountDetailsIdDto> save(@RequestBody AccountDetailsIdDto dto) {
-        return ResponseEntity.ok(accountDetailsIdService.save(dto));
+        return ResponseEntity.ok(service.save(dto));
     }
 
     /**
-     * Метод обновляет одну сущность из БД и возвращает ее
-     * @param dto - сущность для обновления в виде ДТО*/
+     * @param dto - сущность для обновления в виде {@link AccountDetailsIdDto}
+     * @return обновленная сущность в виде {@link ResponseEntity<AccountDetailsIdDto>}
+     */
     @PutMapping("/update")
     public ResponseEntity<AccountDetailsIdDto> update(@RequestBody AccountDetailsIdDto dto) {
-        return ResponseEntity.ok(accountDetailsIdService.save(dto));
+        return ResponseEntity.ok(service.save(dto));
     }
 
     /**
-     * Метод возвращает одну или несколько записей в таблице по листу айди
-     * @param ids - айди сущностей, которые вернет метод*/
-    @GetMapping("/getAllById")
-    public ResponseEntity<List<AccountDetailsIdDto>> getAllById(@RequestParam List<Long> ids) {
-        return ResponseEntity.ok(accountDetailsIdService.findAllById(ids));
-    }
-
-    /**
-     * Метод возвращает все записи из таблицы*/
-    @GetMapping("/getAll")
-    public ResponseEntity<List<AccountDetailsIdDto>> getAll() {
-        return ResponseEntity.ok(accountDetailsIdService.findAll());
+     * @param ids лист технических идентификаторов {@link AccountDetailsIdEntity}
+     * @return сущности в виде {@link ResponseEntity<List<AccountDetailsIdDto>>}
+     */
+    @GetMapping("readAllById")
+    public ResponseEntity<List<AccountDetailsIdDto>> readAllById(@RequestParam List<Long> ids) {
+        return ResponseEntity.ok(service.findAllById(ids));
     }
 }

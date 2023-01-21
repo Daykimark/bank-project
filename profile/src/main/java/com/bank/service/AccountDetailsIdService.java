@@ -1,30 +1,31 @@
 package com.bank.service;
 
 import com.bank.dto.AccountDetailsIdDto;
+import com.bank.model.AccountDetailsIdEntity;
 
 import java.util.List;
 
 /**
- * Интерфейс-прослойка между сервисным слоем и слоем DAO для сущности {@link com.bank.model.AccountDetailsIdEntity}*/
+ * Сервис {@link AccountDetailsIdEntity} {@link AccountDetailsIdDto}
+ */
 
 public interface AccountDetailsIdService {
 
     /**
-     * Метод ищет одного пользователя по его айди и возвращает его
-     * @param id*/
+     * @param id технический идентификатор {@link AccountDetailsIdEntity}
+     * @return {@link AccountDetailsIdDto}
+     */
     AccountDetailsIdDto findById(Long id);
 
     /**
-     * Метод ищет пользователей у которых айди равен айди из параметра метода
-     * @param ids - айди пользователей, которых надо найти*/
+     * @param ids лист технических идентификаторов
+     * @return {@link List<AccountDetailsIdDto>}
+     */
     List<AccountDetailsIdDto> findAllById(List<Long> ids);
 
     /**
-     * Метод ищет и возвращает всех пользователей*/
-    List<AccountDetailsIdDto> findAll();
-
-    /**
-     * Метод сохраняет сушность, которая подается на вход в виде ДТО, а потом конвертируется
-     * {@link com.bank.mapper.AccountDetailsIdMapper} в сущность*/
-    AccountDetailsIdDto save(AccountDetailsIdDto accountDetailsIdDto);
+     * @param dto {@link AccountDetailsIdDto}
+     * @return {@link AccountDetailsIdDto}
+     */
+    AccountDetailsIdDto save(AccountDetailsIdDto dto);
 }

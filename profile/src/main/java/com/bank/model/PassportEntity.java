@@ -9,7 +9,6 @@ import org.hibernate.annotations.Type;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -21,7 +20,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
- * Сущность которая представляет passport_entity*/
+ * Сущность, которая представляет passport
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -90,7 +90,8 @@ public class PassportEntity {
     private LocalDate expirationDate;
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @OneToOne(optional = false,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "registration_id", nullable = false)
     private RegistrationEntity registration;
 

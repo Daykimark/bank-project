@@ -1,29 +1,31 @@
 package com.bank.service;
 
 import com.bank.dto.AuditDto;
+import com.bank.model.AuditEntity;
 
 import java.util.List;
 
 /**
- * Интерфейс-прослойка между сервисным слоем и слоем DAO для сущности {@link com.bank.model.AuditEntity}*/
+ * Сервис {@link AuditEntity} {@link AuditDto}
+ */
+
 public interface AuditService {
 
     /**
-     * Метод ищет одного пользователя по его айди и возвращает его
-     * @param id*/
+     * @param id технический идентификатор {@link AuditEntity}
+     * @return {@link AuditDto}
+     */
     AuditDto findById(Long id);
 
     /**
-     * Метод ищет пользователей у которых айди равен айди из параметра метода
-     * @param ids - айди пользователей, которых надо найти*/
-    List<AuditDto> findAllById(Iterable<Long> ids);
+     * @param ids лист технических идентификаторов
+     * @return {@link List<AuditDto>}
+     */
+    List<AuditDto> findAllById(List<Long> ids);
 
     /**
-     * Метод ищет и возвращает всех пользователей*/
-    List<AuditDto> findAll();
-
-    /**
-     * Метод сохраняет сушность, которая подается на вход в виде ДТО, а потом конвертируется
-     * {@link com.bank.mapper.AuditMapper} в сущность*/
-    AuditDto save(AuditDto auditDto);
+     * @param dto {@link AuditDto}
+     * @return {@link AuditDto}
+     */
+    AuditDto save(AuditDto dto);
 }

@@ -15,7 +15,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * Сущность которая предстаялет таблицу registration_entity*/
+ * Сущность, которая представляет таблицу registration
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

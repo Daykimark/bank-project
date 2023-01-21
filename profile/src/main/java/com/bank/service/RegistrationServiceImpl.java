@@ -1,6 +1,6 @@
 package com.bank.service;
 
-import com.bank.dao.RegistrationDao;
+import com.bank.repository.RegistrationRepository;
 import com.bank.dto.RegistrationDto;
 import com.bank.mapper.RegistrationMapper;
 import com.bank.model.RegistrationEntity;
@@ -11,53 +11,47 @@ import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 /**
- * Реализация
- * @see com.bank.service.RegistrationService*/
+ * Реализация {@link RegistrationService}
+ */
 @Service
 @RequiredArgsConstructor
 public class RegistrationServiceImpl implements RegistrationService {
-    private final RegistrationDao registrationDao;
-    private final RegistrationMapper registrationMapper;
+    private final RegistrationRepository repository;
+
+    private final RegistrationMapper mapper;
+
     /**
-     * @param id
-     * @return
+     * @param id технический идентификатор {@link RegistrationEntity}
+     * @return {@link RegistrationDto}
      */
     @Override
     public RegistrationDto findById(Long id) {
-        return registrationMapper.toDto(registrationDao.
-                findById(id).
-                orElseThrow(() ->
+        return mapper.toDto(repository
+                .findById(id)
+                .orElseThrow(() ->
                         new EntityNotFoundException("Сущности Registration с айди " + id + " нет в БД")));
     }
 
     /**
-     * @param ids
-     * @return
+     * @param ids лист технических идентификаторов
+     * @return {@link List<RegistrationDto>}
      */
     @Override
     public List<RegistrationDto> findAllById(List<Long> ids) {
-        final List<RegistrationEntity> dtoList = registrationDao.findAllById(ids);
+        final List<RegistrationEntity> dtoList = repository.findAllById(ids);
         if (dtoList.size() < ids.size()) {
             throw new EntityNotFoundException("Одной или нескольких сущностей с такими айди не существует " + ids);
         }
-        return registrationMapper.toDtoList(dtoList);
+        return mapper.toDtoList(dtoList);
     }
 
     /**
-     * @return
+     * @param accountDetailsIdDto {@link RegistrationDto}
+     * @return {@link RegistrationDto}
      */
     @Override
-    public List<RegistrationDto> findAll() {
-        return registrationMapper.toDtoList(registrationDao.findAll());
-    }
-
-    /**
-     * @param registrationDto
-     * @return
-     */
-    @Override
-    public RegistrationDto save(RegistrationDto registrationDto) {
-        registrationDao.save(registrationMapper.toEntity(registrationDto));
-        return registrationDto;
+    public RegistrationDto save(RegistrationDto accountDetailsIdDto) {
+        RegistrationEntity entity = repository.save(mapper.toEntity(accountDetailsIdDto));
+        return mapper.toDto(entity);
     }
 }

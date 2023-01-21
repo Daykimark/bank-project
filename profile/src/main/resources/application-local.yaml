@@ -14,7 +14,7 @@ management:
         include: '*'
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5434/BANK
+    url: jdbc:postgresql://localhost:5434/postgres
     username: user
     password: password
     driver-class-name: org.postgresql.Driver
@@ -25,5 +25,3 @@ spring:
     drop-first: false
   application:
     name: profile-app
-  jpa:
-    show-sql: true

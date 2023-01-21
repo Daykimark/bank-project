@@ -18,7 +18,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-
+/**
+ * Сущность, которая представляет таблицу profile
+ */
 @Getter
 @Setter
 @Entity
@@ -50,11 +52,13 @@ public class ProfileEntity {
     private Long snils;
 
     @NotNull
-    @OneToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.ALL)
+    @OneToOne(optional = false,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "passport_id", nullable = false)
     private PassportEntity passport;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY,
+            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "actual_registration_id")
     private ActualRegistrationEntity actualRegistration;
 }

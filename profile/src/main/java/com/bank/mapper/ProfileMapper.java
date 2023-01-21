@@ -3,30 +3,36 @@ package com.bank.mapper;
 import com.bank.dto.ProfileDto;
 import com.bank.model.ProfileEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
-
 import java.util.List;
 
 /**
- * Интерфейс позволяет конвертировать сущности
- * типа {@link ProfileEntity} в ДТО типа{@link ProfileDto}*/
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = "spring")
+ * Маппер для {@link ProfileEntity} в {@link ProfileDto} и обратно
+ */
+@Mapper(componentModel = "spring")
 public interface ProfileMapper {
 
     /**
-     * Конвертирует одну ДТО {@link ProfileDto} в одну сущность {@link ProfileEntity}*/
-    ProfileEntity toEntity(ProfileDto profileDto);
+     * @param auditDto {@link ProfileDto}
+     * @return {@link ProfileEntity}
+     */
+    ProfileEntity toEntity(ProfileDto auditDto);
 
     /**
-     * Конвертирует одну сущность {@link ProfileEntity} в одну ДТО {@link ProfileDto}*/
-    ProfileDto toDto(ProfileEntity profileEntity);
+     * @param auditEntity {@link ProfileEntity}
+     * @return {@link ProfileDto}
+     */
+    ProfileDto toDto(ProfileEntity auditEntity);
 
     /**
-     * Конвертирует список сущностей {@link ProfileEntity} в список ДТО {@link ProfileDto}*/
+     * @param entities {@link List<ProfileEntity>}
+     * @return {@link List<ProfileDto>}
+     */
     List<ProfileDto> toDtoList(List<ProfileEntity> entities);
 
     /**
-     * Конвертирует список ДТО {@link ProfileDto} в список сущностей {@link ProfileEntity}*/
-    List<ProfileEntity> toEntityList(List<ProfileDto> entities);
+     * @param dto {@link List<ProfileDto>}
+     * @return {@link List<ProfileEntity>}
+     */
+    List<ProfileEntity> toEntityList(List<ProfileDto> dto);
 
 }

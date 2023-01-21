@@ -3,30 +3,36 @@ package com.bank.mapper;
 import com.bank.dto.AccountDetailsIdDto;
 import com.bank.model.AccountDetailsIdEntity;
 import org.mapstruct.Mapper;
-
 import java.util.List;
 
 /**
- * Интерфейс позволяет конвертировать сущности
- * типа {@link AccountDetailsIdEntity} в ДТО типа{@link AccountDetailsIdDto}*/
-
+ * Маппер для {@link AccountDetailsIdEntity} в {@link AccountDetailsIdDto} и обратно
+ */
 @Mapper(componentModel = "spring")
 public interface AccountDetailsIdMapper {
 
     /**
-     * Конвертирует одну ДТО {@link AccountDetailsIdDto} в одну сущность {@link AccountDetailsIdEntity}*/
-    AccountDetailsIdEntity toEntity(AccountDetailsIdDto accountDetailsIdDto);
+     * @param auditDto {@link AccountDetailsIdDto}
+     * @return {@link AccountDetailsIdEntity}
+     */
+    AccountDetailsIdEntity toEntity(AccountDetailsIdDto auditDto);
 
     /**
-     * Конвертирует одну сущность {@link AccountDetailsIdEntity} в одну ДТО {@link AccountDetailsIdDto}*/
-    AccountDetailsIdDto toDto(AccountDetailsIdEntity accountDetailsIdEntity);
+     * @param auditEntity {@link AccountDetailsIdEntity}
+     * @return {@link AccountDetailsIdDto}
+     */
+    AccountDetailsIdDto toDto(AccountDetailsIdEntity auditEntity);
 
     /**
-     * Конвертирует список сущностей {@link AccountDetailsIdEntity} в список ДТО {@link AccountDetailsIdDto}*/
+     * @param entities {@link List<AccountDetailsIdEntity>}
+     * @return {@link List<AccountDetailsIdDto>}
+     */
     List<AccountDetailsIdDto> toDtoList(List<AccountDetailsIdEntity> entities);
 
     /**
-     * Конвертирует список ДТО {@link AccountDetailsIdDto} в список сущностей {@link AccountDetailsIdEntity}*/
-    List<AccountDetailsIdEntity> toEntityList(List<AccountDetailsIdDto> entities);
+     * @param dto {@link List<AccountDetailsIdDto>}
+     * @return {@link List<AccountDetailsIdEntity>}
+     */
+    List<AccountDetailsIdEntity> toEntityList(List<AccountDetailsIdDto> dto);
 
 }
