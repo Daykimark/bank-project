@@ -1,6 +1,6 @@
 package com.bank.controller;
 
-
+// TODO удали пустую строку.
 import com.bank.dto.ProfileDto;
 import com.bank.model.ProfileEntity;
 import com.bank.service.ProfileService;
@@ -20,8 +20,9 @@ import java.util.List;
 /**
  * Контроллер для {@link ProfileEntity}
  */
-
+// TODO удали пустую строку.
 @RestController
+// TODO "/profile/" измени на "/profile".
 @RequestMapping("/profile/")
 @RequiredArgsConstructor
 public class ProfileController {
@@ -30,6 +31,7 @@ public class ProfileController {
 
     /**
      * @param id технический идентификатор {@link ProfileEntity}
+     * TODO удали "сущность в виде ".
      * @return сущность в виде {@link ResponseEntity<ProfileDto>}
      */
     @GetMapping("/read/{id}")
@@ -38,27 +40,36 @@ public class ProfileController {
     }
 
     /**
+     * TODO удали "- сущность для сохранения в виде ".
      * @param dto - сущность для сохранения в виде {@link ProfileDto}
+     * TODO удали "сохраненная сущность в виде ".
      * @return сохраненная сущность в виде {@link ResponseEntity<ProfileDto>}
      */
     @PostMapping("/save")
+    // TODO имя dto не информативно, переименуй в profile.
     public ResponseEntity<ProfileDto> save(@RequestBody ProfileDto dto) {
         return ResponseEntity.ok(service.save(dto));
     }
 
     /**
+     * TODO удали "- сущность для обновления в виде ".
      * @param dto - сущность для обновления в виде {@link ProfileDto}
+     * TODO удали "обновленная сущность в виде ".
      * @return обновленная сущность в виде {@link ResponseEntity<ProfileDto>}
      */
     @PutMapping("/update")
+    // TODO имя dto не информативно, переименуй в profile.
     public ResponseEntity<ProfileDto> update(@RequestBody ProfileDto dto) {
         return ResponseEntity.ok(service.save(dto));
     }
 
     /**
      * @param ids лист технических идентификаторов {@link com.bank.model.ProfileEntity}
+     * TODO "сущности в виде " удали, а {@link ResponseEntity<List<ProfileDto>>}
+     *            надо изменить на {@link ResponseEntity} с листом {@link List<ProfileDto>}.
      * @return сущности в виде {@link ResponseEntity<List<ProfileDto>>}
      */
+    // TODO "readAllById" измени на read/all
     @GetMapping("readAllById")
     public ResponseEntity<List<ProfileDto>> readAllById(@RequestParam List<Long> ids) {
         return ResponseEntity.ok(service.findAllById(ids));

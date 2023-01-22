@@ -5,6 +5,7 @@ import com.bank.model.AuditEntity;
 import org.mapstruct.Mapper;
 import java.util.List;
 
+//TODO удали маппер, так как он не используется.
 /**
  * Маппер для {@link AuditEntity} в {@link AuditDto} и обратно
  */

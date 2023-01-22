@@ -10,13 +10,16 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
+ * TODO переписать на русском языке.
  * A DTO for the {@link ActualRegistrationEntity} entity
  */
 @Getter
 @Setter
 @NoArgsConstructor
+// TODO добавить @AllArgsConstructor.
 public class ActualRegistrationDto implements Serializable {
     private Long id;
+    // TODO @Size(max = 40) и @NotNull поменяй местами.
     @Size(max = 40)
     @NotNull
     private String country;

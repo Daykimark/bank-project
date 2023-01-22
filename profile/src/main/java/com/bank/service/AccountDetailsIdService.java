@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Сервис {@link AccountDetailsIdEntity} {@link AccountDetailsIdDto}
  */
-
+// TODO удали пустую строку.
 public interface AccountDetailsIdService {
 
     /**
@@ -18,6 +18,7 @@ public interface AccountDetailsIdService {
     AccountDetailsIdDto findById(Long id);
 
     /**
+     * TODO в описание ids добавить ссылку на AccountDetailsIdDto.
      * @param ids лист технических идентификаторов
      * @return {@link List<AccountDetailsIdDto>}
      */
@@ -27,5 +28,6 @@ public interface AccountDetailsIdService {
      * @param dto {@link AccountDetailsIdDto}
      * @return {@link AccountDetailsIdDto}
      */
+    // TODO dto переименуй в accountDetailsId.
     AccountDetailsIdDto save(AccountDetailsIdDto dto);
 }

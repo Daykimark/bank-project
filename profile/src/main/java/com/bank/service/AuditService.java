@@ -5,6 +5,7 @@ import com.bank.model.AuditEntity;
 
 import java.util.List;
 
+// TODO удали, так как не используется.
 /**
  * Сервис {@link AuditEntity} {@link AuditDto}
  */

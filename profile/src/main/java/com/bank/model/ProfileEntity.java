@@ -19,15 +19,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
+ * TODO Entity для таблицы profile.
  * Сущность, которая представляет таблицу profile
  */
 @Getter
 @Setter
 @Entity
+// TODO @Table(name = "profile", schema = "profile") и @NoArgsConstructor поменяй местами.
 @Table(name = "profile", schema = "profile")
 @AllArgsConstructor
 @NoArgsConstructor
 public class ProfileEntity {
+    // TODO туду удали и оставь пустую строку.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
@@ -37,11 +40,14 @@ public class ProfileEntity {
     @Column(name = "phone_number", nullable = false)
     private Long phoneNumber;
 
+    // TODO сюда можно навесить javax.validation.constraints.Email.
     @Size(max = 264)
+    // TODO удали ", length = 264".
     @Column(name = "email", length = 264)
     private String email;
 
     @Size(max = 370)
+    // TODO удали ", length = 370".
     @Column(name = "name_on_card", length = 370)
     private String nameOnCard;
 
@@ -57,6 +63,7 @@ public class ProfileEntity {
     @JoinColumn(name = "passport_id", nullable = false)
     private PassportEntity passport;
 
+    // TODO удали fetch = FetchType.LAZY.
     @OneToOne(fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "actual_registration_id")
