@@ -3,44 +3,41 @@ package com.bank.mapper;
 import com.bank.dto.RegistrationDto;
 import com.bank.model.RegistrationEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
 import java.util.List;
 
 /**
- * TODO Маппер для {@link RegistrationEntity} и {@link RegistrationDto}.
- * Маппер для {@link RegistrationEntity} в {@link RegistrationDto} и обратно
+ * Маппер для {@link RegistrationEntity} и {@link RegistrationDto}
  */
 @Mapper(componentModel = "spring")
 public interface RegistrationMapper {
 
     /**
-     * TODO переименуй "auditDto" в "registration".
-     * @param auditDto {@link RegistrationDto}
+     * @param registration {@link RegistrationDto}
      * @return {@link RegistrationEntity}
      */
-    // TODO переименуй "auditDto" в "registration".
-    RegistrationEntity toEntity(RegistrationDto auditDto);
+    RegistrationEntity toEntity(RegistrationDto registration);
 
     /**
-     * TODO переименуй "auditEntity" в "registration".
-     * @param auditEntity {@link RegistrationEntity}
+     * @param registration {@link RegistrationEntity}
      * @return {@link RegistrationDto}
      */
-    // TODO переименуй "auditEntity" в "registration".
-    RegistrationDto toDto(RegistrationEntity auditEntity);
+    RegistrationDto toDto(RegistrationEntity registration);
 
     /**
-     * TODO переименуй "entities" в "registrations".
-     * @param entities {@link List<RegistrationEntity>}
+     * @param registrations {@link List<RegistrationEntity>}
      * @return {@link List<RegistrationDto>}
      */
-    // TODO переименуй "entities" в "registrations".
-    List<RegistrationDto> toDtoList(List<RegistrationEntity> entities);
+    List<RegistrationDto> toDtoList(List<RegistrationEntity> registrations);
 
-    // TODO удали метод toEntityList, так как он не используется.
     /**
-     * @param dto {@link List<RegistrationDto>}
-     * @return {@link List<RegistrationEntity>}
+     * @param registrationEntity {@link RegistrationEntity}
+     * @param registrationDto {@link RegistrationDto}
+     * @return {@link RegistrationEntity}
      */
-    List<RegistrationEntity> toEntityList(List<RegistrationDto> dto);
-    // TODO удали пустую строку.
+    @Mapping(target = "id", source = "id", ignore = true)
+    RegistrationEntity updateEntity(@MappingTarget RegistrationEntity registrationEntity,
+                                        RegistrationDto registrationDto);
 }

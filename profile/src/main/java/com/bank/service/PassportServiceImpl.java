@@ -1,13 +1,13 @@
 package com.bank.service;
 
-import com.bank.repository.PassportRepository;
 import com.bank.dto.PassportDto;
 import com.bank.mapper.PassportMapper;
 import com.bank.model.PassportEntity;
+import com.bank.repository.PassportRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -16,9 +16,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PassportServiceImpl implements PassportService {
-    // TODO туду удали и оставь пустую строку.
     private final PassportRepository repository;
-
     private final PassportMapper mapper;
 
     /**
@@ -27,47 +25,50 @@ public class PassportServiceImpl implements PassportService {
      */
     @Override
     public PassportDto findById(Long id) {
-        // TODO привести к виду
-        //  return mapper.toDto(repository.findById(id)
-        //                    .orElseThrow(() ->
-        //                        new EntityNotFoundException("Сущности Passport с айди " + id + " нет в БД"))
-        //  );
-        return mapper.toDto(repository
-                .findById(id)
+        return mapper.toDto(repository.findById(id)
                 .orElseThrow(() ->
-                        // TODO измени " нет в БД" на " не найдена".
-                        new EntityNotFoundException("Сущности Passport с айди " + id + " нет в БД")));
+                        new EntityNotFoundException("Сущность Passport с айди " + id + " не найдена"))
+        );
     }
 
     /**
-     * TODO в описание ids добавить ссылку PassportEntity.
-     * @param ids лист технических идентификаторов
+     * @param ids лист технических идентификаторов {@link PassportEntity}
      * @return {@link List<PassportDto>}
      */
     @Override
     public List<PassportDto> findAllById(List<Long> ids) {
-        // TODO переименуй dtoList в passports.
-        final List<PassportEntity> dtoList = repository.findAllById(ids);
-        // TODO туду удали и оставь пустую строку.
-        if (dtoList.size() < ids.size()) {
-            // TODO лучше указать имя сущности, а не просто "сущностей с такими айди не существует"
-            throw new EntityNotFoundException("Одной или нескольких сущностей с такими айди не существует " + ids);
+        final List<PassportEntity> passports = repository.findAllById(ids);
+
+        if (passports.size() < ids.size()) {
+            throw new EntityNotFoundException("Одной или нескольких сущностей" +
+                    " Passport с такими айди не существует " + ids);
         }
-        // TODO туду удали и оставь пустую строку.
-        return mapper.toDtoList(dtoList);
+
+        return mapper.toDtoList(passports);
     }
 
     /**
-     * @param dto {@link PassportDto}
+     * @param accountDetails {@link PassportDto}
      * @return {@link PassportDto}
      */
     @Override
-    // TODO где @Transactional. И dto переименуй в passport.
-    public PassportDto save(PassportDto dto) {
-        // TODO entity переименуй в passportEntity.
-        PassportEntity entity = repository.save(mapper.toEntity(dto));
-        return mapper.toDto(entity);
+    @Transactional
+    public PassportDto save(PassportDto accountDetails) {
+        final PassportEntity passport = repository.save(mapper.toEntity(accountDetails));
+        return mapper.toDto(passport);
     }
 
-    // TODO а где Update?
+    /**
+     * @param id технический идентификатор {@link PassportEntity}
+     * @param passport {@link PassportDto}
+     * @return {@link PassportDto}
+     */
+    @Override
+    @Transactional
+    public PassportDto update(Long id, PassportDto passport) {
+        final PassportEntity passportEntity = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Сущности Passport с айди " + id + " не найдено")
+                );
+        return mapper.toDto(repository.save(mapper.updateEntity(passportEntity, passport)));
+    }
 }

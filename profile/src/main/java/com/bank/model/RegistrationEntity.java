@@ -15,72 +15,48 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
- * TODO Entity для таблицы registration.
- * Сущность, которая представляет таблицу registration
+ * Entity для таблицы registration
  */
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-// TODO @AllArgsConstructor и @NoArgsConstructor, поменяй местами с @Setter и @Entity.
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "registration", schema = "profile")
 public class RegistrationEntity {
-    // TODO туду удали и оставь пустую строку.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
-    // TODO поменяй @Size(max = 166) и @NotNull местами.
-    @Size(max = 166)
     @NotNull
-    @Column(name = "country", nullable = false, length = 166)
+    @Size(max = 166)
+    @Column(name = "country")
     private String country;
-
     @Size(max = 160)
-    // TODO удали ", length = 160".
-    @Column(name = "region", length = 160)
+    @Column(name = "region")
     private String region;
-
     @Size(max = 160)
-    // TODO удали ", length = 160".
-    @Column(name = "city", length = 160)
+    @Column(name = "city")
     private String city;
-
     @Size(max = 160)
-    // TODO удали ", length = 160".
-    @Column(name = "district", length = 160)
+    @Column(name = "district")
     private String district;
-
     @Size(max = 230)
-    // TODO удали ", length = 230".
-    @Column(name = "locality", length = 230)
+    @Column(name = "locality")
     private String locality;
-
     @Size(max = 230)
-    // TODO удали ", length = 230".
-    @Column(name = "street", length = 230)
+    @Column(name = "street")
     private String street;
 
     @Size(max = 20)
-    // TODO удали ", length = 20".
-    @Column(name = "house_number", length = 20)
+    @Column(name = "house_number")
     private String houseNumber;
-
     @Size(max = 20)
-    // TODO удали ", length = 20".
-    @Column(name = "house_block", length = 20)
+    @Column(name = "house_block")
     private String houseBlock;
-
     @Size(max = 40)
-    // TODO удали ", length = 40".
-    @Column(name = "flat_number", length = 40)
+    @Column(name = "flat_number")
     private String flatNumber;
-
     @NotNull
-    // TODO удали ", nullable = false".
-    @Column(name = "index", nullable = false)
+    @Column(name = "index")
     private Long index;
 }
-// TODO так же проверь в остальных энтити момент, если вещаешь констреинт скажем @Size, то length нет смысла писать
-//  и так nullable = false, если стоить @NotNull.

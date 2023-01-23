@@ -1,13 +1,15 @@
 package com.bank.service;
 
-import com.bank.repository.ProfileRepository;
+
 import com.bank.dto.ProfileDto;
 import com.bank.mapper.ProfileMapper;
 import com.bank.model.ProfileEntity;
+import com.bank.repository.ProfileRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -16,9 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ProfileServiceImpl implements ProfileService {
-    // TODO туду удали и оставь пустую строку.
     private final ProfileRepository repository;
-
     private final ProfileMapper mapper;
 
     /**
@@ -27,47 +27,50 @@ public class ProfileServiceImpl implements ProfileService {
      */
     @Override
     public ProfileDto findById(Long id) {
-        // TODO привести к виду
-        //  return mapper.toDto(repository.findById(id)
-        //                    .orElseThrow(() ->
-        //                        new EntityNotFoundException("Сущности Profile с айди " + id + " нет в БД"))
-        //  );
-        return mapper.toDto(repository
-                .findById(id)
+        return mapper.toDto(repository.findById(id)
                 .orElseThrow(() ->
-                        // TODO измени " нет в БД" на " не найдена".
-                        new EntityNotFoundException("Сущности Profile с айди " + id + " нет в БД")));
+                        new EntityNotFoundException("Сущность Profile с айди " + id + " не найдена"))
+        );
     }
 
     /**
-     * TODO в описание ids добавить ссылку ProfileEntity.
-     * @param ids лист технических идентификаторов
+     * @param ids лист технических идентификаторов {@link ProfileEntity}
      * @return {@link List<ProfileDto>}
      */
     @Override
     public List<ProfileDto> findAllById(List<Long> ids) {
-        // TODO переименуй dtoList в profiles.
-        final List<ProfileEntity> dtoList = repository.findAllById(ids);
-        // TODO туду удали и оставь пустую строку.
-        if (dtoList.size() < ids.size()) {
-            // TODO лучше указать имя сущности, а не просто "сущностей с такими айди не существует"
-            throw new EntityNotFoundException("Одной или нескольких сущностей с такими айди не существует " + ids);
+        final List<ProfileEntity> profiles = repository.findAllById(ids);
+
+        if (profiles.size() < ids.size()) {
+            throw new EntityNotFoundException("Одной или нескольких сущностей" +
+                    " Profile с такими айди не существует " + ids);
         }
-        // TODO туду удали и оставь пустую строку.
-        return mapper.toDtoList(dtoList);
+
+        return mapper.toDtoList(profiles);
     }
 
     /**
-     * TODO dto переименуй в profile
-     * @param dto {@link ProfileDto}
+     * @param accountDetails {@link ProfileDto}
      * @return {@link ProfileDto}
      */
     @Override
-    // TODO где @Transactional. И dto переименуй в profile.
-    public ProfileDto save(ProfileDto dto) {
-        // TODO тут если чекстайл прогонял ProfileEntity должна быть final.
-        //  И profileEntity переименуй в accountDetailsId
-        ProfileEntity entity = repository.save(mapper.toEntity(dto));
-        return mapper.toDto(entity);
+    @Transactional
+    public ProfileDto save(ProfileDto accountDetails) {
+        final ProfileEntity profile = repository.save(mapper.toEntity(accountDetails));
+        return mapper.toDto(profile);
+    }
+
+    /**
+     * @param id технический идентификатор {@link ProfileEntity}
+     * @param profile {@link ProfileDto}
+     * @return {@link ProfileDto}
+     */
+    @Override
+    @Transactional
+    public ProfileDto update(Long id, ProfileDto profile) {
+        final ProfileEntity profileEntity = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Сущности Profile с айди " + id + " не найдено")
+                );
+        return mapper.toDto(repository.save(mapper.updateEntity(profileEntity, profile)));
     }
 }

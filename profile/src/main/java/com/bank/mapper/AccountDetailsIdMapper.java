@@ -3,44 +3,45 @@ package com.bank.mapper;
 import com.bank.dto.AccountDetailsIdDto;
 import com.bank.model.AccountDetailsIdEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Mappings;
+
 import java.util.List;
 
 /**
- * TODO Маппер для {@link AccountDetailsIdEntity} и {@link AccountDetailsIdDto}.
- * Маппер для {@link AccountDetailsIdEntity} в {@link AccountDetailsIdDto} и обратно
+ * Маппер для {@link AccountDetailsIdEntity} и {@link AccountDetailsIdDto}
  */
 @Mapper(componentModel = "spring")
 public interface AccountDetailsIdMapper {
 
     /**
-     * TODO переименуй "auditDto" в "accountDetailsId".
-     * @param auditDto {@link AccountDetailsIdDto}
+     * @param accountDetailsId {@link AccountDetailsIdDto}
      * @return {@link AccountDetailsIdEntity}
      */
-    // TODO переименуй "auditDto" в "accountDetailsId".
-    AccountDetailsIdEntity toEntity(AccountDetailsIdDto auditDto);
+    AccountDetailsIdEntity toEntity(AccountDetailsIdDto accountDetailsId);
 
     /**
-     * TODO переименуй "auditDto" в "accountDetailsId".
-     * @param auditEntity {@link AccountDetailsIdEntity}
+     * @param accountDetailsId {@link AccountDetailsIdEntity}
      * @return {@link AccountDetailsIdDto}
      */
-    // TODO переименуй "auditEntity" в "accountDetailsId".
-    AccountDetailsIdDto toDto(AccountDetailsIdEntity auditEntity);
+    AccountDetailsIdDto toDto(AccountDetailsIdEntity accountDetailsId);
 
     /**
-     * TODO переименуй "entities" в " accountDetailsIds".
-     * @param entities {@link List<AccountDetailsIdEntity>}
+     * @param accountDetailsIds {@link List<AccountDetailsIdEntity>}
      * @return {@link List<AccountDetailsIdDto>}
      */
-    // TODO переименуй "entities" в " accountDetailsIds".
-    List<AccountDetailsIdDto> toDtoList(List<AccountDetailsIdEntity> entities);
+    List<AccountDetailsIdDto> toDtoList(List<AccountDetailsIdEntity> accountDetailsIds);
 
-    // TODO удали метод toEntityList, так как он не используется.
     /**
-     * @param dto {@link List<AccountDetailsIdDto>}
-     * @return {@link List<AccountDetailsIdEntity>}
+     * @param accountDetailsIdEntity {@link AccountDetailsIdEntity}
+     * @param accountDetailsIdDto {@link AccountDetailsIdDto}
+     * @return {@link AccountDetailsIdEntity}
      */
-    List<AccountDetailsIdEntity> toEntityList(List<AccountDetailsIdDto> dto);
-    // TODO удали пустую строку.
+    @Mappings({
+            @Mapping(target = "id", source = "id", ignore = true),
+            @Mapping(target = "profile.id", source = "profile.id", ignore = true)
+    })
+    AccountDetailsIdEntity updateEntity(@MappingTarget AccountDetailsIdEntity accountDetailsIdEntity,
+                                  AccountDetailsIdDto accountDetailsIdDto);
 }

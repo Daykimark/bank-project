@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * Сервис {@link PassportEntity} {@link PassportDto}
  */
-// TODO удали пустую строку.
 public interface PassportService {
 
     /**
@@ -18,19 +17,21 @@ public interface PassportService {
     PassportDto findById(Long id);
 
     /**
-     * TODO в описание ids добавить ссылку PassportEntity.
-     * @param ids лист технических идентификаторов
+     * @param ids лист технических идентификаторов {@link PassportEntity}
      * @return {@link List<PassportDto>}
      */
     List<PassportDto> findAllById(List<Long> ids);
 
     /**
-     * TODO переименуй dto в passport.
-     * @param dto {@link PassportDto}
+     * @param passport {@link PassportDto}
      * @return {@link PassportDto}
      */
-    // TODO переименуй dto в passport.
-    PassportDto save(PassportDto dto);
+    PassportDto save(PassportDto passport);
 
-    // TODO а где Update?
+    /**
+     * @param passport {@link PassportDto}
+     * @param id технический идентификатор {@link PassportEntity}
+     * @return {@link PassportDto}
+     */
+    PassportDto update(Long id, PassportDto passport);
 }

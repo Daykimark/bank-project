@@ -1,13 +1,14 @@
 package com.bank.service;
 
-import com.bank.repository.AccountDetailsIdRepository;
 import com.bank.dto.AccountDetailsIdDto;
 import com.bank.mapper.AccountDetailsIdMapper;
 import com.bank.model.AccountDetailsIdEntity;
+import com.bank.repository.AccountDetailsIdRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -16,9 +17,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
-    // TODO туду удали и оставь пустую строку.
     private final AccountDetailsIdRepository repository;
-
     private final AccountDetailsIdMapper mapper;
 
     /**
@@ -27,48 +26,50 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
      */
     @Override
     public AccountDetailsIdDto findById(Long id) {
-        // TODO привести к виду
-        //  return mapper.toDto(repository.findById(id)
-        //                    .orElseThrow(() ->
-        //                        new EntityNotFoundException("Сущности AccountDetailsId с айди " + id + " нет в БД"))
-        //  );
         return mapper.toDto(repository.findById(id)
                     .orElseThrow(() ->
-                            // TODO измени " нет в БД" на " не найдена".
-                                new EntityNotFoundException("Сущности AccountDetailsId с айди " + id + " нет в БД")));
+                                new EntityNotFoundException("Сущность AccountDetailsId с айди " + id + " не найдена"))
+        );
     }
 
     /**
-     * TODO в описание ids добавить ссылку AccountDetailsIdEntity.
-     * @param ids лист технических идентификаторов
+     * @param ids лист технических идентификаторов {@link AccountDetailsIdEntity}
      * @return {@link List<AccountDetailsIdDto>}
      */
     @Override
     public List<AccountDetailsIdDto> findAllById(List<Long> ids) {
-        // TODO переименуй dtoList в accountDetailsIds.
-        final List<AccountDetailsIdEntity> dtoList = repository.findAllById(ids);
-        // TODO туду удали и оставь пустую строку.
-        if (dtoList.size() < ids.size()) {
-            // TODO лучше указать имя сущности, а не просто "сущностей с такими айди не существует"
-            throw new EntityNotFoundException("Одной или нескольких сущностей с такими айди не существует " + ids);
+        final List<AccountDetailsIdEntity> accountDetailsIds = repository.findAllById(ids);
+
+        if (accountDetailsIds.size() < ids.size()) {
+            throw new EntityNotFoundException("Одной или нескольких сущностей" +
+                    " AccountDetailsId с такими айди не существует " + ids);
         }
-        // TODO туду удали и оставь пустую строку.
-        return mapper.toDtoList(dtoList);
+
+        return mapper.toDtoList(accountDetailsIds);
     }
 
     /**
-     * TODO dto переименуй в accountDetails
-     * @param dto {@link AccountDetailsIdDto}
+     * @param accountDetails {@link AccountDetailsIdDto}
      * @return {@link AccountDetailsIdDto}
      */
     @Override
-    // TODO где @Transactional. И dto переименуй в accountDetails.
-    public AccountDetailsIdDto save(AccountDetailsIdDto dto) {
-        // TODO тут если чекстайл прогонял AccountDetailsIdEntity должна быть final.
-        //  И entity переименуй в accountDetailsId
-        AccountDetailsIdEntity entity = repository.save(mapper.toEntity(dto));
-        return mapper.toDto(entity);
+    @Transactional
+    public AccountDetailsIdDto save(AccountDetailsIdDto accountDetails) {
+        final AccountDetailsIdEntity accountDetailsId = repository.save(mapper.toEntity(accountDetails));
+        return mapper.toDto(accountDetailsId);
     }
 
-    // TODO а где Update?
+    /**
+     * @param id технический идентификатор {@link AccountDetailsIdEntity}
+     * @param accountDetailsId {@link AccountDetailsIdDto}
+     * @return {@link AccountDetailsIdDto}
+     */
+    @Override
+    @Transactional
+    public AccountDetailsIdDto update(Long id, AccountDetailsIdDto accountDetailsId) {
+        final AccountDetailsIdEntity accountDetailsIdEntity = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Сущности AccountDetailsId с айди " + id + " не найдено")
+        );
+        return mapper.toDto(repository.save(mapper.updateEntity(accountDetailsIdEntity, accountDetailsId)));
+    }
 }

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,83 +19,60 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
 /**
- * TODO Entity для таблицы passport.
- * Сущность, которая представляет passport
+ * Entity для таблицы passport
  */
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-// TODO @AllArgsConstructor и @NoArgsConstructor, поменяй местами с @Setter и @Entity.
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "passport", schema = "profile")
 public class PassportEntity {
-    // TODO туду удали и оставь пустую строку.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
-
     @NotNull
-    @Column(name = "series", nullable = false)
+    @Column(name = "series")
     private Integer series;
-
     @NotNull
-    @Column(name = "number", nullable = false)
+    @Column(name = "number")
     private Long number;
-    // TODO поменяй @Size(max = 255) и @NotNull местами.
-    @Size(max = 255)
     @NotNull
-    @Column(name = "last_name", nullable = false)
+    @Size(max = 255)
+    @Column(name = "last_name")
     private String lastName;
-    // TODO поменяй @Size(max = 255) и @NotNull местами.
-    @Size(max = 255)
     @NotNull
-    @Column(name = "first_name", nullable = false)
+    @Size(max = 255)
+    @Column(name = "first_name")
     private String firstName;
-
     @Size(max = 255)
     @Column(name = "middle_name")
     private String middleName;
-    // TODO поменяй @Size(max = 3) и @NotNull местами.
+    @NotNull
     @Size(max = 3)
-    @NotNull
-    @Column(name = "gender", nullable = false, length = 3)
+    @Column(name = "gender")
     private String gender;
-
-    // TODO удали пустую строку.
     @NotNull
-    @Column(name = "birth_date", nullable = false)
+    @Column(name = "birth_date")
     private LocalDate birthDate;
-    // TODO поменяй @Size(max = 400) и @NotNull местами.
+    @NotNull
     @Size(max = 480)
-    @NotNull
-    @Column(name = "birth_place", nullable = false, length = 480)
+    @Column(name = "birth_place")
     private String birthPlace;
-
     @NotNull
-    @Column(name = "issued_by", nullable = false)
-    // TODO удали 80 строку.
-    @Type(type = "org.hibernate.type.TextType")
+    @Column(name = "issued_by")
     private String issuedBy;
-
-    // TODO удали пустую строку.
     @NotNull
-    @Column(name = "date_of_issue", nullable = false)
+    @Column(name = "date_of_issue")
     private LocalDate dateOfIssue;
-
     @NotNull
-    @Column(name = "division_code", nullable = false)
+    @Column(name = "division_code")
     private Integer divisionCode;
-
-    // TODO удали пустую строку.
     @Column(name = "expiration_date")
     private LocalDate expirationDate;
-
     @NotNull
     @OneToOne(optional = false,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "registration_id", nullable = false)
+    @JoinColumn(name = "registration_id")
     private RegistrationEntity registration;
-    // TODO удали пустую строку.
 }

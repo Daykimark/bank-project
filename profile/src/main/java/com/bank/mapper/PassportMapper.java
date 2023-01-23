@@ -3,44 +3,45 @@ package com.bank.mapper;
 import com.bank.dto.PassportDto;
 import com.bank.model.PassportEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Mappings;
+
 import java.util.List;
 
 /**
- * TODO Маппер для {@link PassportEntity} и {@link PassportEntity}.
- * Маппер для {@link PassportEntity} в {@link PassportDto} и обратно
+ * Маппер для {@link PassportEntity} и {@link PassportDto}
  */
 @Mapper(componentModel = "spring")
 public interface PassportMapper {
 
     /**
-     * TODO переименуй "auditDto" в "passport".
-     * @param auditDto {@link PassportDto}
+     * @param passport {@link PassportDto}
      * @return {@link PassportEntity}
      */
-    // TODO переименуй "auditDto" в "passport".
-    PassportEntity toEntity(PassportDto auditDto);
+    PassportEntity toEntity(PassportDto passport);
 
     /**
-     * TODO переименуй "auditDto" в "passport".
-     * @param auditEntity {@link PassportEntity}
+     * @param passport {@link PassportEntity}
      * @return {@link PassportDto}
      */
-    // TODO переименуй "auditEntity" в "passport".
-    PassportDto toDto(PassportEntity auditEntity);
+    PassportDto toDto(PassportEntity passport);
 
     /**
-     * TODO переименуй "entities" в "passports".
-     * @param entities {@link List<PassportEntity>}
+     * @param passports {@link List<PassportEntity>}
      * @return {@link List<PassportDto>}
      */
-    //TODO переименуй "entities" в "passports".
-    List<PassportDto> toDtoList(List<PassportEntity> entities);
+    List<PassportDto> toDtoList(List<PassportEntity> passports);
 
-    // TODO удали метод toEntityList.
     /**
-     * @param dto {@link List<PassportDto>}
-     * @return {@link List<PassportEntity>}
+     * @param passportEntity {@link PassportEntity}
+     * @param passportDto {@link PassportDto}
+     * @return {@link PassportEntity}
      */
-    List<PassportEntity> toEntityList(List<PassportDto> dto);
-
+    @Mappings({
+            @Mapping(target = "id", source = "id", ignore = true),
+            @Mapping(target = "registration.id", source = "registration.id", ignore = true)
+    })
+    PassportEntity updateEntity(@MappingTarget PassportEntity passportEntity,
+                                        PassportDto passportDto);
 }

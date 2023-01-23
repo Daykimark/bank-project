@@ -1,6 +1,7 @@
 package com.bank.dto;
 
 import com.bank.model.RegistrationEntity;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -10,18 +11,16 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 
 /**
- * TODO переписать на русском языке.
- * A DTO for the {@link RegistrationEntity} entity
+ * ДТО для сущности {@link RegistrationEntity}
  */
 @Getter
 @Setter
 @NoArgsConstructor
-// TODO добавить @AllArgsConstructor.
+@AllArgsConstructor
 public class RegistrationDto implements Serializable {
     private Long id;
-    // TODO @Size(max = 166) и @NotNull поменяй местами.
-    @Size(max = 166)
     @NotNull
+    @Size(max = 166)
     private String country;
 
     @Size(max = 160)

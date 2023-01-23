@@ -13,57 +13,44 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.time.OffsetDateTime;
+import java.sql.Timestamp;
 
 /**
- * TODO Entity для таблицы audit.
- * Сущность, которая представляет таблицу audit
+ * Entity для таблицы audit
  */
-
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
 @Setter
-// TODO @AllArgsConstructor и @NoArgsConstructor, поменяй местами с @Setter и @Entity.
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "audit", schema = "profile")
 public class AuditEntity {
-    // TODO туду удали и оставь пустую строку.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     private Long id;
-    // TODO поменяй @Size(max = 40) и @NotNull местами.
+    @NotNull
     @Size(max = 40)
-    @NotNull
-    @Column(name = "entity_type", nullable = false, length = 40)
+    @Column(name = "entity_type")
     private String entityType;
-    // TODO поменяй @Size(max = 255) и @NotNull местами.
-    @Size(max = 255)
     @NotNull
-    @Column(name = "operation_type", nullable = false)
+    @Size(max = 255)
+    @Column(name = "operation_type")
     private String operationType;
-    // TODO поменяй @Size(max = 255) и @NotNull местами.
-    @Size(max = 255)
     @NotNull
-    @Column(name = "created_by", nullable = false)
+    @Size(max = 255)
+    @Column(name = "created_by")
     private String createdBy;
-
     @Size(max = 255)
     @Column(name = "modified_by")
     private String modifiedBy;
-    // TODO не OffsetDateTime, java.sql.Timestamp
     @NotNull
-    @Column(name = "created_at", nullable = false)
-    private OffsetDateTime createdAt;
-    // TODO не OffsetDateTime, java.sql.Timestamp
+    @Column(name = "created_at")
+    private Timestamp createdAt;
     @Column(name = "modified_at")
-    private OffsetDateTime modifiedAt;
-
+    private Timestamp modifiedAt;
     @Column(name = "new_entity_json")
     private String newEntityJson;
-
     @NotNull
-    @Column(name = "entity_json", nullable = false)
+    @Column(name = "entity_json")
     private String entityJson;
 }

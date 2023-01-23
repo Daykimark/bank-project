@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.util.List;
 
 /**
@@ -16,9 +17,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class ActualRegistrationServiceImpl implements ActualRegistrationService {
-    // TODO туду удали и оставь пустую строку.
     private final ActualRegistrationRepository repository;
-
     private final ActualRegistrationMapper mapper;
 
     /**
@@ -27,48 +26,51 @@ public class ActualRegistrationServiceImpl implements ActualRegistrationService 
      */
     @Override
     public ActualRegistrationDto findById(Long id) {
-        // TODO привести к виду
-        //  return mapper.toDto(repository.findById(id)
-        //                    .orElseThrow(() ->
-        //                        new EntityNotFoundException("Сущности ActualRegistration с айди " + id + " нет в БД"))
-        //  );
-        return mapper.toDto(repository
-                .findById(id)
+        return mapper.toDto(repository.findById(id)
                 .orElseThrow(() ->
-                        // TODO измени " нет в БД" на " не найдена".
-                        new EntityNotFoundException("Сущности ActualRegistration с айди " + id + " нет в БД")));
+                        new EntityNotFoundException("Сущность ActualRegistration с айди " + id + " не найдена"))
+        );
     }
 
     /**
-     * TODO в описание ids добавить ссылку ActualRegistrationEntity.
-     * @param ids лист технических идентификаторов
+     * @param ids лист технических идентификаторов {@link ActualRegistrationEntity}
      * @return {@link List<ActualRegistrationDto>}
      */
     @Override
     public List<ActualRegistrationDto> findAllById(List<Long> ids) {
-        // TODO переименуй dtoList в actualRegistrations.
-        final List<ActualRegistrationEntity> dtoList = repository.findAllById(ids);
-        // TODO туду удали и оставь пустую строку.
-        if (dtoList.size() < ids.size()) {
-            // TODO лучше указать имя сущности, а не просто "сущностей с такими айди не существует"
-            throw new EntityNotFoundException("Одной или нескольких сущностей с такими айди не существует " + ids);
+        final List<ActualRegistrationEntity> actualRegistrations = repository.findAllById(ids);
+
+        if (actualRegistrations.size() < ids.size()) {
+            throw new EntityNotFoundException("Одной или нескольких сущностей" +
+                    " ActualRegistration с такими айди не существует " + ids);
         }
-        // TODO туду удали и оставь пустую строку.
-        return mapper.toDtoList(dtoList);
+
+        return mapper.toDtoList(actualRegistrations);
     }
 
     /**
-     * @param dto {@link ActualRegistrationDto}
+     * @param accountDetails {@link ActualRegistrationDto}
      * @return {@link ActualRegistrationDto}
      */
     @Override
-    // TODO где @Transactional. И dto переименуй в registration.
-    public ActualRegistrationDto save(ActualRegistrationDto dto) {
-        // TODO тут если чекстайл прогонял AccountDetailsIdEntity должна быть final.
-        //  И entity переименуй в actualRegistration
-        ActualRegistrationEntity entity = repository.save(mapper.toEntity(dto));
-        return mapper.toDto(entity);
+    @Transactional
+    public ActualRegistrationDto save(ActualRegistrationDto accountDetails) {
+        final ActualRegistrationEntity actualRegistration = repository.save(mapper.toEntity(accountDetails));
+        return mapper.toDto(actualRegistration);
     }
 
-    // TODO а где Update?
+    /**
+     * @param id технический идентификатор {@link ActualRegistrationEntity}
+     * @param actualRegistration {@link ActualRegistrationDto}
+     * @return {@link ActualRegistrationDto}
+     */
+    @Override
+    @Transactional
+    public ActualRegistrationDto update(Long id, ActualRegistrationDto actualRegistration) {
+        final ActualRegistrationEntity actualRegistrationEntity = repository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Сущности ActualRegistration с айди " + id +
+                        " не найдено")
+                );
+        return mapper.toDto(repository.save(mapper.updateEntity(actualRegistrationEntity, actualRegistration)));
+    }
 }

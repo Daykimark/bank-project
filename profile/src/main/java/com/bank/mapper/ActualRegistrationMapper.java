@@ -1,46 +1,43 @@
 package com.bank.mapper;
 
-import com.bank.dto.AccountDetailsIdDto;
 import com.bank.dto.ActualRegistrationDto;
-import com.bank.model.AccountDetailsIdEntity;
 import com.bank.model.ActualRegistrationEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+
 import java.util.List;
 
 /**
- * TODO Маппер для {@link AccountDetailsIdEntity} и {@link AccountDetailsIdDto}
- * Маппер для {@link ActualRegistrationEntity} в {@link ActualRegistrationDto} и обратно
+ * Маппер для {@link ActualRegistrationEntity} и {@link ActualRegistrationDto}
  */
 @Mapper(componentModel = "spring")
 public interface ActualRegistrationMapper {
 
     /**
-     * @param auditDto {@link ActualRegistrationDto}
+     * @param actualRegistration {@link ActualRegistrationDto}
      * @return {@link ActualRegistrationEntity}
      */
-    // TODO переименуй "auditEntity" в "actualRegistration".
-    ActualRegistrationEntity toEntity(ActualRegistrationDto auditDto);
+    ActualRegistrationEntity toEntity(ActualRegistrationDto actualRegistration);
 
     /**
-     * @param auditEntity {@link ActualRegistrationEntity}
+     * @param actualRegistration {@link ActualRegistrationEntity}
      * @return {@link ActualRegistrationDto}
      */
-    // TODO переименуй "auditEntity" в "actualRegistration".
-    ActualRegistrationDto toDto(ActualRegistrationEntity auditEntity);
+    ActualRegistrationDto toDto(ActualRegistrationEntity actualRegistration);
 
     /**
-     * TODO entities не информативно, переименуй в actualRegistrations
-     * @param entities {@link List<ActualRegistrationEntity>}
+     * @param actualRegistrations {@link List<ActualRegistrationEntity>}
      * @return {@link List<ActualRegistrationDto>}
      */
-    //TODO entities не информативно, переименуй в actualRegistrations
-    List<ActualRegistrationDto> toDtoList(List<ActualRegistrationEntity> entities);
+    List<ActualRegistrationDto> toDtoList(List<ActualRegistrationEntity> actualRegistrations);
 
-    // TODO удали метод toEntityList, так как он не используется.
     /**
-     * @param dto {@link List<ActualRegistrationDto>}
-     * @return {@link List<ActualRegistrationEntity>}
+     * @param actualRegistrationEntity {@link ActualRegistrationEntity}
+     * @param actualRegistrationDto {@link ActualRegistrationDto}
+     * @return {@link ActualRegistrationEntity}
      */
-    List<ActualRegistrationEntity> toEntityList(List<ActualRegistrationDto> dto);
-
+    @Mapping(target = "id", source = "id", ignore = true)
+    ActualRegistrationEntity updateEntity(@MappingTarget ActualRegistrationEntity actualRegistrationEntity,
+                                        ActualRegistrationDto actualRegistrationDto);
 }

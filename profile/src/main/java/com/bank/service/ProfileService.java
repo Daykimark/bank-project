@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * Сервис {@link ProfileEntity} {@link ProfileDto}
  */
-// TODO удали пустую строку.
 public interface ProfileService {
 
     /**
@@ -18,19 +17,21 @@ public interface ProfileService {
     ProfileDto findById(Long id);
 
     /**
-     * TODO в описание ids добавить ссылку ProfileEntity.
-     * @param ids лист технических идентификаторов
+     * @param ids лист технических идентификаторов {@link ProfileEntity}
      * @return {@link List<ProfileDto>}
      */
     List<ProfileDto> findAllById(List<Long> ids);
 
     /**
-     * TODO переименуй dto в profile.
-     * @param dto {@link ProfileDto}
+     * @param profile {@link ProfileDto}
      * @return {@link ProfileDto}
      */
-    // TODO переименуй dto в profile.
-    ProfileDto save(ProfileDto dto);
+    ProfileDto save(ProfileDto profile);
 
-    // TODO а где Update?
+    /**
+     * @param profile {@link ProfileDto}
+     * @param id технический идентификатор {@link ProfileEntity}
+     * @return {@link ProfileDto}
+     */
+    ProfileDto update(Long id, ProfileDto profile);
 }

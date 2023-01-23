@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * Сервис {@link RegistrationEntity} {@link RegistrationDto}
  */
-// TODO удали пустую строку.
 public interface RegistrationService {
 
     /**
@@ -18,19 +17,21 @@ public interface RegistrationService {
     RegistrationDto findById(Long id);
 
     /**
-     * TODO в описание ids добавить ссылку ProfileEntity.
-     * @param ids лист технических идентификаторов
+     * @param ids лист технических идентификаторов {@link RegistrationEntity}
      * @return {@link List<RegistrationDto>}
      */
     List<RegistrationDto> findAllById(List<Long> ids);
 
     /**
-     * TODO переименуй dto в registration.
-     * @param dto {@link RegistrationDto}
+     * @param registration {@link RegistrationDto}
      * @return {@link RegistrationDto}
      */
-    // TODO переименуй dto в registration.
-    RegistrationDto save(RegistrationDto dto);
+    RegistrationDto save(RegistrationDto registration);
 
-    // TODO а где Update?
+    /**
+     * @param registration {@link RegistrationDto}
+     * @param id технический идентификатор {@link RegistrationEntity}
+     * @return {@link RegistrationDto}
+     */
+    RegistrationDto update(Long id, RegistrationDto registration);
 }

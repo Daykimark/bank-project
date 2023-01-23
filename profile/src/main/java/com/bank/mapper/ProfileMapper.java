@@ -3,44 +3,47 @@ package com.bank.mapper;
 import com.bank.dto.ProfileDto;
 import com.bank.model.ProfileEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.MappingTarget;
+import org.mapstruct.Mappings;
+
 import java.util.List;
 
 /**
- * TODO Маппер для {@link ProfileEntity} и {@link ProfileDto}.
- * Маппер для {@link ProfileEntity} в {@link ProfileDto} и обратно
+ * Маппер для {@link ProfileEntity} и {@link ProfileDto}
  */
 @Mapper(componentModel = "spring")
 public interface ProfileMapper {
 
     /**
-     * TODO переименуй "auditDto" в "profile".
-     * @param auditDto {@link ProfileDto}
+     * @param profile {@link ProfileDto}
      * @return {@link ProfileEntity}
      */
-    // TODO переименуй "auditDto" в "profile".
-    ProfileEntity toEntity(ProfileDto auditDto);
+    ProfileEntity toEntity(ProfileDto profile);
 
     /**
-     * TODO переименуй "auditEntity" в "profile".
-     * @param auditEntity {@link ProfileEntity}
+     * @param profile {@link ProfileEntity}
      * @return {@link ProfileDto}
      */
-    // TODO переименуй "auditEntity" в "profile".
-    ProfileDto toDto(ProfileEntity auditEntity);
+    ProfileDto toDto(ProfileEntity profile);
 
     /**
-     * TODO переименуй "entities" в "profiles".
-     * @param entities {@link List<ProfileEntity>}
+     * @param profiles {@link List<ProfileEntity>}
      * @return {@link List<ProfileDto>}
      */
-    // TODO переименуй "entities" в "profiles".
-    List<ProfileDto> toDtoList(List<ProfileEntity> entities);
+    List<ProfileDto> toDtoList(List<ProfileEntity> profiles);
 
-    // TODO удали метод toEntityList, так как он не используется.
     /**
-     * @param dto {@link List<ProfileDto>}
-     * @return {@link List<ProfileEntity>}
+     * @param profileEntity {@link ProfileEntity}
+     * @param profileDto {@link ProfileDto}
+     * @return {@link ProfileEntity}
      */
-    List<ProfileEntity> toEntityList(List<ProfileDto> dto);
-    // TODO удали пустую строку.
+    @Mappings({
+            @Mapping(target = "id", source = "id", ignore = true),
+            @Mapping(target = "passport.id", source = "passport.id", ignore = true),
+            @Mapping(target = "passport.registration.id", source = "passport.registration.id", ignore = true),
+            @Mapping(target = "actualRegistration.id", source = "actualRegistration.id", ignore = true)
+    })
+    ProfileEntity updateEntity(@MappingTarget ProfileEntity profileEntity,
+                                        ProfileDto profileDto);
 }
