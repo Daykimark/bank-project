@@ -16,6 +16,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
+// TODO те же замечания, что и AccountDetailsIdServiceImpl.
 public class RegistrationServiceImpl implements RegistrationService {
     private final RegistrationRepository repository;
     private final RegistrationMapper mapper;

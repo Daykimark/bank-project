@@ -19,15 +19,21 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class ProfileDto implements Serializable {
     private Long id;
+    // TODO удали и оставь пустую строку.
     @NotNull
     private Long phoneNumber;
+    // TODO удали и оставь пустую строку.
     @Size(max = 264)
     private String email;
+    // TODO удали и оставь пустую строку.
     @Size(max = 370)
     private String nameOnCard;
+    // TODO удали и оставь пустую строку.
     private Long inn;
     private Long snils;
+    // TODO удали и оставь пустую строку.
     @NotNull
     private PassportDto passport;
+    // TODO удали и оставь пустую строку.
     private ActualRegistrationDto actualRegistration;
 }

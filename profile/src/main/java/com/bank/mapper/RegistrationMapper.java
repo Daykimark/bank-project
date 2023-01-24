@@ -9,6 +9,7 @@ import org.mapstruct.MappingTarget;
 import java.util.List;
 
 /**
+ * TODO Маппер переименуй в Mapper.
  * Маппер для {@link RegistrationEntity} и {@link RegistrationDto}
  */
 @Mapper(componentModel = "spring")
@@ -33,11 +34,13 @@ public interface RegistrationMapper {
     List<RegistrationDto> toDtoList(List<RegistrationEntity> registrations);
 
     /**
+     * TODO после исправления последнего todo исправь javadoc.
      * @param registrationEntity {@link RegistrationEntity}
      * @param registrationDto {@link RegistrationDto}
      * @return {@link RegistrationEntity}
      */
     @Mapping(target = "id", source = "id", ignore = true)
+    // TODO updateEntity переименуй в mergeToEntity. registrationEntity переименовать в registration
     RegistrationEntity updateEntity(@MappingTarget RegistrationEntity registrationEntity,
-                                        RegistrationDto registrationDto);
+                                    RegistrationDto registrationDto);
 }

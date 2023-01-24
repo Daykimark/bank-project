@@ -10,6 +10,7 @@ import org.mapstruct.Mappings;
 import java.util.List;
 
 /**
+ * TODO Маппер переименуй в Mapper.
  * Маппер для {@link PassportEntity} и {@link PassportDto}
  */
 @Mapper(componentModel = "spring")
@@ -34,14 +35,18 @@ public interface PassportMapper {
     List<PassportDto> toDtoList(List<PassportEntity> passports);
 
     /**
+     * TODO после исправления предпоследнего todo исправь javadoc.
      * @param passportEntity {@link PassportEntity}
      * @param passportDto {@link PassportDto}
      * @return {@link PassportEntity}
      */
     @Mappings({
+            // TODO source удалить
             @Mapping(target = "id", source = "id", ignore = true),
+            // TODO source удалить
             @Mapping(target = "registration.id", source = "registration.id", ignore = true)
     })
-    PassportEntity updateEntity(@MappingTarget PassportEntity passportEntity,
+    // TODO updateEntity переименуй в mergeToEntity. passportEntity переименовать в passport
+    PassportEntity updateEntity(@MappingTarget PassportEntity passportEntity, // TODO перенести 48 строку сюда.
                                         PassportDto passportDto);
 }

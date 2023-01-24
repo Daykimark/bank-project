@@ -39,7 +39,9 @@ public class PassportController {
      * @param passport {@link PassportDto}
      * @return {@link ResponseEntity<PassportDto>}
      */
+    //TODO save переименуй в create.
     @PostMapping("/save")
+    //TODO save переименуй в create.
     public ResponseEntity<PassportDto> save(@RequestBody PassportDto passport) {
         return ResponseEntity.ok(service.save(passport));
     }
@@ -56,6 +58,7 @@ public class PassportController {
 
     /**
      * @param ids лист технических идентификаторов {@link PassportDto}
+     * TODO удали "листом".
      * @return {@link ResponseEntity} с листом {@link List<PassportDto>}
      */
     @GetMapping("read/all")

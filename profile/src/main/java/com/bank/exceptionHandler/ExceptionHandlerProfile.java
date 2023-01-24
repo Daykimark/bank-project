@@ -1,4 +1,4 @@
-package com.bank.exceptionHandler;
+package com.bank.exceptionHandler;   // TODO пакет переименуй в handler.
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

@@ -1,6 +1,6 @@
 package com.bank.service;
 
-
+// TODO удали пустую строку.
 import com.bank.dto.ProfileDto;
 import com.bank.mapper.ProfileMapper;
 import com.bank.model.ProfileEntity;
@@ -17,6 +17,7 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
+// TODO те же замечания, что и AccountDetailsIdServiceImpl.
 public class ProfileServiceImpl implements ProfileService {
     private final ProfileRepository repository;
     private final ProfileMapper mapper;

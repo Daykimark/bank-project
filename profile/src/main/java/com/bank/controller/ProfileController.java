@@ -39,7 +39,9 @@ public class ProfileController {
      * @param profile {@link ProfileDto}
      * @return {@link ResponseEntity<ProfileDto>}
      */
+    //TODO save переименуй в create.
     @PostMapping("/save")
+    //TODO save переименуй в create.
     public ResponseEntity<ProfileDto> save(@RequestBody ProfileDto profile) {
         return ResponseEntity.ok(service.save(profile));
     }

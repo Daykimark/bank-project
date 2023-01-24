@@ -13,9 +13,11 @@ import java.util.List;
 /**
  * Реализация {@link PassportService}
  */
+// TODO те же замечания, что и AccountDetailsIdServiceImpl.
 @Service
 @RequiredArgsConstructor
 public class PassportServiceImpl implements PassportService {
+    // TODO удали и оставь пустую строку.
     private final PassportRepository repository;
     private final PassportMapper mapper;
 

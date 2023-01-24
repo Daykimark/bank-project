@@ -39,7 +39,9 @@ public class AccountDetailsIdController {
      * @param accountDetailsId {@link AccountDetailsIdDto}
      * @return {@link ResponseEntity<AccountDetailsIdDto>}
      */
+    //TODO save переименуй в create.
     @PostMapping("/save")
+    //TODO save переименуй в create.
     public ResponseEntity<AccountDetailsIdDto> save(@RequestBody AccountDetailsIdDto accountDetailsId) {
         return ResponseEntity.ok(service.save(accountDetailsId));
     }
@@ -57,6 +59,7 @@ public class AccountDetailsIdController {
 
     /**
      * @param ids лист технических идентификаторов {@link AccountDetailsIdEntity}
+     * TODO удали "листом".
      * @return {@link ResponseEntity} с листом {@link List<AccountDetailsIdDto>}
      */
 

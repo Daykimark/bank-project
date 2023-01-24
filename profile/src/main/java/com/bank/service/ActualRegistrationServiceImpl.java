@@ -14,9 +14,11 @@ import java.util.List;
 /**
  * Реализация {@link ActualRegistrationService}
  */
+// TODO те же замечания, что и AccountDetailsIdServiceImpl.
 @Service
 @RequiredArgsConstructor
 public class ActualRegistrationServiceImpl implements ActualRegistrationService {
+    // TODO удали и оставь пустую строку.
     private final ActualRegistrationRepository repository;
     private final ActualRegistrationMapper mapper;
 

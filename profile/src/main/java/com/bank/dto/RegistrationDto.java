@@ -19,6 +19,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 public class RegistrationDto implements Serializable {
     private Long id;
+    // TODO удали и оставь пустую строку.
     @NotNull
     @Size(max = 166)
     private String country;

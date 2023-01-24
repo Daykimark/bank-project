@@ -39,7 +39,9 @@ public class RegistrationController {
      * @param registration {@link RegistrationDto}
      * @return {@link ResponseEntity<RegistrationDto>}
      */
+    //TODO save переименуй в create.
     @PostMapping("/save")
+    //TODO save переименуй в create.
     public ResponseEntity<RegistrationDto> save(@RequestBody RegistrationDto registration) {
         return ResponseEntity.ok(service.save(registration));
     }
@@ -56,6 +58,7 @@ public class RegistrationController {
 
     /**
      * @param ids лист технических идентификаторов {@link RegistrationEntity}
+     * TODO удали "листом".
      * @return {@link ResponseEntity} с листом {@link List<RegistrationDto>}
      */
     @GetMapping("read/all")

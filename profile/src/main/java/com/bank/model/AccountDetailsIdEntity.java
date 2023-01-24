@@ -24,6 +24,7 @@ import javax.persistence.Table;
 @AllArgsConstructor
 @Table(name = "account_details_id", schema = "profile")
 public class AccountDetailsIdEntity {
+    // TODO удали и оставь пустую строку.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
