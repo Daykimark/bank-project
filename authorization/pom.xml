@@ -20,13 +20,14 @@
         <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
-    <dependencies>
+    <!--TODO расскоментировать, когда будешь таской на настройку секьюрити заниматься.-->
+    <!--<dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
             <version>${starter.version}</version>
         </dependency>
-    </dependencies>
+    </dependencies>-->
 
     <build>
         <plugins>
