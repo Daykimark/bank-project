@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -21,8 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LicenseServiceImpl implements LicenseService {
 
+    private final static String MESSAGE = "Лицензии не найдено с id ";
+
     private final LicenseRepository repository;
     private final LicenseMapper mapper;
+    // TODO notFoundIds переименовать supplierNotFound.
+    private final Supplier notFoundIds;
 
     /**
      * @param ids технический идентификатор {@link LicenseEntity}
@@ -31,14 +34,8 @@ public class LicenseServiceImpl implements LicenseService {
     @Override
     public List<LicenseDto> findAllById(List<Long> ids) {
         final List<LicenseEntity> licenses = repository.findAllById(ids);
-
-        if (licenses.size() < ids.size()) {
-            final var entityNotFound = new EntityNotFoundException("Лицензий с id= " + ids + "не существует");
-            log.error(entityNotFound.getMessage(), entityNotFound);
-            throw entityNotFound;
-        }
-
-        return mapper.mergeToEntity(licenses);
+        notFoundIds.checkForSizeAndLogging(MESSAGE, ids, licenses);
+        return mapper.toDtoList(licenses);
     }
 
     /**
@@ -54,30 +51,27 @@ public class LicenseServiceImpl implements LicenseService {
 
     /**
      * @param license  {@link LicenseDto}
-     * TODO удали "измененный ".
-     * @return измененный {@link LicenseDto}
+     * @return {@link LicenseDto}
      */
     @Override
     @Transactional
     public LicenseDto update(Long id, LicenseDto license) {
         final LicenseEntity entity = repository.findById(id)
-                .orElseThrow(() -> {
-                    log.error("Переданный id не найден!");
-                    return new EntityNotFoundException("Данного id не существует!");
-                });
-        // TODO удали оставь пустую строку.
-        final LicenseEntity updatedLicense = mapper.updateLicense(license, entity);
+                .orElseThrow(() -> (
+                        notFoundIds.loggingAndGet(MESSAGE, id)
+                ));
+
+        final LicenseEntity updatedLicense = mapper.mergeToEntity(license, entity);
         return mapper.toDto(updatedLicense);
     }
 
     /**
-     * TODO удали "лицензии" и добавь ссылку на entity.
-     * @param id технический идентификатор лицензии
+     * @param id технический идентификатор {@link LicenseEntity}
      * @return {@link LicenseDto}
      */
     @Override
     public LicenseDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Лицензия с id = " + id + " не найдена")));
+                .orElseThrow(() -> notFoundIds.loggingAndGet(MESSAGE, id)));
     }
 }

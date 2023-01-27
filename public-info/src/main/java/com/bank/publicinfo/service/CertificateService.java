@@ -11,8 +11,7 @@ import java.util.List;
 public interface CertificateService {
 
     /**
-     * TODO @param ids технические идентификаторы и ссылку на entity.
-     * @param ids технический идентификатор
+     * @param ids технический идентификатор {@link CertificateEntity}
      * @return лист {@link CertificateDto}
      */
     List<CertificateDto> findAllById(List<Long> ids);
@@ -24,16 +23,14 @@ public interface CertificateService {
     CertificateDto create(CertificateDto certificate);
 
     /**
-     * TODO @param id технический идентификатор и ссылку на entity.
-     * @param id технический идентификатор
+     * @param id технический идентификатор {@link CertificateEntity}
      * @param certificate {@link CertificateDto}
      * @return {@link CertificateDto}
      */
     CertificateDto update(Long id, CertificateDto certificate);
 
     /**
-     * TODO @param id технический идентификатор и ссылку на entity.
-     * @param id технический идентификатор
+     * @param id технический идентификатор {@link CertificateEntity}
      * @return {@link CertificateDto}
      */
     CertificateDto findById(Long id);

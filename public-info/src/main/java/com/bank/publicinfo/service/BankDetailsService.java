@@ -11,8 +11,7 @@ import java.util.List;
 public interface BankDetailsService {
 
     /**
-     * TODO @param ids технические идентификаторы и ссылку на entity.
-     * @param ids технический идентификатор
+     * @param ids технический идентификатор {@link BankDetailsEntity}
      * @return лист {@link BankDetailsDto}
      */
     List<BankDetailsDto> findAllById(List<Long> ids);
@@ -24,16 +23,14 @@ public interface BankDetailsService {
     BankDetailsDto create(BankDetailsDto bankDetails);
 
     /**
-     * TODO @param id технический идентификатор и ссылку на entity.
-     * @param id технический идентификатор
+     * @param id технический идентификатор {@link BankDetailsEntity}
      * @param bankDetails {@link BankDetailsDto}
      * @return {@link BankDetailsDto}
      */
     BankDetailsDto update(Long id, BankDetailsDto bankDetails);
 
     /**
-     * TODO @param id технический идентификатор и ссылку на entity.
-     * @param id технический идентификатор
+     * @param id технический идентификатор {@link BankDetailsEntity}
      * @return {@link BankDetailsDto}
      */
     BankDetailsDto findById(Long id);

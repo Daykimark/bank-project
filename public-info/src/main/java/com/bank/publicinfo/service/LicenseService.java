@@ -11,8 +11,7 @@ import java.util.List;
 public interface LicenseService {
 
     /**
-     * TODO @param ids технические идентификаторы и ссылку на entity.
-     * @param ids технический идентификатор
+     * @param ids технический идентификатор {@link LicenseEntity}
      * @return лист {@link LicenseDto}
      */
     List<LicenseDto> findAllById(List<Long> ids);
@@ -24,16 +23,14 @@ public interface LicenseService {
     LicenseDto create(LicenseDto license);
 
     /**
-     * TODO @param id технический идентификатор и ссылку на entity.
-     * @param id технический идентификатор
+     * @param id технический идентификатор {@link LicenseEntity}
      * @param license {@link LicenseDto}
      * @return {@link LicenseDto}
      */
     LicenseDto update(Long id, LicenseDto license);
 
     /**
-     * TODO @param id технический идентификатор и ссылку на entity.
-     * @param id технический идентификатор
+     * @param id технический идентификатор {@link LicenseEntity}
      * @return {@link LicenseDto}
      */
     LicenseDto findById(Long id);

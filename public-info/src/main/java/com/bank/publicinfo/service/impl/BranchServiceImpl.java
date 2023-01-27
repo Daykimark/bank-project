@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -20,9 +19,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class BranchServiceImpl implements BranchService {
-    // TODO repositiry переименуй repository.
-    private final BranchRepository repositiry;
+
+    private final static String MESSAGE = "Информации об отделении не найдено с id ";
+
+    private final BranchRepository repository;
     private final BranchMapper mapper;
+    // TODO notFoundIds переименовать supplierNotFound.
+    private final Supplier notFoundIds;
 
     /**
      * @param ids список технических идентификаторов {@link BranchEntity}
@@ -30,14 +33,8 @@ public class BranchServiceImpl implements BranchService {
      */
     @Override
     public List<BranchDto> findAllById(List<Long> ids) {
-        final List<BranchEntity> branches = repositiry.findAllById(ids);
-
-        if (branches.size() < ids.size()) {
-            final var entityNotFound = new EntityNotFoundException("Отделений с id= " + ids + "не существует");
-            log.error(entityNotFound.getMessage(), entityNotFound);
-            throw entityNotFound;
-        }
-
+        final List<BranchEntity> branches = repository.findAllById(ids);
+        notFoundIds.checkForSizeAndLogging(MESSAGE, ids, branches);
         return mapper.toDtoList(branches);
     }
 
@@ -48,35 +45,33 @@ public class BranchServiceImpl implements BranchService {
     @Override
     @Transactional
     public BranchDto create(BranchDto branchDto) {
-        final BranchEntity branch = repositiry.save(mapper.toEntity(branchDto));
+        final BranchEntity branch = repository.save(mapper.toEntity(branchDto));
         return mapper.toDto(branch);
     }
 
     /**
      * @param branch {@link BranchDto}
-     * TODO удали "измененный ".
-     * @return измененный {@link BranchDto}
+     * @return {@link BranchDto}
      */
     @Override
     @Transactional
     public BranchDto update(Long id, BranchDto branch) {
-        final BranchEntity entity = repositiry.findById(id)
-                .orElseThrow(() -> {
-                    log.error("Переданный id не найден!");
-                    return new EntityNotFoundException("Данного id не существует!");
-                });
+        final BranchEntity entity = repository.findById(id)
+                .orElseThrow(() -> (
+                        notFoundIds.loggingAndGet(MESSAGE, id)
+                ));
+
         final BranchEntity updatedBranch = mapper.mergeToEntity(branch, entity);
         return mapper.toDto(updatedBranch);
     }
 
     /**
-     * TODO удали "отделения о банке" и добавь ссылку на entity.
-     * @param id технический идентификатор отделения о банке
+     * @param id технический идентификатор {@link BranchEntity}
      * @return {@link BranchDto}
      */
     @Override
     public BranchDto findById(Long id) {
-        return mapper.toDto(repositiry.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Отделение с id = " + id + " не найдено")));
+        return mapper.toDto(repository.findById(id)
+                .orElseThrow(() -> notFoundIds.loggingAndGet(MESSAGE, id)));
     }
 }

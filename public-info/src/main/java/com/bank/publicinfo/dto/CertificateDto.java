@@ -1,10 +1,12 @@
 package com.bank.publicinfo.dto;
 
 import com.bank.publicinfo.entity.CertificateEntity;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
@@ -15,8 +17,9 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class CertificateDto implements Serializable {
-    private  Long id;
-    private  Byte[] photoCertificate;
-    private  BankDetailsDto bankDetails;
+    Long id;
+    Byte[] photoCertificate;
+    BankDetailsDto bankDetails;
 }

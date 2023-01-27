@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -21,8 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CertificateServiceImpl implements CertificateService {
 
+    private final static String MESSAGE = "Сертификата не найдено с id ";
+
     private final CertificateRepository repository;
     private final CertificateMapper mapper;
+    // TODO notFoundIds переименовать supplierNotFound.
+    private final Supplier notFoundIds;
 
     /**
      * @param ids список технических идентификаторов {@link CertificateEntity}
@@ -31,13 +34,7 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public List<CertificateDto> findAllById(List<Long> ids) {
         final List<CertificateEntity> certificates = repository.findAllById(ids);
-
-        if (certificates.size() < ids.size()) {
-            final var entityNotFound = new EntityNotFoundException("Сертификатов с id= " + ids + "не существует");
-            log.error(entityNotFound.getMessage(), entityNotFound);
-            throw entityNotFound;
-        }
-
+        notFoundIds.checkForSizeAndLogging(MESSAGE, ids, certificates);
         return mapper.toDtoList(certificates);
     }
 
@@ -54,30 +51,27 @@ public class CertificateServiceImpl implements CertificateService {
 
     /**
      * @param certificate {@link CertificateDto}
-     * TODO удали "измененный ".
-     * @return измененный {@link CertificateDto}
+     * @return {@link CertificateDto}
      */
     @Override
     @Transactional
     public CertificateDto update(Long id, CertificateDto certificate) {
         final CertificateEntity entity = repository.findById(id)
-                .orElseThrow(() -> {
-                    log.error("Переданный id не найден!");
-                    return new EntityNotFoundException("Данного id не существует!");
-                });
-        // TODO удали и оставь пустую строку.
+                .orElseThrow(() -> (
+                        notFoundIds.loggingAndGet(MESSAGE, id)
+                ));
+
         final CertificateEntity updatedCertificate = mapper.mergeToEntity(certificate, entity);
         return mapper.toDto(updatedCertificate);
     }
 
     /**
-     * TODO удали "сертификата" и добавь ссылку на entity.
-     * @param id технический идентификатор сертификата
+     * @param id технический идентификатор {@link CertificateEntity}
      * @return {@link CertificateDto}
      */
     @Override
     public CertificateDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Сертификат с id = " + id + " не найден")));
+                .orElseThrow(() -> notFoundIds.loggingAndGet(MESSAGE, id)));
     }
 }

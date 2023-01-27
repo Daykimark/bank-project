@@ -9,8 +9,7 @@ import org.mapstruct.MappingTarget;
 import java.util.List;
 
 /**
- * TODO Маппер для {@link BranchEntity} и {@link BranchDto}.
- * Маппер {@link BranchEntity} в {@link BranchDto} и обратно
+ * Mapper {@link BranchEntity} и {@link BranchDto}
  */
 @Mapper(componentModel = "spring")
 public interface BranchMapper {
@@ -34,10 +33,10 @@ public interface BranchMapper {
     List<BranchDto> toDtoList(List<BranchEntity> branches);
 
     /**
-     * @param dto {@link BranchDto}
-     * @param entity {@link BranchEntity}
+     * @param branchDto {@link BranchDto}
+     * @param branch {@link BranchEntity}
      * @return {@link BranchEntity}
      */
-    @Mapping(target = "id", source = "id", ignore = true)
-    BranchEntity mergeToEntity(BranchDto dto, @MappingTarget BranchEntity entity);
+    @Mapping(target = "id", ignore = true)
+    BranchEntity mergeToEntity(BranchDto branchDto, @MappingTarget BranchEntity branch);
 }
