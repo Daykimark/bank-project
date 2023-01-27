@@ -1,9 +1,11 @@
 package com.bank.publicinfo.entity;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -17,29 +19,29 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * TODO исправь энтити на entity.
- * энтити для таблицы "certificate"
+ * Entity для таблицы "certificate"
  */
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "certificate", schema = "public_bank_information")
 public class CertificateEntity {
-    // TODO удали и оставь пустую строку.
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    Long id;
 
     @Column(name = "photo")
-    private Byte[] photoCertificate;
+    Byte[] photoCertificate;
 
     @ManyToOne
     @JoinColumn(name = "bank_details_id")
-    private BankDetailsEntity bankDetails;
-    // TODO удали и оставь пустую строку.
+    BankDetailsEntity bankDetails;
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

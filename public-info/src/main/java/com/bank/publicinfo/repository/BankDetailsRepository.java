@@ -5,5 +5,3 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface BankDetailsRepository extends JpaRepository<BankDetailsEntity, Long> {
 }
-
-// TODO удалить пустую строку.

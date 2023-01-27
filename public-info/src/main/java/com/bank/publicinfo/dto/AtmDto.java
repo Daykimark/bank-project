@@ -1,10 +1,12 @@
 package com.bank.publicinfo.dto;
 
 import com.bank.publicinfo.entity.AtmEntity;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 import java.time.LocalTime;
@@ -16,11 +18,12 @@ import java.time.LocalTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AtmDto implements Serializable {
-    private Long id;
-    private String address;
-    private LocalTime startOfWork;
-    private LocalTime endOfWork;
-    private Boolean allHours;
-    private BranchDto branch;
+    Long id;
+    String address;
+    LocalTime startOfWork;
+    LocalTime endOfWork;
+    Boolean allHours;
+    BranchDto branch;
 }

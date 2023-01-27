@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -21,8 +20,13 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AtmServiceImpl implements AtmService {
 
+    private final static String MESSAGE = "Банкомат не найден с id ";
+
     private final AtmRepository repository;
     private final AtmMapper mapper;
+    // TODO notFoundIds переименовать supplierNotFound.
+    private final Supplier notFoundIds;
+
 
     /**
      * @param ids список технических идентификаторов {@link AtmEntity}
@@ -31,14 +35,7 @@ public class AtmServiceImpl implements AtmService {
     @Override
     public List<AtmDto> findAllById(List<Long> ids) {
         final List<AtmEntity> atms = repository.findAllById(ids);
-
-        // TODO во всех реализациях этот if дублируется вынести его в отдельный класс компонент
-        if (atms.size() < ids.size()) {
-            final var entityNotFound = new EntityNotFoundException("Банкоматов с id= " + ids + "не существует");
-            log.error(entityNotFound.getMessage(), entityNotFound);
-            throw entityNotFound;
-        }
-
+        notFoundIds.checkForSizeAndLogging(MESSAGE, ids, atms);
         return mapper.toDtoList(atms);
     }
 
@@ -55,33 +52,27 @@ public class AtmServiceImpl implements AtmService {
 
     /**
      * @param atm {@link AtmDto}
-     * TODO удали "измененный ".
-     * @return измененный {@link AtmDto}
+     * @return {@link AtmDto}
      */
     @Override
     @Transactional
     public AtmDto update(Long id, AtmDto atm) {
         final AtmEntity entity = repository.findById(id)
-                .orElseThrow(() -> {
-                    // TODO данный функционал так же дублируется, подумай возможно 2 разными методами засунуть их в
-                    //  в один класс-компонент
-                    log.error("Переданный id не найден!");
-                    return new EntityNotFoundException("Данного id не существует!");
-                });
+                .orElseThrow(() -> (
+                        notFoundIds.loggingAndGet(MESSAGE, id)
+                ));
+
         final AtmEntity updatedAtm = mapper.mergeToEntity(atm, entity);
         return mapper.toDto(updatedAtm);
     }
 
     /**
-     * TODO удали "банкомата" и добавь ссылку на entity.
-     * @param id технический идентификатор банкомата
+     * @param id технический идентификатор {@link AtmEntity}
      * @return объект {@link AtmDto}
      */
     @Override
     public AtmDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                // TODO где-то есть логирование, где-то нет, либо выпили везде, либо добавь везде при выкидавынии
-                //  exception'а.
-                .orElseThrow(() -> new EntityNotFoundException("Банкомат с id = " + id + " не найден")));
+                .orElseThrow(() -> notFoundIds.loggingAndGet(MESSAGE, id)));
     }
 }

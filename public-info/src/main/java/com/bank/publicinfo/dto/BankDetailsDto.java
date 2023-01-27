@@ -1,10 +1,12 @@
 package com.bank.publicinfo.dto;
 
 import com.bank.publicinfo.entity.BankDetailsEntity;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import java.io.Serializable;
 
@@ -15,13 +17,14 @@ import java.io.Serializable;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BankDetailsDto implements Serializable {
-    private Long id;
-    private Long bik;
-    private Long inn;
-    private Long kpp;
-    private Integer corAccount;
-    private String city;
-    private String jointStockCompany;
-    private String name;
+    Long id;
+    Long bik;
+    Long inn;
+    Long kpp;
+    Integer corAccount;
+    String city;
+    String jointStockCompany;
+    String name;
 }

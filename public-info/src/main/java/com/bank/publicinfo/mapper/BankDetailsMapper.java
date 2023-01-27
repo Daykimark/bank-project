@@ -9,8 +9,7 @@ import org.mapstruct.MappingTarget;
 import java.util.List;
 
 /**
- * TODO Маппер для {@link BankDetailsEntity} и {@link BankDetailsDto}.
- * Маппер {@link BankDetailsEntity} в {@link BankDetailsDto} и обратно
+ * Mapper {@link BankDetailsEntity} и {@link BankDetailsDto}
  */
 @Mapper(componentModel = "spring")
 public interface BankDetailsMapper {
@@ -28,21 +27,16 @@ public interface BankDetailsMapper {
     BankDetailsEntity toEntity(BankDetailsDto bankDetails);
 
     /**
-     * TODO detalis переименуй в bankDetailsList.
-     * @param detalis лист с {@link BankDetailsEntity}
+     * @param bankDetailsList лист с {@link BankDetailsEntity}
      * @return лист с {@link BankDetailsDto}
      */
-    List<BankDetailsDto> toDtoList(List<BankDetailsEntity> detalis);
+    List<BankDetailsDto> toDtoList(List<BankDetailsEntity> bankDetailsList);
 
     /**
-     * TODO dto переименуй в bankDetailsDto.
-     * @param dto {@link BankDetailsDto}
-     * TODO entity переименуй в bankDetails.
-     * @param entity {@link BankDetailsEntity}
+     * @param bankDetailsDto {@link BankDetailsDto}
+     * @param bankDetails {@link BankDetailsEntity}
      * @return {@link BankDetailsEntity}
      */
-    // TODO тут удали " source = "id".
-    @Mapping(target = "id", source = "id", ignore = true)
-    //TODO entity переименуй в bankDetails.
-    BankDetailsEntity mergeToEntity(BankDetailsDto dto, @MappingTarget BankDetailsEntity entity);
+    @Mapping(target = "id", ignore = true)
+    BankDetailsEntity mergeToEntity(BankDetailsDto bankDetailsDto, @MappingTarget BankDetailsEntity bankDetails);
 }

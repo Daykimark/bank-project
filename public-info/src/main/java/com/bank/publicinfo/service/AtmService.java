@@ -11,8 +11,7 @@ import java.util.List;
 public interface AtmService {
 
     /**
-     * TODO @param ids технические идентификаторы и ссылку на entity.
-     * @param ids технический идентификатор
+     * @param ids технический идентификатор {@link AtmEntity}
      * @return лист {@link AtmDto}
      */
     List<AtmDto> findAllById(List<Long> ids);
@@ -24,16 +23,14 @@ public interface AtmService {
     AtmDto create(AtmDto atm);
 
     /**
-     * TODO @param id технический идентификатор и ссылку на entity.
-     * @param id технический идентификатор
+     * @param id технический идентификатор {@link AtmEntity}
      * @param atm {@link AtmDto}
      * @return {@link AtmDto}
      */
     AtmDto update(Long id, AtmDto atm);
 
     /**
-     * TODO @param id технический идентификатор и ссылку на entity.
-     * @param id технический идентификатор
+     * @param id технический идентификатор {@link AtmEntity}
      * @return {@link AtmDto}
      */
     AtmDto findById(Long id);

@@ -1,9 +1,11 @@
 package com.bank.publicinfo.entity;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,36 +17,36 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 /**
- * TODO исправь энтити на entity.
- * энтити для таблицы "branch"
+ * Entity для таблицы "branch"
  */
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "branch", schema = "public_bank_information")
 public class BranchEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    Long id;
 
     @Column(name = "address")
-    private String address;
+    String address;
 
     @Column(name = "phone_number", unique = true)
-    private Long phoneNumber;
+    Long phoneNumber;
 
     @Column(name = "city")
-    private String city;
+    String city;
 
     @Column(name = "start_of_work")
-    private LocalTime startOfWork;
+    LocalTime startOfWork;
 
     @Column(name = "end_of_work")
-    private LocalTime endOfWork;
+    LocalTime endOfWork;
 
     @Override
     public boolean equals(Object o) {
