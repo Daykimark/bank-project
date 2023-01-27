@@ -1,9 +1,11 @@
 package com.bank.publicinfo.entity;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,48 +18,48 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 /**
- * TODO исправь энтити на entity.
- * энтити для таблицы "audit"
+ * Entity для таблицы "audit"
  */
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "audit", schema = "public_bank_information")
 public class AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    Long id;
 
     @Column(name = "entity_type")
-    private String entityType;
+    String entityType;
 
     @Column(name = "operation_type")
-    private String operationType;
+    String operationType;
 
     @Column(name = "created_by")
-    private String createdBy;
+    String createdBy;
 
     @NotNull
     @Column(name = "modified_by")
-    private String modifiedBy;
+    String modifiedBy;
 
     @Column(name = "created_at")
-    private Timestamp createdAt;
+    Timestamp createdAt;
 
     @NotNull
     @Column(name = "modified_at")
-    private Timestamp modifiedAt;
+    Timestamp modifiedAt;
 
     @NotNull
     @Column(name = "new_entity_json")
-    private String newEntityJson;
+    String newEntityJson;
 
     @Column(name = "entity_json")
-    private String entityJson;
+    String entityJson;
 
     @Override
     public boolean equals(Object o) {

@@ -10,8 +10,7 @@ import org.mapstruct.Mappings;
 import java.util.List;
 
 /**
- * TODO Маппер для {@link AtmEntity} и {@link AtmDto}.
- * Маппер {@link AtmEntity} в {@link AtmDto} и обратно
+ * Mapper {@link AtmEntity} и {@link AtmDto}
  */
 @Mapper(componentModel = "spring")
 public interface AtmMapper {
@@ -36,16 +35,12 @@ public interface AtmMapper {
 
     /**
      * @param atmDto    {@link AtmDto}
-     * TODO atmEntity переименуй в atm.
-     * @param atmEntity {@link AtmEntity}
+     * @param atm {@link AtmEntity}
      * @return {@link AtmEntity}
      */
     @Mappings({
-            // TODO удалить "source = "id", "
-            @Mapping(target = "id", source = "id", ignore = true),
-            // TODO удалить "source = "branch.id" "
-            @Mapping(target = "branch.id", source = "branch.id", ignore = true)
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "branch.id", ignore = true)
     })
-    // TODO atmEntity переименуй в atm.
-    AtmEntity mergeToEntity(AtmDto atmDto, @MappingTarget AtmEntity atmEntity);
+    AtmEntity mergeToEntity(AtmDto atmDto, @MappingTarget AtmEntity atm);
 }

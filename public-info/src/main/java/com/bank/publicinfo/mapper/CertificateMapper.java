@@ -10,7 +10,7 @@ import org.mapstruct.Mappings;
 import java.util.List;
 
 /**
- * Маппер {@link CertificateEntity} в {@link CertificateDto} и обратно
+ * Mapper {@link CertificateEntity} и {@link CertificateDto}
  */
 @Mapper(componentModel = "spring")
 public interface CertificateMapper {
@@ -35,15 +35,13 @@ public interface CertificateMapper {
     List<CertificateDto> toDtoList(List<CertificateEntity> certificates);
 
     /**
-     * @param dto {@link CertificateDto}
-     * TODO entity переименуй в certificate.
-     * @param entity {@link CertificateEntity}
+     * @param certificateDto {@link CertificateDto}
+     * @param certificate {@link CertificateEntity}
      * @return {@link CertificateEntity}
      */
     @Mappings({
-            @Mapping(target = "id", source = "id", ignore = true),
-            @Mapping(target = "bankDetails.id", source = "bankDetails.id", ignore = true)
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "bankDetails.id", ignore = true)
     })
-    CertificateEntity mergeToEntity(CertificateDto dto, @MappingTarget CertificateEntity entity);
-    // TODO удалить пустую строку.
+    CertificateEntity mergeToEntity(CertificateDto certificateDto, @MappingTarget CertificateEntity certificate);
 }

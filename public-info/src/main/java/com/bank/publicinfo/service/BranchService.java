@@ -11,8 +11,7 @@ import java.util.List;
 public interface BranchService {
 
     /**
-     * TODO @param ids технические идентификаторы и ссылку на entity.
-     * @param ids технический идентификатор
+     * @param ids технический идентификатор {@link BranchEntity}
      * @return лист {@link BranchDto}
      */
     List<BranchDto> findAllById(List<Long> ids);
@@ -24,16 +23,14 @@ public interface BranchService {
     BranchDto create(BranchDto branch);
 
     /**
-     * TODO @param id технический идентификатор и ссылку на entity.
-     * @param id технический идентификатор
+     * @param id технический идентификатор {@link BranchEntity}
      * @param branch {@link BranchDto}
      * @return {@link BranchDto}
      */
     BranchDto update(Long id, BranchDto branch);
 
     /**
-     * TODO @param id технический идентификатор и ссылку на entity.
-     * @param id технический идентификатор
+     * @param id технический идентификатор {@link BranchEntity}
      * @return {@link BranchDto}
      */
     BranchDto findById(Long id);

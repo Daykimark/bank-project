@@ -1,9 +1,11 @@
 package com.bank.publicinfo.entity;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -20,39 +22,39 @@ import java.time.LocalTime;
 import java.util.Objects;
 
 /**
- * TODO исправь энтити на entity.
- * энтити для таблицы "atm"
+ * Entity для таблицы "atm"
  */
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "atm", schema = "public_bank_information")
 public class AtmEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    Long id;
 
     @Column(name = "address")
-    private String address;
+    String address;
 
     @NotNull
     @Column(name = "start_of_work")
-    private LocalTime startOfWork;
+    LocalTime startOfWork;
 
     @NotNull
     @Column(name = "end_of_work")
-    private LocalTime endOfWork;
+    LocalTime endOfWork;
 
     @Column(name = "all_hours")
-    private Boolean allHours;
+    Boolean allHours;
 
     @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "branch_id")
-    private BranchEntity branch;
+    BranchEntity branch;
 
     @Override
     public boolean equals(Object o) {

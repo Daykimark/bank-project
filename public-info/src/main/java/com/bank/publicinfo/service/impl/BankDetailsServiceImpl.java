@@ -9,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -21,8 +20,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class BankDetailsServiceImpl implements BankDetailsService {
 
+    private final static String MESSAGE = "Информации о банке не найдено с id ";
+
     private final BankDetailsRepository repository;
     private final BankDetailsMapper mapper;
+    // TODO notFoundIds переименовать supplierNotFound.
+    private final Supplier notFoundIds;
 
     /**
      * @param ids список техничских идентификаторов {@link BankDetailsEntity}
@@ -31,13 +34,7 @@ public class BankDetailsServiceImpl implements BankDetailsService {
     @Override
     public List<BankDetailsDto> findAllById(List<Long> ids) {
         final List<BankDetailsEntity> bankDetails = repository.findAllById(ids);
-
-        if (bankDetails.size() < ids.size()) {
-            final var entityNotFound = new EntityNotFoundException("Информации о банке с id= " + ids + "не существует");
-            log.error(entityNotFound.getMessage(), entityNotFound);
-            throw entityNotFound;
-        }
-
+        notFoundIds.checkForSizeAndLogging(MESSAGE, ids, bankDetails);
         return mapper.toDtoList(bankDetails);
     }
 
@@ -54,29 +51,27 @@ public class BankDetailsServiceImpl implements BankDetailsService {
 
     /**
      * @param bankDetails {@link BankDetailsDto}
-     * TODO удали "измененный ".
-     * @return измененный {@link BankDetailsDto}
+     * @return {@link BankDetailsDto}
      */
     @Override
     @Transactional
     public BankDetailsDto update(Long id, BankDetailsDto bankDetails) {
         final BankDetailsEntity entity = repository.findById(id)
-                .orElseThrow(() -> {
-                    log.error("Переданный id не найден!");
-                    return new EntityNotFoundException("Данного id не существует!");
-                });
+                .orElseThrow(() -> (
+                        notFoundIds.loggingAndGet(MESSAGE, id)
+                ));
+
         final BankDetailsEntity updatedDetails = mapper.mergeToEntity(bankDetails, entity);
         return mapper.toDto(updatedDetails);
     }
 
     /**
-     * TODO удали "информации о банке" и просто добавь ссылку на entity.
-     * @param id технический идентификатор информации о банке
+     * @param id технический идентификатор {@link BankDetailsEntity}
      * @return {@link BankDetailsDto}
      */
     @Override
     public BankDetailsDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Информация о банке с id = " + id + " не найдена")));
+                .orElseThrow(() -> notFoundIds.loggingAndGet(MESSAGE, id)));
     }
 }

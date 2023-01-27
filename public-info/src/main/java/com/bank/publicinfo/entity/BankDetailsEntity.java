@@ -1,9 +1,11 @@
 package com.bank.publicinfo.entity;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,42 +16,42 @@ import javax.persistence.Table;
 import java.util.Objects;
 
 /**
- * TODO исправь энтити на entity.
- * энтити для таблицы "bank_details"
+ * Entity для таблицы "bank_details"
  */
 @Getter
 @Setter
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "bank_details", schema = "public_bank_information")
 public class BankDetailsEntity {
-    // TODO удали и оставь пустую строку.
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    Long id;
 
     @Column(name = "bik", unique = true)
-    private Long bik;
+    Long bik;
 
     @Column(name = "inn", unique = true)
-    private Long inn;
+    Long inn;
 
     @Column(name = "kpp", unique = true)
-    private Long kpp;
+    Long kpp;
 
     @Column(name = "cor_account", unique = true)
-    private Integer corAccount;
+    Integer corAccount;
 
     @Column(name = "city")
-    private String city;
+    String city;
 
     @Column(name = "joint_stock_company")
-    private String jointStockCompany;
+    String jointStockCompany;
 
     @Column(name = "name")
-    private String name;
+    String name;
 
     @Override
     public boolean equals(Object o) {
@@ -77,5 +79,3 @@ public class BankDetailsEntity {
         return Objects.hash(id, bik, inn, kpp, corAccount, city, jointStockCompany, name);
     }
 }
-
-// TODO удали пустую строку.

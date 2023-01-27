@@ -1,6 +1,7 @@
 package com.bank.publicinfo.controller;
 
 import com.bank.publicinfo.dto.BankDetailsDto;
+import com.bank.publicinfo.entity.BankDetailsEntity;
 import com.bank.publicinfo.service.BankDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.util.List;
 
 /**
@@ -21,31 +21,45 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/bank/details")
-// TODO добавь джавадоки для методов, без описание просто @param и @return.
 public class BankDetailsController {
-    // TODO bankDetailsService переименуй service.
-    private final BankDetailsService bankDetailsService;
 
+    private final BankDetailsService service;
+
+    /**
+     * @param id технический идентификатор {@link BankDetailsEntity}
+     * @return {@link ResponseEntity}, {@link BankDetailsDto} и HttpStatus.OK
+     */
     @GetMapping("/{id}")
     private ResponseEntity<BankDetailsDto> readById(@PathVariable("id") Long id) {
-        return ResponseEntity.ok().body(bankDetailsService.findById(id));
+        return ResponseEntity.ok().body(service.findById(id));
     }
 
+    /**
+     * @param ids лист технических идентификаторов {@link BankDetailsEntity}
+     * @return {@link ResponseEntity}, лист {@link BankDetailsDto} и HttpStatus.OK
+     */
     @GetMapping("/read/all")
     private ResponseEntity<List<BankDetailsDto>> readAllById(@RequestParam List<Long> ids) {
-        return ResponseEntity.ok().body(bankDetailsService.findAllById(ids));
+        return ResponseEntity.ok().body(service.findAllById(ids));
     }
 
+    /**
+     * @param bankDetails {@link BankDetailsDto}
+     * @return {@link ResponseEntity}, {@link BankDetailsDto} и HttpStatus.OK
+     */
     @PostMapping("/create")
     private ResponseEntity<BankDetailsDto> create(@RequestBody BankDetailsDto bankDetails) {
-        return ResponseEntity.ok().body(bankDetailsService.create(bankDetails));
+        return ResponseEntity.ok().body(service.create(bankDetails));
     }
 
+    /**
+     * @param id технический идентификатор {@link BankDetailsEntity}
+     * @param bankDetails {@link BankDetailsDto}
+     * @return {@link ResponseEntity}, {@link BankDetailsDto} и HttpStatus.OK
+     */
     @PutMapping("/update/{id}")
     private ResponseEntity<BankDetailsDto> update(@PathVariable("id") Long id,
                                                   @RequestBody BankDetailsDto bankDetails) {
-        return ResponseEntity.ok().body(bankDetailsService.update(id, bankDetails));
+        return ResponseEntity.ok().body(service.update(id, bankDetails));
     }
 }
-
-// TODO удали пустую строку.
