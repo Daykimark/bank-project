@@ -1,10 +1,11 @@
-package com.bank.service;
+package com.bank.service.impl;
 
 // TODO удали пустую строку.
 import com.bank.dto.ProfileDto;
 import com.bank.mapper.ProfileMapper;
-import com.bank.model.ProfileEntity;
+import com.bank.entity.ProfileEntity;
 import com.bank.repository.ProfileRepository;
+import com.bank.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -57,8 +58,9 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @Transactional
     public ProfileDto save(ProfileDto accountDetails) {
-        final ProfileEntity profile = repository.save(mapper.toEntity(accountDetails));
-        return mapper.toDto(profile);
+        ProfileEntity entity = mapper.toEntity(accountDetails);
+        ProfileEntity entity1 = repository.save(entity);
+        return mapper.toDto(entity1);
     }
 
     /**
@@ -72,6 +74,6 @@ public class ProfileServiceImpl implements ProfileService {
         final ProfileEntity profileEntity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Сущности Profile с айди " + id + " не найдено")
                 );
-        return mapper.toDto(repository.save(mapper.updateEntity(profileEntity, profile)));
+        return mapper.toDto(repository.save(mapper.mergeToEntity(profileEntity, profile)));
     }
 }

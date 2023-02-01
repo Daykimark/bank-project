@@ -12,13 +12,28 @@
     <artifactId>profile</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>profile</name>
-    <description>Еhe profile microservice is responsible for the profile of a person in the banking system</description>
+    <description>The profile microservice is responsible for the profile of a person in the banking system</description>
 
     <properties>
         <java.version>17</java.version>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
     <build>

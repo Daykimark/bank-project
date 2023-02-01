@@ -1,9 +1,10 @@
-package com.bank.service;
+package com.bank.service.impl;
 
 import com.bank.dto.ActualRegistrationDto;
 import com.bank.mapper.ActualRegistrationMapper;
-import com.bank.model.ActualRegistrationEntity;
+import com.bank.entity.ActualRegistrationEntity;
 import com.bank.repository.ActualRegistrationRepository;
+import com.bank.service.ActualRegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -73,6 +74,6 @@ public class ActualRegistrationServiceImpl implements ActualRegistrationService 
                 .orElseThrow(() -> new EntityNotFoundException("Сущности ActualRegistration с айди " + id +
                         " не найдено")
                 );
-        return mapper.toDto(repository.save(mapper.updateEntity(actualRegistrationEntity, actualRegistration)));
+        return mapper.toDto(repository.save(mapper.mergeToEntity(actualRegistrationEntity, actualRegistration)));
     }
 }

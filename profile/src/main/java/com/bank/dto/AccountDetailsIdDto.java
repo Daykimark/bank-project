@@ -1,7 +1,8 @@
 package com.bank.dto;
 
-import com.bank.model.AccountDetailsIdEntity;
+import com.bank.entity.AccountDetailsIdEntity;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccountDetailsIdDto implements Serializable {

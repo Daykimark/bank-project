@@ -1,7 +1,7 @@
 package com.bank.service;
 
 import com.bank.dto.ProfileDto;
-import com.bank.model.ProfileEntity;
+import com.bank.entity.ProfileEntity;
 
 import java.util.List;
 

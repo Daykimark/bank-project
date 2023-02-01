@@ -1,9 +1,10 @@
-package com.bank.service;
+package com.bank.service.impl;
 
 import com.bank.dto.PassportDto;
 import com.bank.mapper.PassportMapper;
-import com.bank.model.PassportEntity;
+import com.bank.entity.PassportEntity;
 import com.bank.repository.PassportRepository;
+import com.bank.service.PassportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
@@ -71,6 +72,6 @@ public class PassportServiceImpl implements PassportService {
         final PassportEntity passportEntity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Сущности Passport с айди " + id + " не найдено")
                 );
-        return mapper.toDto(repository.save(mapper.updateEntity(passportEntity, passport)));
+        return mapper.toDto(repository.save(mapper.mergeToEntity(passportEntity, passport)));
     }
 }

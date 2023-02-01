@@ -1,9 +1,10 @@
-package com.bank.service;
+package com.bank.service.impl;
 
 import com.bank.dto.AccountDetailsIdDto;
 import com.bank.mapper.AccountDetailsIdMapper;
-import com.bank.model.AccountDetailsIdEntity;
+import com.bank.entity.AccountDetailsIdEntity;
 import com.bank.repository.AccountDetailsIdRepository;
+import com.bank.service.AccountDetailsIdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
-    // TODO удали и оставь пустую строку.
+    
     private final AccountDetailsIdRepository repository;
     private final AccountDetailsIdMapper mapper;
 
@@ -70,11 +71,11 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
     @Override
     @Transactional
     public AccountDetailsIdDto update(Long id, AccountDetailsIdDto accountDetailsId) {
-        // TODO удали и оставь пустую строку.
+        
         final AccountDetailsIdEntity accountDetailsIdEntity = repository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Сущности AccountDetailsId с айди " + id + " не найдено")
         );
-        // TODO удали и оставь пустую строку.
-        return mapper.toDto(repository.save(mapper.updateEntity(accountDetailsIdEntity, accountDetailsId)));
+        
+        return mapper.toDto(repository.save(mapper.mergeToEntity(accountDetailsIdEntity, accountDetailsId)));
     }
 }

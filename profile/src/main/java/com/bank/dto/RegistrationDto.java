@@ -1,7 +1,8 @@
 package com.bank.dto;
 
-import com.bank.model.RegistrationEntity;
+import com.bank.entity.RegistrationEntity;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -15,11 +16,12 @@ import java.io.Serializable;
  */
 @Getter
 @Setter
+@EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
 public class RegistrationDto implements Serializable {
     private Long id;
-    // TODO удали и оставь пустую строку.
+    
     @NotNull
     @Size(max = 166)
     private String country;
