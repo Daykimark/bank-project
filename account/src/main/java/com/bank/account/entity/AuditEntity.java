@@ -1,9 +1,11 @@
 package com.bank.account.entity;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,40 +23,40 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 @Table(name = "audit", schema = "account")
-// TODO используй аннотацию @FieldDefaults(level = AccessLevel.PRIVATE) и в полях "private" удали.
 public class AuditEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    Long id;
 
     @Size(max = 40)
     @Column(name = "entity_type", nullable = false, length = 40)
-    private String entityType;
+    String entityType;
 
     @Size(max = 255)
     @Column(name = "operation_type", nullable = false)
-    private String operationType;
+    String operationType;
 
     @Size(max = 255)
     @Column(name = "created_by", nullable = false)
-    private String createdBy;
+    String createdBy;
 
     @Size(max = 255)
     @Column(name = "modified_by")
-    private String modifiedBy;
+    String modifiedBy;
 
     @Column(name = "created_at", nullable = false)
-    private Timestamp createdAt;
+    Timestamp createdAt;
 
     @Column(name = "modified_at")
-    private Timestamp modifiedAt;
+    Timestamp modifiedAt;
 
     @Column(name = "new_entity_json")
-    private String newEntityJson;
+    String newEntityJson;
 
     @Column(name = "entity_json", nullable = false)
-    private String entityJson;
+    String entityJson;
 }
