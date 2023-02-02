@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * контроллер для {@link AccountTransferDto}
+ * Контроллер для {@link AccountTransferDto}
  */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/account")
 public class AccountTransferController {
-    // TODO удалить и оставить пустую строку.
+
     private final AccountTransferService service;
 
     /**

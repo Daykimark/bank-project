@@ -20,15 +20,13 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AccountTransferServiceImpl implements AccountTransferService {
-    // TODO удалить и оставить пустую строку.
+
     private final static String MESSAGE = "Не найден перевод по номеру счета с ID ";
-    // TODO удалить и оставить пустую строку.
+
     private final AccountTransferRepository repository;
     private final AccountTransferMapper mapper;
-    // TODO entityNotFoundReturner переименуй в notFoundReturner.
-    private final EntityNotFoundReturner entityNotFoundReturner;
+    private final EntityNotFoundReturner notFoundReturner;
 
-    // TODO удалить пустую строку.
     /**
      * @param ids список технических идентификаторов {@link AccountTransferEntity}
      * @return лист {@link AccountTransferDto}
@@ -38,7 +36,7 @@ public class AccountTransferServiceImpl implements AccountTransferService {
 
         final List<AccountTransferEntity> accountTransfers = ids.stream()
                 .map(id -> repository.findById(id)
-                        .orElseThrow(() -> entityNotFoundReturner.loggingAndGet(id, MESSAGE)))
+                        .orElseThrow(() -> notFoundReturner.loggingAndGet(id, MESSAGE)))
                 .toList();
 
         return mapper.toListDto(accountTransfers);
@@ -51,7 +49,7 @@ public class AccountTransferServiceImpl implements AccountTransferService {
     @Override
     public AccountTransferDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                       .orElseThrow(() -> entityNotFoundReturner.loggingAndGet(id, MESSAGE))
+                       .orElseThrow(() -> notFoundReturner.loggingAndGet(id, MESSAGE))
         );
     }
 
@@ -78,7 +76,7 @@ public class AccountTransferServiceImpl implements AccountTransferService {
     public AccountTransferDto update(Long id, AccountTransferDto accountTransferDto) {
 
         final AccountTransferEntity transfer = repository.findById(id)
-                .orElseThrow(() -> entityNotFoundReturner.loggingAndGet(id, MESSAGE)
+                .orElseThrow(() -> notFoundReturner.loggingAndGet(id, MESSAGE)
                 );
 
         final AccountTransferEntity accountTransfer = mapper.mergeToEntity(accountTransferDto, transfer);

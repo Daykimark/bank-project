@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * контроллер для {@link CardTransferDto}
+ * Контроллер для {@link CardTransferDto}
  */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/card")
 public class CardTransferController {
-    // TODO удалить и оставить пустую строку.
+
     private final CardTransferService service;
 
     /**

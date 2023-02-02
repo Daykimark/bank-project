@@ -19,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * контроллер для {@link PhoneTransferDto}
+ * Контроллер для {@link PhoneTransferDto}
  */
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/phone")
 public class PhoneTransferController {
-    // TODO удалить и оставить пустую строку.
+
     private final PhoneTransferService service;
 
     /**
