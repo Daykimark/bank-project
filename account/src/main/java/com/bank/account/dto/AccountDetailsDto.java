@@ -1,10 +1,13 @@
 package com.bank.account.dto;
 
 import com.bank.account.entity.AccountDetailsEntity;
+
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
@@ -15,13 +18,13 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-// TODO используй аннотацию @FieldDefaults(level = AccessLevel.PRIVATE) и в полях "private" удали.
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountDetailsDto implements Serializable {
-    private Long id;
-    private Long passportId;
-    private Long accountNumber;
-    private Long bankDetailsId;
-    private BigDecimal money;
-    private Boolean negativeBalance;
-    private Long profileId;
+    Long id;
+    Long passportId;
+    Long accountNumber;
+    Long bankDetailsId;
+    BigDecimal money;
+    Boolean negativeBalance;
+    Long profileId;
 }
