@@ -20,13 +20,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class CardTransferServiceImpl implements CardTransferService {
-    // TODO удалить и оставить пустую строку.
+
     private final static String MESSAGE = "Не найден перевод по номеру карты с ID ";
-    // TODO удалить и оставить пустую строку.
+
     private final CardTransferRepository repository;
     private final CardTransferMapper mapper;
-    // TODO entityNotFoundReturner переименуй в notFoundReturner.
-    private final EntityNotFoundReturner entityNotFoundReturner;
+    private final EntityNotFoundReturner notFoundReturner;
 
     /**
      * @param ids список технических идентификаторов {@link CardTransferEntity}
@@ -37,7 +36,7 @@ public class CardTransferServiceImpl implements CardTransferService {
 
         final List<CardTransferEntity> cardTransfers = ids.stream()
                 .map(id -> repository.findById(id)
-                        .orElseThrow(() -> entityNotFoundReturner.loggingAndGet(id, MESSAGE)))
+                        .orElseThrow(() -> notFoundReturner.loggingAndGet(id, MESSAGE)))
                 .toList();
 
         return mapper.toListDto(cardTransfers);
@@ -50,7 +49,7 @@ public class CardTransferServiceImpl implements CardTransferService {
     @Override
     public CardTransferDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                .orElseThrow(() -> entityNotFoundReturner.loggingAndGet(id, MESSAGE))
+                .orElseThrow(() -> notFoundReturner.loggingAndGet(id, MESSAGE))
         );
     }
 
@@ -77,7 +76,7 @@ public class CardTransferServiceImpl implements CardTransferService {
     public CardTransferDto update(Long id, CardTransferDto cardTransferDto) {
 
         final CardTransferEntity transfer = repository.findById(id)
-                 .orElseThrow(() -> entityNotFoundReturner.loggingAndGet(id, MESSAGE)
+                 .orElseThrow(() -> notFoundReturner.loggingAndGet(id, MESSAGE)
                 );
 
         final CardTransferEntity cardTransfer = (mapper.mergeToEntity(cardTransferDto, transfer));

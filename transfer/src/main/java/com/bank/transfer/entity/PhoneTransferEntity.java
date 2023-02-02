@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 import java.util.Objects;
 
 /**
- * entity для таблицы phone_transfer
+ * Entity для таблицы phone_transfer
  */
 @Entity
 @Getter
