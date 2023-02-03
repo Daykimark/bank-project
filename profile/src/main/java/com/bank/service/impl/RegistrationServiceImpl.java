@@ -1,6 +1,7 @@
 package com.bank.service.impl;
 
 import com.bank.dto.RegistrationDto;
+import com.bank.exceptionManager.ExceptionManager;
 import com.bank.mapper.RegistrationMapper;
 import com.bank.entity.RegistrationEntity;
 import com.bank.repository.RegistrationRepository;
@@ -8,6 +9,7 @@ import com.bank.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -17,7 +19,6 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-// TODO те же замечания, что и AccountDetailsIdServiceImpl.
 public class RegistrationServiceImpl implements RegistrationService {
     private final RegistrationRepository repository;
     private final RegistrationMapper mapper;
@@ -30,7 +31,8 @@ public class RegistrationServiceImpl implements RegistrationService {
     public RegistrationDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("Сущность Registration с айди " + id + " не найдена"))
+                        ExceptionManager.
+                                getEntityNotFoundException("Сущности Registration с айди " + id + " не найдено"))
         );
     }
 
@@ -42,10 +44,8 @@ public class RegistrationServiceImpl implements RegistrationService {
     public List<RegistrationDto> findAllById(List<Long> ids) {
         final List<RegistrationEntity> registrations = repository.findAllById(ids);
 
-        if (registrations.size() < ids.size()) {
-            throw new EntityNotFoundException("Одной или нескольких сущностей" +
-                    " Registration с такими айди не существует " + ids);
-        }
+        ExceptionManager.getEntityNotFoundException(ids.size(), registrations.size(),
+                "Одной или нескольких сущностей Registration с такими айди не существует " + ids);
 
         return mapper.toDtoList(registrations);
     }
@@ -70,7 +70,9 @@ public class RegistrationServiceImpl implements RegistrationService {
     @Transactional
     public RegistrationDto update(Long id, RegistrationDto registration) {
         final RegistrationEntity registrationEntity = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Сущности Registration с айди " + id + " не найдено")
+                .orElseThrow(() ->
+                        ExceptionManager.
+                                getEntityNotFoundException("Сущности Registration с айди " + id + " не найдено")
                 );
         return mapper.toDto(repository.save(mapper.mergeToEntity(registrationEntity, registration)));
     }

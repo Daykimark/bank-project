@@ -1,6 +1,7 @@
 package com.bank.service.impl;
 
 import com.bank.dto.ActualRegistrationDto;
+import com.bank.exceptionManager.ExceptionManager;
 import com.bank.mapper.ActualRegistrationMapper;
 import com.bank.entity.ActualRegistrationEntity;
 import com.bank.repository.ActualRegistrationRepository;
@@ -15,11 +16,10 @@ import java.util.List;
 /**
  * Реализация {@link ActualRegistrationService}
  */
-// TODO те же замечания, что и AccountDetailsIdServiceImpl.
 @Service
 @RequiredArgsConstructor
 public class ActualRegistrationServiceImpl implements ActualRegistrationService {
-    // TODO удали и оставь пустую строку.
+
     private final ActualRegistrationRepository repository;
     private final ActualRegistrationMapper mapper;
 
@@ -31,8 +31,11 @@ public class ActualRegistrationServiceImpl implements ActualRegistrationService 
     public ActualRegistrationDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("Сущность ActualRegistration с айди " + id + " не найдена"))
+                        ExceptionManager
+                                .getEntityNotFoundException(
+                                        "Сущности ActualRegistration с айди " + id + " не найдено"))
         );
+
     }
 
     /**
@@ -43,10 +46,8 @@ public class ActualRegistrationServiceImpl implements ActualRegistrationService 
     public List<ActualRegistrationDto> findAllById(List<Long> ids) {
         final List<ActualRegistrationEntity> actualRegistrations = repository.findAllById(ids);
 
-        if (actualRegistrations.size() < ids.size()) {
-            throw new EntityNotFoundException("Одной или нескольких сущностей" +
-                    " ActualRegistration с такими айди не существует " + ids);
-        }
+        ExceptionManager.getEntityNotFoundException(ids.size(), actualRegistrations.size(),
+                "Одной или нескольких сущностей ActualRegistration с такими айди не существует " + ids);
 
         return mapper.toDtoList(actualRegistrations);
     }
@@ -71,9 +72,11 @@ public class ActualRegistrationServiceImpl implements ActualRegistrationService 
     @Transactional
     public ActualRegistrationDto update(Long id, ActualRegistrationDto actualRegistration) {
         final ActualRegistrationEntity actualRegistrationEntity = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Сущности ActualRegistration с айди " + id +
-                        " не найдено")
-                );
+                .orElseThrow(() ->
+                        ExceptionManager
+                                .getEntityNotFoundException(
+                                        "Сущности ActualRegistration с айди " + id + " не найдено")
+        );
         return mapper.toDto(repository.save(mapper.mergeToEntity(actualRegistrationEntity, actualRegistration)));
     }
 }

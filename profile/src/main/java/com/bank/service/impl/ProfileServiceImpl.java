@@ -1,9 +1,9 @@
 package com.bank.service.impl;
 
-// TODO удали пустую строку.
 import com.bank.dto.ProfileDto;
-import com.bank.mapper.ProfileMapper;
 import com.bank.entity.ProfileEntity;
+import com.bank.exceptionManager.ExceptionManager;
+import com.bank.mapper.ProfileMapper;
 import com.bank.repository.ProfileRepository;
 import com.bank.service.ProfileService;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,8 @@ import java.util.List;
  */
 @Service
 @RequiredArgsConstructor
-// TODO те же замечания, что и AccountDetailsIdServiceImpl.
 public class ProfileServiceImpl implements ProfileService {
+
     private final ProfileRepository repository;
     private final ProfileMapper mapper;
 
@@ -31,7 +31,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
                 .orElseThrow(() ->
-                        new EntityNotFoundException("Сущность Profile с айди " + id + " не найдена"))
+                        ExceptionManager.getEntityNotFoundException("Сущности Profile с айди " + id + " не найдено"))
         );
     }
 
@@ -43,10 +43,8 @@ public class ProfileServiceImpl implements ProfileService {
     public List<ProfileDto> findAllById(List<Long> ids) {
         final List<ProfileEntity> profiles = repository.findAllById(ids);
 
-        if (profiles.size() < ids.size()) {
-            throw new EntityNotFoundException("Одной или нескольких сущностей" +
-                    " Profile с такими айди не существует " + ids);
-        }
+        ExceptionManager.getEntityNotFoundException(ids.size(), profiles.size(), "Одной или нескольких сущностей" +
+                " Profile с такими айди не существует " + ids);
 
         return mapper.toDtoList(profiles);
     }
@@ -58,9 +56,8 @@ public class ProfileServiceImpl implements ProfileService {
     @Override
     @Transactional
     public ProfileDto save(ProfileDto accountDetails) {
-        ProfileEntity entity = mapper.toEntity(accountDetails);
-        ProfileEntity entity1 = repository.save(entity);
-        return mapper.toDto(entity1);
+        final ProfileEntity profile = repository.save(mapper.toEntity(accountDetails));
+        return mapper.toDto(profile);
     }
 
     /**
@@ -72,7 +69,8 @@ public class ProfileServiceImpl implements ProfileService {
     @Transactional
     public ProfileDto update(Long id, ProfileDto profile) {
         final ProfileEntity profileEntity = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Сущности Profile с айди " + id + " не найдено")
+                .orElseThrow(() -> ExceptionManager.
+                        getEntityNotFoundException("Сущности Profile с айди " + id + " не найдено")
                 );
         return mapper.toDto(repository.save(mapper.mergeToEntity(profileEntity, profile)));
     }
