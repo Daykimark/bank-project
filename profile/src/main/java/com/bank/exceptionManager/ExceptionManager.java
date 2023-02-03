@@ -3,7 +3,6 @@ package com.bank.exceptionManager;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.Objects;
 
 /**
  * Класс, который возвращает нужные исключения

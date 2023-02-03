@@ -1,16 +1,14 @@
 package com.bank.service.impl;
 
 import com.bank.dto.RegistrationDto;
+import com.bank.entity.RegistrationEntity;
 import com.bank.exceptionManager.ExceptionManager;
 import com.bank.mapper.RegistrationMapper;
-import com.bank.entity.RegistrationEntity;
 import com.bank.repository.RegistrationRepository;
 import com.bank.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -72,7 +70,7 @@ public class RegistrationServiceImpl implements RegistrationService {
         final RegistrationEntity registrationEntity = repository.findById(id)
                 .orElseThrow(() ->
                         ExceptionManager.
-                                getEntityNotFoundException("Сущности Registration с айди " + id + " не найдено")
+                                getEntityNotFoundException("Сущности Rеgistration с айди " + id + " не нaйдено")
                 );
         return mapper.toDto(repository.save(mapper.mergeToEntity(registrationEntity, registration)));
     }

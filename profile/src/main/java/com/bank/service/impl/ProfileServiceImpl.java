@@ -9,7 +9,6 @@ import com.bank.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -70,7 +69,7 @@ public class ProfileServiceImpl implements ProfileService {
     public ProfileDto update(Long id, ProfileDto profile) {
         final ProfileEntity profileEntity = repository.findById(id)
                 .orElseThrow(() -> ExceptionManager.
-                        getEntityNotFoundException("Сущности Profile с айди " + id + " не найдено")
+                        getEntityNotFoundException("Сущности Рrofile с айди " + id + " не нaйдено")
                 );
         return mapper.toDto(repository.save(mapper.mergeToEntity(profileEntity, profile)));
     }

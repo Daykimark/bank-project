@@ -1,15 +1,14 @@
 package com.bank.service.impl;
 
 import com.bank.dto.AccountDetailsIdDto;
+import com.bank.entity.AccountDetailsIdEntity;
 import com.bank.exceptionManager.ExceptionManager;
 import com.bank.mapper.AccountDetailsIdMapper;
-import com.bank.entity.AccountDetailsIdEntity;
 import com.bank.repository.AccountDetailsIdRepository;
 import com.bank.service.AccountDetailsIdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -33,7 +32,7 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
                 .orElseThrow(() ->
                         ExceptionManager
                                 .getEntityNotFoundException(
-                                        "Сущности AccountDetailsId с айди " + id + " не найдено"))
+                                        "Сущности АccountDetailsId с айди " + id + " не найдено"))
         );
     }
 
@@ -75,7 +74,7 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
                         .orElseThrow(() ->
                                 ExceptionManager
                                         .getEntityNotFoundException(
-                                                "Сущности AccountDetailsId с айди " + id + " не найдено")
+                                                "Сущности AccountDetailsId с айди " + id + " не нaйдено")
                         );
         
         return mapper.toDto(repository.save(mapper.mergeToEntity(accountDetailsIdEntity, accountDetailsId)));
