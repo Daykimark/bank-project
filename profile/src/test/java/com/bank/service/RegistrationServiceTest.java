@@ -23,6 +23,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.testng.Assert.assertThrows;
 
 @ExtendWith(MockitoExtension.class)
 public class RegistrationServiceTest {
@@ -72,12 +73,7 @@ public class RegistrationServiceTest {
         ids.add(2L);
         ids.add(3L);
         when(rep.findAllById(any())).thenReturn(List.of(registrationEntity1, registrationEntity2));
-        try {
-            service.findAllById(ids);
-            fail();
-        } catch (EntityNotFoundException ex) {
-            assertTrue(true);
-        }
+        assertThrows(EntityNotFoundException.class, () -> service.findAllById(ids));
     }
 
     @Test
@@ -89,22 +85,12 @@ public class RegistrationServiceTest {
     @Test
     void getByIdShouldThrowExceptionIfOneOfIdsDoesntExistTest() {
         when(rep.findById(3L)).thenReturn(Optional.empty());
-        try {
-            service.findById(3L);
-            fail();
-        } catch (EntityNotFoundException ex) {
-            assertTrue(true);
-        }
+        assertThrows(EntityNotFoundException.class, () -> service.findById(3L));
     }
 
     @Test
     void updateShouldThrowExceptionIfOneOfIdsDoesntExistTest() {
         when(rep.findById(3L)).thenReturn(Optional.empty());
-        try {
-            service.update(3L, mapper.toDto(registrationEntity1));
-            fail();
-        } catch (EntityNotFoundException ex) {
-            assertTrue(true);
-        }
+        assertThrows(EntityNotFoundException.class, () -> service.update(3L, mapper.toDto(registrationEntity1)));
     }
 }
