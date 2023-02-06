@@ -30,8 +30,7 @@ public class UserController {
      * @return {@link ResponseEntity}, {@link UserDto} и HttpStatus.OK
      */
     @PostMapping("/create")
-    // TODO createNewUser переименуй в create.
-    public ResponseEntity<UserDto> createNewUser(@RequestBody UserDto user) {
+    public ResponseEntity<UserDto> create(@RequestBody UserDto user) {
         return new ResponseEntity<>(service.save(user), HttpStatus.OK);
     }
 
@@ -40,8 +39,7 @@ public class UserController {
      * @return {@link ResponseEntity}, {@link UserDto} и HttpStatus.OK
      */
     @GetMapping("/read/{id}")
-    // TODO getUserById переименуй в read.
-    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
+    public ResponseEntity<UserDto> read(@PathVariable("id") Long id) {
         return new ResponseEntity<>(service.findById(id), HttpStatus.OK);
     }
 
@@ -51,8 +49,7 @@ public class UserController {
      * @return {@link ResponseEntity}, {@link UserDto} и HttpStatus.OK
      */
     @PutMapping("/{id}/update")
-    // TODO updateUser переименуй в update.
-    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @RequestBody UserDto user) {
+    public ResponseEntity<UserDto> update(@PathVariable("id") Long id, @RequestBody UserDto user) {
         return new ResponseEntity<>(service.update(id, user), HttpStatus.OK);
     }
 
@@ -61,8 +58,7 @@ public class UserController {
      * @return {@link ResponseEntity}, {@link UserDto} и HttpStatus.OK
      */
     @GetMapping("/read/all")
-    // TODO getUsersByIds переименуй в readAll.
-    public ResponseEntity<List<UserDto>> getUsersByIds(@RequestParam List<Long> ids) {
+    public ResponseEntity<List<UserDto>> readAll(@RequestParam List<Long> ids) {
         return new ResponseEntity<>(service.findAllByIds(ids), HttpStatus.OK);
     }
 }

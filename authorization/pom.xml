@@ -9,6 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <groupId>com.example</groupId>
     <artifactId>authorization</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>authorization</name>
@@ -16,18 +17,22 @@
 
     <properties>
         <java.version>17</java.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <eureka.client.version>2.2.5.RELEASE</eureka.client.version>
     </properties>
 
-    <!--TODO расскоментировать, когда будешь таской на настройку секьюрити заниматься.-->
-    <!--<dependencies>
+
+    <dependencies>
         <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <!--TODO расскоментировать, когда будешь таской на настройку секьюрити заниматься.-->
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
             <version>${starter.version}</version>
-        </dependency>
-    </dependencies>-->
+        </dependency>-->
+    </dependencies>
 
     <build>
         <plugins>
