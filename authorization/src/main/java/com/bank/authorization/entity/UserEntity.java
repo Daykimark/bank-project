@@ -22,6 +22,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// TODO добавь @FieldDefaults(level = AccessLevel.PRIVATE) и модификатор private удали в полях
 @Table(name = "users", schema = "auth")
 public class UserEntity {
 

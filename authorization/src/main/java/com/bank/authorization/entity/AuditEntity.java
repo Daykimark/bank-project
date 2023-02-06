@@ -22,6 +22,7 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// TODO добавь @FieldDefaults(level = AccessLevel.PRIVATE) и модификатор private удали в полях
 @Table(name = "audit", schema = "auth")
 public class AuditEntity {
 
