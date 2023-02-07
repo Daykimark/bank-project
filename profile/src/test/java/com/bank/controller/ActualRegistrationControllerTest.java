@@ -1,29 +1,24 @@
 package com.bank.controller;
 
+import com.bank.AbstractTest;
 import com.bank.dto.ActualRegistrationDto;
-import com.bank.dto.PassportDto;
-import com.bank.dto.ActualRegistrationDto;
-import com.bank.dto.RegistrationDto;
-import com.bank.entity.ActualRegistrationEntity;
 import com.bank.service.impl.ActualRegistrationServiceImpl;
+import com.bank.supplier.ControllerTestSupplier;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.when;
@@ -34,31 +29,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest(ActualRegistrationController.class)
-class ActualRegistrationControllerTest {
+class ActualRegistrationControllerTest extends AbstractTest {
+    
+    private final static ControllerTestSupplier supplier = new ControllerTestSupplier();
 
     @MockBean
-    ActualRegistrationServiceImpl service;
+    private ActualRegistrationServiceImpl service;
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-    private ActualRegistrationDto actualRegistrationDto1;
+    private static ActualRegistrationDto testDto1;
 
-    private ActualRegistrationDto actualRegistrationDto2;
+    private static ActualRegistrationDto testDto2;
 
-    @BeforeEach
-    void setUp() {
-        actualRegistrationDto1 = new ActualRegistrationDto();
-        actualRegistrationDto2 = new ActualRegistrationDto();
-        actualRegistrationDto1.setId(1L);
-        actualRegistrationDto2.setId(2L);
+    @BeforeAll
+    static void setUp() {
+        testDto1 = new ActualRegistrationDto();
+        testDto2 = new ActualRegistrationDto();
+        
+        supplier.setUpActualRegistrationController(testDto1, testDto2);
     }
 
     @Test
+    @DisplayName("Поиск по одному айди")
     void read() throws Exception {
-        when(service.findById(any())).thenReturn(actualRegistrationDto1);
+        when(service.findById(any())).thenReturn(testDto1);
 
         mockMvc.perform(get("/actual/registration/read/1").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -68,12 +65,13 @@ class ActualRegistrationControllerTest {
     }
 
     @Test
+    @DisplayName("Создание объекта")
     void create() throws Exception {
         ObjectMapper objectMapper = JsonMapper.builder().addModule(new JavaTimeModule()).build();
         ObjectWriter ow = objectMapper.writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(actualRegistrationDto1);
+        String json = ow.writeValueAsString(testDto1);
 
-        when(service.save(any())).thenReturn(actualRegistrationDto1);
+        when(service.save(any())).thenReturn(testDto1);
 
         mockMvc.perform(post("/actual/registration/create").content(json).contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -82,12 +80,13 @@ class ActualRegistrationControllerTest {
     }
 
     @Test
+    @DisplayName("Обновление объекта")
     void update() throws Exception {
         ObjectMapper objectMapper = JsonMapper.builder().addModule(new JavaTimeModule()).build();
         ObjectWriter ow = objectMapper.writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(actualRegistrationDto1);
+        String json = ow.writeValueAsString(testDto1);
 
-        when(service.update(eq(1L),any())).thenReturn(actualRegistrationDto1);
+        when(service.update(eq(1L),any())).thenReturn(testDto1);
 
         mockMvc.perform(put("/actual/registration/update/1").content(json).contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -96,8 +95,9 @@ class ActualRegistrationControllerTest {
     }
 
     @Test
+    @DisplayName("Поиск по списку айди")
     void readAllById() throws Exception {
-        when(service.findAllById(any())).thenReturn(List.of(actualRegistrationDto1, actualRegistrationDto2));
+        when(service.findAllById(any())).thenReturn(List.of(testDto1, testDto2));
 
         mockMvc.perform(get("/actual/registration/read/all?ids=1,2").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

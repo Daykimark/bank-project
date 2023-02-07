@@ -1,25 +1,22 @@
 package com.bank.controller;
 
-import com.bank.dto.ActualRegistrationDto;
-import com.bank.dto.PassportDto;
+import com.bank.AbstractTest;
 import com.bank.dto.ProfileDto;
-import com.bank.dto.RegistrationDto;
 import com.bank.service.impl.ProfileServiceImpl;
+import com.bank.supplier.ControllerTestSupplier;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -32,56 +29,33 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest(ProfileController.class)
-class ProfileControllerTest {
+class ProfileControllerTest extends AbstractTest {
+
+    private static final ControllerTestSupplier supplier = new ControllerTestSupplier();
 
     @MockBean
-    ProfileServiceImpl service;
+    private ProfileServiceImpl service;
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
-    private ProfileDto profileDto1;
+    private static ProfileDto testDto1;
 
-    private ProfileDto profileDto2;
+    private static ProfileDto testDto2;
 
-    @BeforeEach
-    void setUp() {
-        profileDto1 = new ProfileDto();
-        profileDto1.setId(1L);
-        PassportDto passportDto = new PassportDto();
-        passportDto.setId(1L);
-        passportDto.setSeries(89);
-        passportDto.setDateOfIssue(LocalDate.now());
-        RegistrationDto registrationDto = new RegistrationDto();
-        registrationDto.setId(1L);
-        registrationDto.setCountry("Russia");
-        passportDto.setRegistration(registrationDto);
-        profileDto1.setPassport(passportDto);
-        ActualRegistrationDto actualRegistrationDto = new ActualRegistrationDto();
-        actualRegistrationDto.setId(1L);
-        profileDto1.setActualRegistration(actualRegistrationDto);
+    @BeforeAll
+    static void setUp() {
+        testDto1 = new ProfileDto();
+        testDto2 = new ProfileDto();
 
-        profileDto2 = new ProfileDto();
-        profileDto2.setId(2L);
-        PassportDto passportDto1 = new PassportDto();
-        passportDto1.setId(2L);
-        passportDto1.setSeries(33);
-        passportDto1.setDateOfIssue(LocalDate.now());
-        RegistrationDto registrationDto1 = new RegistrationDto();
-        registrationDto1.setId(2L);
-        registrationDto1.setCountry("NOTRussia");
-        passportDto1.setRegistration(registrationDto1);
-        profileDto2.setPassport(passportDto1);
-        ActualRegistrationDto actualRegistrationDto1 = new ActualRegistrationDto();
-        actualRegistrationDto1.setId(2L);
-        profileDto2.setActualRegistration(actualRegistrationDto1);
+        supplier.setUpProfileController(testDto1, testDto2);
     }
 
     @Test
+    @DisplayName("Поиск по одному айди")
     void read() throws Exception {
-        when(service.findById(any())).thenReturn(profileDto1);
+        when(service.findById(any())).thenReturn(testDto1);
 
         mockMvc.perform(get("/profile/read/1").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -97,12 +71,13 @@ class ProfileControllerTest {
     }
 
     @Test
+    @DisplayName("Создание объекта")
     void create() throws Exception {
         ObjectMapper objectMapper = JsonMapper.builder().addModule(new JavaTimeModule()).build();
         ObjectWriter ow = objectMapper.writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(profileDto1);
+        String json = ow.writeValueAsString(testDto1);
 
-        when(service.save(any())).thenReturn(profileDto1);
+        when(service.save(any())).thenReturn(testDto1);
 
         mockMvc.perform(post("/profile/create").content(json).contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -117,12 +92,13 @@ class ProfileControllerTest {
     }
 
     @Test
+    @DisplayName("Обновление объекта")
     void update() throws Exception {
         ObjectMapper objectMapper = JsonMapper.builder().addModule(new JavaTimeModule()).build();
         ObjectWriter ow = objectMapper.writer().withDefaultPrettyPrinter();
-        String json = ow.writeValueAsString(profileDto1);
+        String json = ow.writeValueAsString(testDto1);
 
-        when(service.update(eq(1L),any())).thenReturn(profileDto1);
+        when(service.update(eq(1L), any())).thenReturn(testDto1);
 
         mockMvc.perform(put("/profile/update/1").content(json).contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
@@ -137,8 +113,9 @@ class ProfileControllerTest {
     }
 
     @Test
+    @DisplayName("Поиск по списку айди")
     void readAllById() throws Exception {
-        when(service.findAllById(any())).thenReturn(List.of(profileDto1, profileDto2));
+        when(service.findAllById(any())).thenReturn(List.of(testDto1, testDto2));
 
         mockMvc.perform(get("/profile/read/all?ids=1,2").accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

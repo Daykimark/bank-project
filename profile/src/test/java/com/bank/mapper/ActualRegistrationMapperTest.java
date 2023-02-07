@@ -1,55 +1,50 @@
 package com.bank.mapper;
 
+import com.bank.AbstractTest;
 import com.bank.dto.ActualRegistrationDto;
-import com.bank.dto.RegistrationDto;
 import com.bank.entity.ActualRegistrationEntity;
-import com.bank.entity.RegistrationEntity;
-import org.junit.jupiter.api.BeforeEach;
+import com.bank.supplier.MapperTestSupplier;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
-@ExtendWith(MockitoExtension.class)
-class ActualRegistrationMapperTest {
+class ActualRegistrationMapperTest extends AbstractTest {
 
-    ActualRegistrationMapperImpl mapper = new ActualRegistrationMapperImpl();
+    private static final MapperTestSupplier supplier = new MapperTestSupplier();
 
-    ActualRegistrationEntity testEntity;
+    private final ActualRegistrationMapperImpl mapper = new ActualRegistrationMapperImpl();
 
-    ActualRegistrationDto testDto;
+    private static ActualRegistrationEntity testEntity;
 
-    @BeforeEach
-    void setUp() {
+    private static ActualRegistrationDto testDto;
+
+    @BeforeAll
+    static void setUp() {
         testEntity = new ActualRegistrationEntity();
         testDto = new ActualRegistrationDto();
 
-
-        testEntity.setId(1L);
-        testEntity.setIndex(23L);
-        testEntity.setCity("Gorod");
-
-        testDto.setId(1L);
-        testDto.setIndex(23L);
-        testDto.setCity("Gorod");
+        supplier.setUpActualRegistrationMapper(testEntity, testDto);
     }
 
     @Test
+    @DisplayName("Тест из Entity в Dto")
     void toEntity() {
         assertThat(mapper.toEntity(testDto)).isEqualTo(testEntity);
     }
 
     @Test
+    @DisplayName("Тест из Dto в Entity")
     void toDto() {
         assertThat(mapper.toDto(testEntity)).isEqualTo(testDto);
     }
 
     @Test
+    @DisplayName("Тест из листа Entity в лист Dto")
     void toDtoList() {
         List<ActualRegistrationEntity> entities = new ArrayList<>();
         entities.add(testEntity);
@@ -63,9 +58,11 @@ class ActualRegistrationMapperTest {
     }
 
     @Test
+    @DisplayName("Обновление Entity на базе Dto")
     void mergeToEntity() {
         ActualRegistrationEntity entity = new ActualRegistrationEntity();
         testEntity.setId(null);
         assertThat(mapper.mergeToEntity(entity, testDto)).isEqualTo(testEntity);
+        supplier.setUpActualRegistrationMapper(testEntity, testDto);
     }
 }

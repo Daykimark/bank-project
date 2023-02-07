@@ -1,79 +1,50 @@
 package com.bank.mapper;
 
-import com.bank.dto.ActualRegistrationDto;
-import com.bank.dto.PassportDto;
+import com.bank.AbstractTest;
 import com.bank.dto.ProfileDto;
-import com.bank.dto.RegistrationDto;
-import com.bank.entity.ActualRegistrationEntity;
-import com.bank.entity.PassportEntity;
 import com.bank.entity.ProfileEntity;
-import com.bank.entity.RegistrationEntity;
-import org.junit.jupiter.api.BeforeEach;
+import com.bank.supplier.MapperTestSupplier;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
-@ExtendWith(MockitoExtension.class)
-class ProfileMapperTest {
+class ProfileMapperTest extends AbstractTest {
 
-    ProfileMapperImpl mapper = new ProfileMapperImpl();
+    private final static MapperTestSupplier supplier = new MapperTestSupplier();
 
-    ProfileEntity testEntity;
+    private final ProfileMapperImpl mapper = new ProfileMapperImpl();
 
-    ProfileDto testDto;
+    private static ProfileEntity testEntity;
 
-    @BeforeEach
-    void setUp() {
+    private static ProfileDto testDto;
+
+    @BeforeAll
+    static void setUp() {
         testEntity = new ProfileEntity();
         testDto = new ProfileDto();
 
-        testEntity.setPhoneNumber(283992L);
-        testEntity.setId(1L);
-        PassportEntity passportEntity = new PassportEntity();
-        passportEntity.setId(1L);
-        passportEntity.setBirthPlace("Russia");
-        passportEntity.setSeries(89);
-        RegistrationEntity registrationEntity = new RegistrationEntity();
-        registrationEntity.setId(1L);
-        registrationEntity.setCountry("Russia");
-        passportEntity.setRegistration(registrationEntity);
-        testEntity.setPassport(passportEntity);
-        ActualRegistrationEntity actualRegistrationEntity = new ActualRegistrationEntity();
-        actualRegistrationEntity.setId(1L);
-        testEntity.setActualRegistration(actualRegistrationEntity);
-
-        testDto.setPhoneNumber(283992L);
-        testDto.setId(1L);
-        PassportDto passportDto = new PassportDto();
-        passportDto.setId(1L);
-        passportDto.setBirthPlace("Russia");
-        passportDto.setSeries(89);
-        RegistrationDto registrationDto = new RegistrationDto();
-        registrationDto.setId(1L);
-        registrationDto.setCountry("Russia");
-        passportDto.setRegistration(registrationDto);
-        testDto.setPassport(passportDto);
-        ActualRegistrationDto actualRegistrationDto = new ActualRegistrationDto();
-        actualRegistrationDto.setId(1L);
-        testDto.setActualRegistration(actualRegistrationDto);
+        supplier.setUpProfileMapper(testEntity, testDto);
     }
 
     @Test
+    @DisplayName("Тест из Entity в Dto")
     void toEntity() {
         assertThat(mapper.toEntity(testDto)).isEqualTo(testEntity);
     }
 
     @Test
+    @DisplayName("Тест из Dto в Entity")
     void toDto() {
         assertThat(mapper.toDto(testEntity)).isEqualTo(testDto);
     }
 
     @Test
+    @DisplayName("Тест из листа Entity в лист Dto")
     void toDtoList() {
         List<ProfileEntity> entities = new ArrayList<>();
         entities.add(testEntity);
@@ -87,6 +58,7 @@ class ProfileMapperTest {
     }
 
     @Test
+    @DisplayName("Обновление Entity на базе Dto")
     void mergeToEntity() {
         ProfileEntity entity = new ProfileEntity();
         testEntity.setId(null);
@@ -94,5 +66,6 @@ class ProfileMapperTest {
         testEntity.getActualRegistration().setId(null);
         testEntity.getPassport().getRegistration().setId(null);
         assertThat(mapper.mergeToEntity(entity, testDto)).isEqualTo(testEntity);
+        supplier.setUpProfileMapper(testEntity, testDto);
     }
 }
