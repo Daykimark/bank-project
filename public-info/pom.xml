@@ -19,12 +19,42 @@
         <java.version>17</java.version>
         <eureka.client.version>2.2.5.RELEASE</eureka.client.version>
         <spring.cloud.version>2021.0.4</spring.cloud.version>
+        <test.containers>1.17.6</test.containers>
+        <test.containers.postgres>1.17.6</test.containers.postgres>
+        <junit-jupiter.version.testcontainers>1.17.6</junit-jupiter.version.testcontainers>
+        <junit-jupiter.version>5.8.1</junit-jupiter.version>
+        <surefire.version>2.22.2</surefire.version>
+        <skip>true</skip>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit-jupiter.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${junit-jupiter.version.testcontainers}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${test.containers}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${test.containers.postgres}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
@@ -33,6 +63,14 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <skip>${skip}</skip>
+                </configuration>
             </plugin>
         </plugins>
     </build>

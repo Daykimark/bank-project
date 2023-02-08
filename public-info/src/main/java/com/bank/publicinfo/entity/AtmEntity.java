@@ -17,7 +17,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-import java.io.Serializable;
 import java.time.LocalTime;
 import java.util.Objects;
 
@@ -30,8 +29,8 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "atm", schema = "public_bank_information")
-public class AtmEntity implements Serializable {
+@Table(name = "atm")
+public class AtmEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
