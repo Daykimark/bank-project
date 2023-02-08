@@ -9,44 +9,37 @@ import org.mapstruct.MappingTarget;
 import java.util.List;
 
 /**
+ * // TODO Маппер переименуй в Mapper.
  * Маппер для {@link UserEntity} и {@link UserDto}
  */
 @Mapper(componentModel = "spring")
 public interface UserMapper {
 
     /**
-     * TODO userEntity переименуй в user.
-     * @param userEntity {@link UserEntity}
+     * @param user {@link UserEntity}
      * @return {@link UserDto}
      */
-    // TODO userEntity переименуй в user.
-    UserDto toDTO(UserEntity userEntity);
+    UserDto toDTO(UserEntity user);
 
     /**
-     * TODO userDto переименуй в user.
-     * @param userDto {@link UserDto}
+     * @param user {@link UserDto}
      * @return {@link UserEntity}
      */
     @Mapping(target = "id", ignore = true)
-    // TODO userDto переименуй в user.
-    UserEntity toEntity(UserDto userDto);
+    UserEntity toEntity(UserDto user);
 
     /**
-     * TODO userEntityList переименуй в users.
-     * @param userEntityList лист сущностей {@link UserEntity}
-     * TODO удали "dto ".
-     * @return лист dto {@link UserDto}
+     * TODO users лист {@link UserEntity}.
+     * @param users лист сущностей {@link UserEntity}
+     * @return лист {@link UserDto}
      */
-    // TODO userEntityList переименуй в users.
-    List<UserDto> toDtoList(List<UserEntity> userEntityList);
+    List<UserDto> toDtoList(List<UserEntity> users);
 
     /**
      * @param userDto {@link UserDto}
-     * TODO userEntity переименуй в user.
-     * @param userEntity {@link UserEntity}
+     * @param user {@link UserEntity}
      * @return {@link UserEntity}
      */
     @Mapping(target = "id", ignore = true)
-    // TODO userEntity переименуй в user.
-    UserEntity mergeToEntity(UserDto userDto, @MappingTarget UserEntity userEntity);
+    UserEntity mergeToEntity(UserDto userDto, @MappingTarget UserEntity user);
 }

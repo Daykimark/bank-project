@@ -20,13 +20,12 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class PhoneTransferServiceImpl implements PhoneTransferService {
-    // TODO удалить и оставить пустую строку.
+
     private final static String MESSAGE = "Не найден перевод по номеру телефона с ID ";
-    // TODO удалить и оставить пустую строку.
+
     private final PhoneTransferRepository repository;
     private final PhoneTransferMapper mapper;
-    // TODO entityNotFoundReturner переименуй в notFoundReturner.
-    private final EntityNotFoundReturner entityNotFoundReturner;
+    private final EntityNotFoundReturner notFoundReturner;
 
     /**
      * @param ids список технических идентификаторов {@link PhoneTransferEntity}
@@ -37,7 +36,7 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
 
         final List<PhoneTransferEntity> phoneTransfers = ids.stream()
                 .map(id -> repository.findById(id)
-                        .orElseThrow(() -> entityNotFoundReturner.loggingAndGet(id, MESSAGE)))
+                        .orElseThrow(() -> notFoundReturner.loggingAndGet(id, MESSAGE)))
                 .toList();
 
         return mapper.toListDto(phoneTransfers);
@@ -50,7 +49,7 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
     @Override
     public PhoneTransferDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                .orElseThrow(() -> entityNotFoundReturner.loggingAndGet(id, MESSAGE))
+                .orElseThrow(() -> notFoundReturner.loggingAndGet(id, MESSAGE))
         );
     }
 
@@ -69,7 +68,7 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
 
     /**
      * @param phoneTransferDto {@link PhoneTransferDto}
-     * @param id               технический идентификатор {@link PhoneTransferEntity}
+     * @param id технический идентификатор {@link PhoneTransferEntity}
      * @return {@link PhoneTransferDto}
      */
     @Override
@@ -77,7 +76,7 @@ public class PhoneTransferServiceImpl implements PhoneTransferService {
     public PhoneTransferDto update(Long id, PhoneTransferDto phoneTransferDto) {
 
         final PhoneTransferEntity transfer = repository.findById(id)
-                .orElseThrow(() -> entityNotFoundReturner.loggingAndGet(id, MESSAGE));
+                .orElseThrow(() -> notFoundReturner.loggingAndGet(id, MESSAGE));
 
         final PhoneTransferEntity phoneTransfer = mapper.mergeToEntity(phoneTransferDto, transfer);
 

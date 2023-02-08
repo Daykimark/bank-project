@@ -15,8 +15,8 @@ import java.util.List;
 public interface CardTransferMapper {
 
     /**
-     * @param cardTransfer {@link CardTransferEntity} TODO тут ссылка на CardTransferDto должна быть.
-     * @return {@link CardTransferDto}
+     * @param cardTransfer {@link CardTransferDto}
+     * @return {@link CardTransferEntity}
      */
     @Mapping(target = "id", ignore = true)
     CardTransferEntity toEntity(CardTransferDto cardTransfer);

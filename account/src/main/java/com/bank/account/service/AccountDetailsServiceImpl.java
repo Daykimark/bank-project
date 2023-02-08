@@ -3,7 +3,7 @@ package com.bank.account.service;
 import com.bank.account.dto.AccountDetailsDto;
 import com.bank.account.entity.AccountDetailsEntity;
 import com.bank.account.mapper.AccountDetailsMapper;
-import com.bank.account.repository.AccountDetailRepository;
+import com.bank.account.repository.AccountDetailsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.persistence.EntityNotFoundException;
@@ -17,20 +17,9 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AccountDetailsServiceImpl implements AccountDetailsService {
 
-    private final static String EXCEPTIONS_MESSAGE = "Не найдена сущность AccountDetailsEntity с id ";
-    // TODO удалить и оставь пустую строку.
-    private final AccountDetailRepository repository;
     private final AccountDetailsMapper mapper;
+    private final AccountDetailsRepository repository;
 
-    /**
-     * TODO удали javadoc для приватного метода, так как приватные методы не описываются джавадоками.
-     * возвращает {@link EntityNotFoundException}.
-     * Сообщение об ошибке
-     */
-    // TODO так же метод перенеси в самый конец класса. И String message убери, так как ты всегда одно и тоже передаешь.
-    private EntityNotFoundException exceptionThrower(String message, Long id) {
-        return new EntityNotFoundException(message + id);
-    }
     /**
      * @param id технический идентификатор {@link AccountDetailsEntity}
      * @return {@link AccountDetailsDto}
@@ -38,13 +27,12 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
     @Override
     public AccountDetailsDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                .orElseThrow(() -> exceptionThrower(EXCEPTIONS_MESSAGE, id))
+                .orElseThrow(() -> exceptionReturner(id))
         );
     }
 
     /**
-     * TODO в строку снизу указать ссылку на энтити.
-     * @param ids лист технических идентификаторов
+     * @param ids лист технических идентификаторов {@link AccountDetailsEntity}
      * @return {@link List<AccountDetailsDto>}
      */
     @Override
@@ -52,7 +40,7 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
 
         final List<AccountDetailsEntity> accountDetailsList = ids.stream()
                 .map(id -> repository.findById(id)
-                        .orElseThrow(() -> exceptionThrower(EXCEPTIONS_MESSAGE, id)))
+                        .orElseThrow(() -> exceptionReturner(id)))
                 .toList();
         return mapper.toDtoList(accountDetailsList);
     }
@@ -64,11 +52,11 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
     @Override
     @Transactional
     public AccountDetailsDto save(AccountDetailsDto accountDetailsDto) {
-        // TODO удалить и оставь пустую строку.
+
         final AccountDetailsEntity accountDetails = repository.save(
                 mapper.toEntity(accountDetailsDto)
         );
-        // TODO удалить и оставь пустую строку.
+
         return mapper.toDto(accountDetails);
     }
 
@@ -82,12 +70,15 @@ public class AccountDetailsServiceImpl implements AccountDetailsService {
     public AccountDetailsDto update(Long id, AccountDetailsDto accountDetailsDto) {
 
         final AccountDetailsEntity accountDetails = repository.findById(id)
-                .orElseThrow(() -> exceptionThrower(EXCEPTIONS_MESSAGE, id));
-        // TODO удалить и оставь пустую строку.
+                .orElseThrow(() -> exceptionReturner(id));
+
         final AccountDetailsEntity updateAccountDetails = repository.save(
                 mapper.mergeToEntity(accountDetails, accountDetailsDto)
         );
-        // TODO удалить и оставь пустую строку.
+
         return mapper.toDto(updateAccountDetails);
+    }
+    private EntityNotFoundException exceptionReturner(Long id) {
+        return new EntityNotFoundException("Не найдена сущность AccountDetailsEntity с id " + id);
     }
 }

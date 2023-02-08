@@ -6,6 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 /**
  * Репозиторий для {@link AccountDetailsEntity}
  */
-// TODO AccountDetailRepository переименуй в AccountDetailsRepository
-public interface AccountDetailRepository extends JpaRepository<AccountDetailsEntity, Long> {
+public interface AccountDetailsRepository extends JpaRepository<AccountDetailsEntity, Long> {
 }

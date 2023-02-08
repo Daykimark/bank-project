@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
     public UserDto findById(Long id) {
         final UserEntity user = repository.findById(id)
                 .orElseThrow(
-                        () -> logAndException(id)
+                        () -> getException(id)
                 );
 
         return mapper.toDTO(user);
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
     public UserDto update(Long id, UserDto userDto) {
         final UserEntity user = repository.findById(id)
                 .orElseThrow(
-                        () -> logAndException(id)
+                        () -> getException(id)
                 );
 
         final UserEntity updatedUser = repository.save(mapper.mergeToEntity(userDto, user));
@@ -68,26 +68,23 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * TODO Л измени на л
-     * @param ids Лист технических идентификаторов {@link UserEntity}
+     * @param ids лист технических идентификаторов {@link UserEntity}
      * @return {@link UserDto}
      */
     @Override
     public List<UserDto> findAllByIds(List<Long> ids) {
-        // TODO entities переименуй в users.
-        final List<UserEntity> entities = ids.stream()
+        final List<UserEntity> users = ids.stream()
                 .map(id -> repository.findById(id)
                         .orElseThrow(
-                                () -> logAndException(id))
+                                () -> getException(id))
                 )
                 .toList();
 
-        return mapper.toDtoList(entities);
+        return mapper.toDtoList(users);
     }
 
     // TODO как будет готов общий рест эксепшен хэндлер, удали логирование, этим будем хэндлер заниматься.
-    //  метод переименовать в getException.
-    private EntityNotFoundException logAndException(Long id) {
+    private EntityNotFoundException getException(Long id) {
         final var exception = new EntityNotFoundException(MESSAGE + id);
         log.error(exception.getMessage(), exception);
         return exception;

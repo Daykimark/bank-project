@@ -17,24 +17,20 @@ public interface UserService {
     UserDto findById(Long id);
 
     /**
-     * TODO userDto переименуй в user.
-     * @param userDto {@link UserDto}
+     * @param user {@link UserDto}
      * @return {@link UserDto}
      */
-    // TODO userDto переименуй в user.
-    UserDto save(UserDto userDto);
+    UserDto save(UserDto user);
 
     /**
      * @param id технический идентификатор {@link UserEntity}
-     * TODO userDto переименуй в user.
-     * @param userDto {@link UserDto}
+     * @param user {@link UserDto}
      * @return {@link UserDto}
      */
-    UserDto update(Long id, UserDto userDto);
+    UserDto update(Long id, UserDto user);
 
     /**
-     * TODO Л измени на л.
-     * @param ids Лист технических идентификаторов {@link UserEntity}
+     * @param ids лист технических идентификаторов {@link UserEntity}
      * @return {@link UserDto}
      */
     List<UserDto> findAllByIds(List<Long> ids);
