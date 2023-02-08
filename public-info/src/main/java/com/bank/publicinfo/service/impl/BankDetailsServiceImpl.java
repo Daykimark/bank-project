@@ -5,6 +5,7 @@ import com.bank.publicinfo.entity.BankDetailsEntity;
 import com.bank.publicinfo.mapper.BankDetailsMapper;
 import com.bank.publicinfo.repository.BankDetailsRepository;
 import com.bank.publicinfo.service.BankDetailsService;
+import com.bank.publicinfo.util.EntityNotFoundSupplier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,7 @@ public class BankDetailsServiceImpl implements BankDetailsService {
 
     private final BankDetailsRepository repository;
     private final BankDetailsMapper mapper;
-    // TODO notFoundIds переименовать supplierNotFound.
-    private final Supplier notFoundIds;
+    private final EntityNotFoundSupplier supplierNotFound;
 
     /**
      * @param ids список техничских идентификаторов {@link BankDetailsEntity}
@@ -34,7 +34,7 @@ public class BankDetailsServiceImpl implements BankDetailsService {
     @Override
     public List<BankDetailsDto> findAllById(List<Long> ids) {
         final List<BankDetailsEntity> bankDetails = repository.findAllById(ids);
-        notFoundIds.checkForSizeAndLogging(MESSAGE, ids, bankDetails);
+        supplierNotFound.checkForSizeAndLogging(MESSAGE, ids, bankDetails);
         return mapper.toDtoList(bankDetails);
     }
 
@@ -58,7 +58,7 @@ public class BankDetailsServiceImpl implements BankDetailsService {
     public BankDetailsDto update(Long id, BankDetailsDto bankDetails) {
         final BankDetailsEntity entity = repository.findById(id)
                 .orElseThrow(() -> (
-                        notFoundIds.loggingAndGet(MESSAGE, id)
+                        supplierNotFound.loggingAndGet(MESSAGE, id)
                 ));
 
         final BankDetailsEntity updatedDetails = mapper.mergeToEntity(bankDetails, entity);
@@ -72,6 +72,6 @@ public class BankDetailsServiceImpl implements BankDetailsService {
     @Override
     public BankDetailsDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                .orElseThrow(() -> notFoundIds.loggingAndGet(MESSAGE, id)));
+                .orElseThrow(() -> supplierNotFound.loggingAndGet(MESSAGE, id)));
     }
 }

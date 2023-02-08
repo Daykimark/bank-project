@@ -5,6 +5,7 @@ import com.bank.publicinfo.entity.CertificateEntity;
 import com.bank.publicinfo.mapper.CertificateMapper;
 import com.bank.publicinfo.repository.CertificateRepository;
 import com.bank.publicinfo.service.CertificateService;
+import com.bank.publicinfo.util.EntityNotFoundSupplier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,7 @@ public class CertificateServiceImpl implements CertificateService {
 
     private final CertificateRepository repository;
     private final CertificateMapper mapper;
-    // TODO notFoundIds переименовать supplierNotFound.
-    private final Supplier notFoundIds;
+    private final EntityNotFoundSupplier supplierNotFound;
 
     /**
      * @param ids список технических идентификаторов {@link CertificateEntity}
@@ -34,7 +34,7 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public List<CertificateDto> findAllById(List<Long> ids) {
         final List<CertificateEntity> certificates = repository.findAllById(ids);
-        notFoundIds.checkForSizeAndLogging(MESSAGE, ids, certificates);
+        supplierNotFound.checkForSizeAndLogging(MESSAGE, ids, certificates);
         return mapper.toDtoList(certificates);
     }
 
@@ -58,7 +58,7 @@ public class CertificateServiceImpl implements CertificateService {
     public CertificateDto update(Long id, CertificateDto certificate) {
         final CertificateEntity entity = repository.findById(id)
                 .orElseThrow(() -> (
-                        notFoundIds.loggingAndGet(MESSAGE, id)
+                        supplierNotFound.loggingAndGet(MESSAGE, id)
                 ));
 
         final CertificateEntity updatedCertificate = mapper.mergeToEntity(certificate, entity);
@@ -72,6 +72,6 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public CertificateDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                .orElseThrow(() -> notFoundIds.loggingAndGet(MESSAGE, id)));
+                .orElseThrow(() -> supplierNotFound.loggingAndGet(MESSAGE, id)));
     }
 }

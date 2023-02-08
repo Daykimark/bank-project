@@ -5,6 +5,7 @@ import com.bank.publicinfo.entity.AtmEntity;
 import com.bank.publicinfo.mapper.AtmMapper;
 import com.bank.publicinfo.repository.AtmRepository;
 import com.bank.publicinfo.service.AtmService;
+import com.bank.publicinfo.util.EntityNotFoundSupplier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,7 @@ public class AtmServiceImpl implements AtmService {
 
     private final AtmRepository repository;
     private final AtmMapper mapper;
-    // TODO notFoundIds переименовать supplierNotFound.
-    private final Supplier notFoundIds;
+    private final EntityNotFoundSupplier supplierNotFound;
 
 
     /**
@@ -35,7 +35,7 @@ public class AtmServiceImpl implements AtmService {
     @Override
     public List<AtmDto> findAllById(List<Long> ids) {
         final List<AtmEntity> atms = repository.findAllById(ids);
-        notFoundIds.checkForSizeAndLogging(MESSAGE, ids, atms);
+        supplierNotFound.checkForSizeAndLogging(MESSAGE, ids, atms);
         return mapper.toDtoList(atms);
     }
 
@@ -59,7 +59,7 @@ public class AtmServiceImpl implements AtmService {
     public AtmDto update(Long id, AtmDto atm) {
         final AtmEntity entity = repository.findById(id)
                 .orElseThrow(() -> (
-                        notFoundIds.loggingAndGet(MESSAGE, id)
+                        supplierNotFound.loggingAndGet(MESSAGE, id)
                 ));
 
         final AtmEntity updatedAtm = mapper.mergeToEntity(atm, entity);
@@ -73,6 +73,6 @@ public class AtmServiceImpl implements AtmService {
     @Override
     public AtmDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                .orElseThrow(() -> notFoundIds.loggingAndGet(MESSAGE, id)));
+                .orElseThrow(() -> supplierNotFound.loggingAndGet(MESSAGE, id)));
     }
 }

@@ -24,7 +24,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "bank_details", schema = "public_bank_information")
+@Table(name = "bank_details")
 public class BankDetailsEntity {
 
     @Id

@@ -5,6 +5,7 @@ import com.bank.publicinfo.entity.LicenseEntity;
 import com.bank.publicinfo.mapper.LicenseMapper;
 import com.bank.publicinfo.repository.LicenseRepository;
 import com.bank.publicinfo.service.LicenseService;
+import com.bank.publicinfo.util.EntityNotFoundSupplier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,7 @@ public class LicenseServiceImpl implements LicenseService {
 
     private final LicenseRepository repository;
     private final LicenseMapper mapper;
-    // TODO notFoundIds переименовать supplierNotFound.
-    private final Supplier notFoundIds;
+    private final EntityNotFoundSupplier supplierNotFound;
 
     /**
      * @param ids технический идентификатор {@link LicenseEntity}
@@ -34,7 +34,7 @@ public class LicenseServiceImpl implements LicenseService {
     @Override
     public List<LicenseDto> findAllById(List<Long> ids) {
         final List<LicenseEntity> licenses = repository.findAllById(ids);
-        notFoundIds.checkForSizeAndLogging(MESSAGE, ids, licenses);
+        supplierNotFound.checkForSizeAndLogging(MESSAGE, ids, licenses);
         return mapper.toDtoList(licenses);
     }
 
@@ -58,7 +58,7 @@ public class LicenseServiceImpl implements LicenseService {
     public LicenseDto update(Long id, LicenseDto license) {
         final LicenseEntity entity = repository.findById(id)
                 .orElseThrow(() -> (
-                        notFoundIds.loggingAndGet(MESSAGE, id)
+                        supplierNotFound.loggingAndGet(MESSAGE, id)
                 ));
 
         final LicenseEntity updatedLicense = mapper.mergeToEntity(license, entity);
@@ -72,6 +72,6 @@ public class LicenseServiceImpl implements LicenseService {
     @Override
     public LicenseDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                .orElseThrow(() -> notFoundIds.loggingAndGet(MESSAGE, id)));
+                .orElseThrow(() -> supplierNotFound.loggingAndGet(MESSAGE, id)));
     }
 }

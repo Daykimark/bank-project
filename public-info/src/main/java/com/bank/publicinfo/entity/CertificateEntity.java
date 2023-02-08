@@ -27,7 +27,7 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@Table(name = "certificate", schema = "public_bank_information")
+@Table(name = "certificate")
 public class CertificateEntity {
 
     @Id
