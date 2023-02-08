@@ -6,17 +6,20 @@ import org.springframework.stereotype.Component;
 import javax.persistence.EntityNotFoundException;
 
 /**
- * TODO возвращает {@link EntityNotFoundException}.
- * Сообщение об ошибке
+ * возвращает {@link EntityNotFoundException}.
  */
 @Slf4j
 @Component
 public class EntityNotFoundReturner {
-    // TODO удалить и оставить пустую строку.
+
+    /**
+     * @param id {@link String}
+     * @return {@link EntityNotFoundException}
+     */
     public EntityNotFoundException loggingAndGet(Long id, String message) {
 
         final EntityNotFoundException ex = new EntityNotFoundException(message + id);
-        // TODO как только общий рест хандлер будет готов, выпилить строку.
+        //  TODO как только общий рест хандлер будет готов, выпилить строку.
         log.error(ex.getMessage(), ex);
         return ex;
     }

@@ -15,8 +15,8 @@ import java.util.List;
 public interface PhoneTransferMapper {
 
     /**
-     * @param phoneTransfer {@link PhoneTransferEntity} TODO тут ссылка на PhoneTransferDto должна быть.
-     * @return {@link PhoneTransferDto}
+     * @param phoneTransfer {@link PhoneTransferDto}
+     * @return {@link PhoneTransferEntity}
      */
     @Mapping(target = "id", ignore = true)
     PhoneTransferEntity toEntity(PhoneTransferDto phoneTransfer);

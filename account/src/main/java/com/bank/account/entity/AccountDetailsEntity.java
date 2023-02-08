@@ -1,9 +1,11 @@
 package com.bank.account.entity;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.GeneratedValue;
@@ -22,31 +24,31 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "account_details", schema = "account")
-// TODO используй аннотацию @FieldDefaults(level = AccessLevel.PRIVATE) и в полях "private" удали.
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AccountDetailsEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    Long id;
 
     @Column(name = "passport_id", nullable = false)
-    private Long passportId;
+    Long passportId;
 
     @Column(name = "account_number", nullable = false)
-    private Long accountNumber;
+    Long accountNumber;
 
     @Column(name = "bank_details_id", nullable = false)
-    private Long bankDetailsId;
+    Long bankDetailsId;
 
     @Column(name = "money", nullable = false, precision = 20, scale = 2)
-    private BigDecimal money;
+    BigDecimal money;
 
     @Column(name = "negative_balance", nullable = false)
-    private Boolean negativeBalance;
+    Boolean negativeBalance;
 
     @Column(name = "profile_id", nullable = false)
-    private Long profileId;
+    Long profileId;
 
     @Override
     public boolean equals(Object o) {
@@ -71,5 +73,3 @@ public class AccountDetailsEntity {
         return Objects.hash(id, passportId, accountNumber, bankDetailsId, money, negativeBalance, profileId);
     }
 }
-
-// TODO удалить пустую строку.

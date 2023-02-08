@@ -14,17 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 import java.util.List;
 
 /**
  * Контроллер для {@link AccountDetailsEntity}
  */
-// TODO удалить пустую строку.
 @RestController
-// TODO "/detail" переименовать в "/details".
-@RequestMapping("/detail")
 @RequiredArgsConstructor
+@RequestMapping("/details")
 public class AccountDetailsController {
 
     private final AccountDetailsService service;
@@ -39,27 +36,23 @@ public class AccountDetailsController {
     }
 
     /**
-     * TODO "accountDetail" переименовать в "accountDetails".
-     * @param accountDetail - сущность для создания в виде {@link AccountDetailsDto}
+     * @param accountDetails - сущность для создания в виде {@link AccountDetailsDto}
      * @return {@link ResponseEntity<AccountDetailsDto>}
      */
     @PostMapping("/create")
-    // TODO "accountDetail" переименовать в "accountDetails".
-    public ResponseEntity<AccountDetailsDto> create(@RequestBody AccountDetailsDto accountDetail) {
-        return ResponseEntity.ok(service.save(accountDetail));
+    public ResponseEntity<AccountDetailsDto> create(@RequestBody AccountDetailsDto accountDetails) {
+        return ResponseEntity.ok(service.save(accountDetails));
     }
 
     /**
-     * TODO "accountDetail" переименовать в "accountDetails".
-     * @param accountDetail {@link AccountDetailsDto}
+     * @param accountDetails {@link AccountDetailsDto}
      * @param id технический идентификатор {@link AccountDetailsEntity}
      * @return {@link ResponseEntity<AccountDetailsDto>}
      */
     @PutMapping("/update/{id}")
     public ResponseEntity<AccountDetailsDto> update(@PathVariable Long id,
-                                                    // TODO "accountDetail" переименовать в "accountDetails".
-                                                   @RequestBody AccountDetailsDto accountDetail) {
-        return ResponseEntity.ok(service.update(id, accountDetail));
+                                                   @RequestBody AccountDetailsDto accountDetails) {
+        return ResponseEntity.ok(service.update(id, accountDetails));
     }
 
     /**

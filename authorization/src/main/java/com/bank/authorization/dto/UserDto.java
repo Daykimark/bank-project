@@ -17,6 +17,7 @@ import java.util.Objects;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// TODO добавь @FieldDefaults(level = AccessLevel.PRIVATE) и модификатор private удали в полях
 public class UserDto implements Serializable {
 
     private Long id;

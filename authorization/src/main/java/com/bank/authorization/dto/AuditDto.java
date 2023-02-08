@@ -17,6 +17,7 @@ import java.sql.Timestamp;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+// TODO добавь @FieldDefaults(level = AccessLevel.PRIVATE) и модификатор private удали в полях
 public class AuditDto implements Serializable {
 
     private Long id;
@@ -29,10 +30,12 @@ public class AuditDto implements Serializable {
 
     @NotNull
     private String createdBy;
+
     private String modifiedBy;
 
     @NotNull
     private Timestamp createdAt;
+
     private Timestamp modifiedAt;
 
     private String newEntityJson;

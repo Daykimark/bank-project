@@ -15,8 +15,8 @@ import java.util.List;
 public interface AccountTransferMapper {
 
     /**
-     * @param accountTransfer {@link AccountTransferEntity} TODO тут ссылка на AccountTransferDto должна быть.
-     * @return {@link AccountTransferDto}
+     * @param accountTransfer {@link AccountTransferDto}
+     * @return {@link AccountTransferEntity}
      */
     @Mapping(target = "id", ignore = true)
     AccountTransferEntity toEntity(AccountTransferDto accountTransfer);
