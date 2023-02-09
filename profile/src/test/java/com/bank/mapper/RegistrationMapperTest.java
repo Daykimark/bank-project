@@ -3,66 +3,70 @@ package com.bank.mapper;
 import com.bank.AbstractTest;
 import com.bank.dto.RegistrationDto;
 import com.bank.entity.RegistrationEntity;
-import com.bank.supplier.MapperTestSupplier;
+import com.bank.supplier.DtoSupplier;
+import com.bank.supplier.EntitySupplier;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class RegistrationMapperTest extends AbstractTest {
 
-    private final static MapperTestSupplier supplier = new MapperTestSupplier();
+    private static EntitySupplier supplier1;
 
-    private final RegistrationMapperImpl mapper = new RegistrationMapperImpl();
+    private static DtoSupplier supplier2;
 
-    private static RegistrationEntity testEntity;
+    private static RegistrationMapperImpl mapper;
 
-    private static RegistrationDto testDto;
+    private static RegistrationEntity registration1;
+
+    private static RegistrationDto registration2;
 
     @BeforeAll
     static void setUp() {
-        testEntity = new RegistrationEntity();
-        testDto = new RegistrationDto();
+        supplier1 = new EntitySupplier();
+        supplier2 = new DtoSupplier();
+        mapper = new RegistrationMapperImpl();
 
-        supplier.setUpRegistrationMapper(testEntity, testDto);
+        registration1 = supplier1.getRegistration(1L,
+                "Russia", "Mos", "Moso", "Some", "Soe",
+                "OOO", "28838", "dhh", "2888", 28L);
+        registration2 = supplier2.getRegistration(1L,
+                "Russia", "Mos", "Moso", "Some", "Soe",
+                "OOO", "28838", "dhh", "2888", 28L);
     }
 
     @Test
     @DisplayName("Тест из Entity в Dto")
-    void toEntity() {
-        assertThat(mapper.toEntity(testDto)).isEqualTo(testEntity);
+    void toEntityTest() {
+        assertEquals(mapper.toEntity(registration2), registration1);
     }
 
     @Test
     @DisplayName("Тест из Dto в Entity")
-    void toDto() {
-        assertThat(mapper.toDto(testEntity)).isEqualTo(testDto);
+    void toDtoTest() {
+        assertEquals(mapper.toDto(registration1), registration2);
     }
 
     @Test
     @DisplayName("Тест из листа Entity в лист Dto")
-    void toDtoList() {
-        List<RegistrationEntity> entities = new ArrayList<>();
-        entities.add(testEntity);
-        entities.add(new RegistrationEntity());
+    void toDtoListTest() {
+        List<RegistrationEntity> registrations = List.of(registration1, new RegistrationEntity());
 
-        List<RegistrationDto> dtoes = new ArrayList<>();
-        dtoes.add(testDto);
-        dtoes.add(new RegistrationDto());
+        List<RegistrationDto> registrationDtoes = List.of(registration2, new RegistrationDto());
 
-        assertThat(mapper.toDtoList(entities)).isEqualTo(dtoes);
+        assertEquals(mapper.toDtoList(registrations), registrationDtoes);
     }
 
     @Test
     @DisplayName("Обновление Entity на базе Dto")
     void mergeToEntity() {
-        RegistrationEntity entity = new RegistrationEntity();
-        testEntity.setId(null);
-        assertThat(mapper.mergeToEntity(entity, testDto)).isEqualTo(testEntity);
-        supplier.setUpRegistrationMapper(testEntity, testDto);
+        RegistrationEntity registration3 = new RegistrationEntity();
+        registration1.setId(null);
+        assertEquals(mapper.mergeToEntity(registration3, registration2), registration1);
+        registration1.setId(1L);
     }
 }

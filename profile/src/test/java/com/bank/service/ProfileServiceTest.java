@@ -6,7 +6,7 @@ import com.bank.entity.ProfileEntity;
 import com.bank.mapper.ProfileMapperImpl;
 import com.bank.repository.ProfileRepository;
 import com.bank.service.impl.ProfileServiceImpl;
-import com.bank.supplier.ServiceTestSupplier;
+import com.bank.supplier.EntitySupplier;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,20 +15,20 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doReturn;
 
 
 public class ProfileServiceTest extends AbstractTest {
 
     @Mock
-    private ProfileRepository rep;
+    private ProfileRepository repository;
 
     @Spy
     private ProfileMapperImpl mapper;
@@ -42,62 +42,81 @@ public class ProfileServiceTest extends AbstractTest {
 
     @BeforeAll
     static void setUp() {
-        profile1 = new ProfileEntity();
-        profile2 = new ProfileEntity();
+        EntitySupplier supplier = new EntitySupplier();
 
-        ServiceTestSupplier supplier = new ServiceTestSupplier();
+        profile1 = supplier.getProfile(1L, 11L, "Hello@mail.ru", "JENYA", 88L,
+                90L, supplier.getPassport(1L, 12, 37882L, "lol", "john",
+                        "NO", "MUZ", LocalDate.MIN, "Moscow", "NOtrouble",
+                        LocalDate.MIN, 72, LocalDate.MIN, supplier.getRegistration(1L,
+                                "Russia", "Mos", "Moso", "Some", "Soe",
+                                "OOO", "28838", "dhh", "2888", 28L)),
+                supplier.getActualRegistration(1L, "Russia", "Mos", "Moscow", "Hjs",
+                        "Sone", "Some", "Some", "322", "22", 2L));
 
-        supplier.setUpProfileService(profile1, profile2);
+        profile2 = supplier.getProfile(2L, 11L, "Hello@mail.ru", "JENYA", 88L,
+                90L, supplier.getPassport(2L, 12, 37882L, "lol", "john",
+                        "NO", "MUZ", LocalDate.MIN, "Moscow", "NOtrouble",
+                        LocalDate.MIN, 72, LocalDate.MIN, supplier.getRegistration(2L,
+                                "Russia", "Mos", "Moso", "Some", "Soe",
+                                "OOO", "28838", "dhh", "2888", 28L)),
+                supplier.getActualRegistration(2L, "Russia", "Mos", "Moscow", "Hjs",
+                        "Sone", "Some", "Some", "322", "22", 2L));
+
     }
 
     @Test
     @DisplayName("Создание объекта")
     void saveTest() {
+        doReturn(profile2).when(repository).save(any(ProfileEntity.class));
+
         ProfileDto profileDto = mapper.toDto(profile2);
-        when(rep.save(any(ProfileEntity.class))).thenReturn(profile2);
-        assertThat(service.save(profileDto)).isEqualTo(profileDto);
+
+        assertEquals(service.save(profileDto), profileDto);
     }
 
     @Test
     @DisplayName("Поиск по списку айди")
     void findAllByIdTest() {
-        List<Long> ids = new ArrayList<>();
-        ids.add(1L);
-        ids.add(2L);
-        List<ProfileDto> listOfDto = List.of(mapper.toDto(profile1), mapper.toDto(profile2));
-        when(rep.findAllById(any())).thenReturn(List.of(profile1, profile2));
-        assertThat(service.findAllById(ids)).isEqualTo(listOfDto);
+        doReturn(List.of(profile1, profile2)).when(repository).findAllById(any());
+
+        List<Long> ids = List.of(1L, 2L);
+        List<ProfileDto> profiles = List.of(mapper.toDto(profile1),
+                mapper.toDto(profile2));
+
+        assertEquals(service.findAllById(ids), profiles);
     }
 
     @Test
     @DisplayName("Поиск по списку айди должен кинуть исключение если один из пользователей не найден")
     void findAllByIdShouldThrowExceptionIfOneOfIdsDoesntExistTest() {
-        List<Long> ids = new ArrayList<>();
-        ids.add(1L);
-        ids.add(2L);
-        ids.add(3L);
-        when(rep.findAllById(any())).thenReturn(List.of(profile1, profile2));
+        doReturn(List.of(profile1, profile2)).when(repository).findAllById(any());
+
+        List<Long> ids = List.of(1L, 2L, 3L);
+
         assertThrows(EntityNotFoundException.class, () -> service.findAllById(ids));
     }
 
     @Test
     @DisplayName("Поиск по одному айди")
-    void findById() {
-        when(rep.findById(2L)).thenReturn(Optional.of(profile2));
-        assertThat(service.findById(2L)).isEqualTo(mapper.toDto(profile2));
+    void findByIdTest() {
+        doReturn(Optional.of(profile2)).when(repository).findById(2L);
+
+        assertEquals(service.findById(2L), mapper.toDto(profile2));
     }
 
     @Test
     @DisplayName("Поиск по одному айди должен кинуть исключение если айди не найден")
     void getByIdShouldThrowExceptionIfOneOfIdsDoesntExistTest() {
-        when(rep.findById(3L)).thenReturn(Optional.empty());
+        doReturn(Optional.empty()).when(repository).findById(3L);
+
         assertThrows(EntityNotFoundException.class, () -> service.findById(3L));
     }
 
     @Test
     @DisplayName("Обновление должно кинуть исключение если обновляемой сущности не существует")
     void updateShouldThrowExceptionIfOneOfIdsDoesntExistTest() {
-        when(rep.findById(3L)).thenReturn(Optional.empty());
+        doReturn(Optional.empty()).when(repository).findById(3L);
+
         assertThrows(EntityNotFoundException.class, () -> service.update(3L, mapper.toDto(profile1)));
     }
 }

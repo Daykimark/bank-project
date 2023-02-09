@@ -3,67 +3,77 @@ package com.bank.mapper;
 import com.bank.AbstractTest;
 import com.bank.dto.PassportDto;
 import com.bank.entity.PassportEntity;
-import com.bank.supplier.MapperTestSupplier;
+import com.bank.supplier.DtoSupplier;
+import com.bank.supplier.EntitySupplier;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
+import java.time.LocalDate;
 import java.util.List;
 
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PassportMapperTest extends AbstractTest {
 
-    private static final MapperTestSupplier  supplier = new MapperTestSupplier();
+    private static EntitySupplier supplier1;
 
-    private final PassportMapperImpl mapper = new PassportMapperImpl();
+    private static DtoSupplier supplier2;
 
-    private static PassportEntity testEntity;
+    private static PassportMapperImpl mapper;
 
-    private static PassportDto testDto;
+    private static PassportEntity passport1;
+
+    private static PassportDto passport2;
 
     @BeforeAll
     static void setUp() {
-        testEntity = new PassportEntity();
-        testDto = new PassportDto();
+        supplier1 = new EntitySupplier();
+        supplier2 = new DtoSupplier();
+        mapper = new PassportMapperImpl();
 
-        supplier.setUpPassportMapper(testEntity, testDto);
+        passport1 = supplier1.getPassport(1L, 12, 37882L, "lol", "john",
+                "NO", "MUZ", LocalDate.MIN, "Moscow", "NOtrouble",
+                LocalDate.MIN, 72, LocalDate.MIN, supplier1.getRegistration(1L,
+                        "Russia", "Mos", "Moso", "Some", "Soe",
+                        "OOO", "28838", "dhh", "2888", 28L));
+        passport2 = supplier2.getPassport(1L, 12, 37882L, "lol", "john",
+                "NO", "MUZ", LocalDate.MIN, "Moscow", "NOtrouble",
+                LocalDate.MIN, 72, LocalDate.MIN, supplier2.getRegistration(1L,
+                        "Russia", "Mos", "Moso", "Some", "Soe",
+                        "OOO", "28838", "dhh", "2888", 28L));
     }
 
     @Test
     @DisplayName("Тест из Entity в Dto")
-    void toEntity() {
-        assertThat(mapper.toEntity(testDto)).isEqualTo(testEntity);
+    void toEntityTest() {
+        assertEquals(mapper.toEntity(passport2), passport1);
     }
 
     @Test
     @DisplayName("Тест из Dto в Entity")
-    void toDto() {
-        assertThat(mapper.toDto(testEntity)).isEqualTo(testDto);
+    void toDtoTest() {
+        assertEquals(mapper.toDto(passport1), passport2);
     }
 
     @Test
     @DisplayName("Тест из листа Entity в лист Dto")
-    void toDtoList() {
-        List<PassportEntity> entities = new ArrayList<>();
-        entities.add(testEntity);
-        entities.add(new PassportEntity());
+    void toDtoListTest() {
+        List<PassportEntity> passports = List.of(passport1, new PassportEntity());
 
-        List<PassportDto> dtoes = new ArrayList<>();
-        dtoes.add(testDto);
-        dtoes.add(new PassportDto());
+        List<PassportDto> passportDtoes = List.of(passport2, new PassportDto());
 
-        assertThat(mapper.toDtoList(entities)).isEqualTo(dtoes);
+        assertEquals(mapper.toDtoList(passports), passportDtoes);
     }
 
     @Test
     @DisplayName("Обновление Entity на базе Dto")
     void mergeToEntity() {
-        PassportEntity entity = new PassportEntity();
-        testEntity.setId(null);
-        testEntity.getRegistration().setId(null);
-        assertThat(mapper.mergeToEntity(entity, testDto)).isEqualTo(testEntity);
-        supplier.setUpPassportMapper(testEntity, testDto);
+        PassportEntity passport3 = new PassportEntity();
+        passport1.setId(null);
+        passport1.getRegistration().setId(null);
+        assertEquals(mapper.mergeToEntity(passport3, passport2), passport1);
+        passport1.setId(1L);
+        passport1.getRegistration().setId(1L);
     }
 }

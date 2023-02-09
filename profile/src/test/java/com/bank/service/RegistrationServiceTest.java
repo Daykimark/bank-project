@@ -6,7 +6,7 @@ import com.bank.entity.RegistrationEntity;
 import com.bank.mapper.RegistrationMapperImpl;
 import com.bank.repository.RegistrationRepository;
 import com.bank.service.impl.RegistrationServiceImpl;
-import com.bank.supplier.ServiceTestSupplier;
+import com.bank.supplier.EntitySupplier;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,19 +15,18 @@ import org.mockito.Mock;
 import org.mockito.Spy;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.doReturn;
 
 public class RegistrationServiceTest extends AbstractTest {
 
     @Mock
-    private RegistrationRepository rep;
+    private RegistrationRepository repository;
 
     @Spy
     private RegistrationMapperImpl mapper;
@@ -41,62 +40,69 @@ public class RegistrationServiceTest extends AbstractTest {
 
     @BeforeAll
     static void setUp() {
-        ServiceTestSupplier supplier = new ServiceTestSupplier();
+        EntitySupplier supplier = new EntitySupplier();
 
-        registration1 = new RegistrationEntity();
-        registration2 = new RegistrationEntity();
+        registration1 = supplier.getRegistration(1L,
+                "Russia", "Mos", "Moso", "Some", "Soe",
+                "OOO", "28838", "dhh", "2888", 28L);
 
-        supplier.setUpRegistrationService(registration1, registration2);
+        registration2 = supplier.getRegistration(2L,
+                "Russia", "Mos", "Moso", "Some", "Soe",
+                "OOO", "28838", "dhh", "2888", 28L);
     }
 
     @Test
     @DisplayName("Создание объекта")
     void saveTest() {
+        doReturn(registration2).when(repository).save(any(RegistrationEntity.class));
+
         RegistrationDto registrationDto = mapper.toDto(registration2);
-        when(rep.save(any(RegistrationEntity.class))).thenReturn(registration2);
-        assertThat(service.save(registrationDto)).isEqualTo(registrationDto);
+
+        assertEquals(service.save(registrationDto), registrationDto);
     }
 
     @Test
     @DisplayName("Поиск по списку айди")
     void findAllByIdTest() {
-        List<Long> ids = new ArrayList<>();
-        ids.add(1L);
-        ids.add(2L);
-        List<RegistrationDto> listOfDto = List.of(mapper.toDto(registration1), mapper.toDto(registration2));
-        when(rep.findAllById(any())).thenReturn(List.of(registration1, registration2));
-        assertThat(service.findAllById(ids)).isEqualTo(listOfDto);
+        doReturn(List.of(registration1, registration2)).when(repository).findAllById(any());
+
+        List<Long> ids = List.of(1L, 2L);
+        List<RegistrationDto> registrations = List.of(mapper.toDto(registration1), mapper.toDto(registration2));
+
+        assertEquals(service.findAllById(ids), registrations);
     }
 
     @Test
     @DisplayName("Поиск по списку айди должен кинуть исключение если один из пользователей не найден")
     void findAllByIdShouldThrowExceptionIfOneOfIdsDoesntExistTest() {
-        List<Long> ids = new ArrayList<>();
-        ids.add(1L);
-        ids.add(2L);
-        ids.add(3L);
-        when(rep.findAllById(any())).thenReturn(List.of(registration1, registration2));
+        doReturn(List.of(registration1, registration2)).when(repository).findAllById(any());
+
+        List<Long> ids = List.of(1L, 2L, 3L);
+
         assertThrows(EntityNotFoundException.class, () -> service.findAllById(ids));
     }
 
     @Test
     @DisplayName("Поиск по одному айди")
-    void findById() {
-        when(rep.findById(2L)).thenReturn(Optional.of(registration2));
-        assertThat(service.findById(2L)).isEqualTo(mapper.toDto(registration2));
+    void findByIdTest() {
+        doReturn(Optional.of(registration2)).when(repository).findById(2L);
+
+        assertEquals(service.findById(2L), mapper.toDto(registration2));
     }
 
     @Test
     @DisplayName("Поиск по одному айди должен кинуть исключение если айди не найден")
     void getByIdShouldThrowExceptionIfOneOfIdsDoesntExistTest() {
-        when(rep.findById(3L)).thenReturn(Optional.empty());
+        doReturn(Optional.empty()).when(repository).findById(3L);
+
         assertThrows(EntityNotFoundException.class, () -> service.findById(3L));
     }
 
     @Test
     @DisplayName("Обновление должно кинуть исключение если обновляемой сущности не существует")
     void updateShouldThrowExceptionIfOneOfIdsDoesntExistTest() {
-        when(rep.findById(3L)).thenReturn(Optional.empty());
+        doReturn(Optional.empty()).when(repository).findById(3L);
+
         assertThrows(EntityNotFoundException.class, () -> service.update(3L, mapper.toDto(registration1)));
     }
 }
