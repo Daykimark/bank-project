@@ -1,7 +1,7 @@
 package com.bank.mapper;
 
 import com.bank.dto.ProfileDto;
-import com.bank.model.ProfileEntity;
+import com.bank.entity.ProfileEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -10,8 +10,7 @@ import org.mapstruct.Mappings;
 import java.util.List;
 
 /**
- * TODO Маппер переименуй в Mapper.
- * Маппер для {@link ProfileEntity} и {@link ProfileDto}
+ * Mapper для {@link ProfileEntity} и {@link ProfileDto}
  */
 @Mapper(componentModel = "spring")
 public interface ProfileMapper {
@@ -35,22 +34,15 @@ public interface ProfileMapper {
     List<ProfileDto> toDtoList(List<ProfileEntity> profiles);
 
     /**
-     * TODO после исправления предпоследнего todo исправь javadoc.
-     * @param profileEntity {@link ProfileEntity}
+     * @param profile {@link ProfileEntity}
      * @param profileDto {@link ProfileDto}
      * @return {@link ProfileEntity}
      */
     @Mappings({
-            // TODO source удалить
-            @Mapping(target = "id", source = "id", ignore = true),
-            // TODO source удалить
-            @Mapping(target = "passport.id", source = "passport.id", ignore = true),
-            // TODO source удалить
-            @Mapping(target = "passport.registration.id", source = "passport.registration.id", ignore = true),
-            // TODO source удалить
-            @Mapping(target = "actualRegistration.id", source = "actualRegistration.id", ignore = true)
+            @Mapping(target = "id", ignore = true),
+            @Mapping(target = "passport.id", ignore = true),
+            @Mapping(target = "passport.registration.id", ignore = true),
+            @Mapping(target = "actualRegistration.id", ignore = true)
     })
-    // TODO updateEntity переименуй в mergeToEntity. profileEntity переименовать в profile
-    ProfileEntity updateEntity(@MappingTarget ProfileEntity profileEntity, // TODO перенести 53 строку сюда.
-                                        ProfileDto profileDto);
+    ProfileEntity mergeToEntity(@MappingTarget ProfileEntity profile, ProfileDto profileDto);
 }

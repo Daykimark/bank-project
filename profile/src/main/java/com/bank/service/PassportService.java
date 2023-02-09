@@ -1,7 +1,7 @@
 package com.bank.service;
 
 import com.bank.dto.PassportDto;
-import com.bank.model.PassportEntity;
+import com.bank.entity.PassportEntity;
 
 import java.util.List;
 

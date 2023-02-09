@@ -1,7 +1,7 @@
 package com.bank.service;
 
 import com.bank.dto.RegistrationDto;
-import com.bank.model.RegistrationEntity;
+import com.bank.entity.RegistrationEntity;
 
 import java.util.List;
 

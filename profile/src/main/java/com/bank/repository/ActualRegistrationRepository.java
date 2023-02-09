@@ -1,6 +1,6 @@
 package com.bank.repository;
 
-import com.bank.model.ActualRegistrationEntity;
+import com.bank.entity.ActualRegistrationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

@@ -1,7 +1,7 @@
 package com.bank.controller;
 
 import com.bank.dto.RegistrationDto;
-import com.bank.model.RegistrationEntity;
+import com.bank.entity.RegistrationEntity;
 import com.bank.service.RegistrationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,10 +39,8 @@ public class RegistrationController {
      * @param registration {@link RegistrationDto}
      * @return {@link ResponseEntity<RegistrationDto>}
      */
-    //TODO save переименуй в create.
-    @PostMapping("/save")
-    //TODO save переименуй в create.
-    public ResponseEntity<RegistrationDto> save(@RequestBody RegistrationDto registration) {
+    @PostMapping("/create")
+    public ResponseEntity<RegistrationDto> create(@RequestBody RegistrationDto registration) {
         return ResponseEntity.ok(service.save(registration));
     }
 
@@ -58,8 +56,7 @@ public class RegistrationController {
 
     /**
      * @param ids лист технических идентификаторов {@link RegistrationEntity}
-     * TODO удали "листом".
-     * @return {@link ResponseEntity} с листом {@link List<RegistrationDto>}
+     * @return {@link ResponseEntity} {@link List<RegistrationDto>}
      */
     @GetMapping("read/all")
     public ResponseEntity<List<RegistrationDto>> readAllById(@RequestParam List<Long> ids) {

@@ -1,7 +1,7 @@
 package com.bank.service;
-// TODO в пакете service создай пакет impl и туда перенеси все реализации.
+
 import com.bank.dto.AccountDetailsIdDto;
-import com.bank.model.AccountDetailsIdEntity;
+import com.bank.entity.AccountDetailsIdEntity;
 
 import java.util.List;
 

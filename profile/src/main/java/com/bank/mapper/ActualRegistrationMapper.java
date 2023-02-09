@@ -1,7 +1,7 @@
 package com.bank.mapper;
 
 import com.bank.dto.ActualRegistrationDto;
-import com.bank.model.ActualRegistrationEntity;
+import com.bank.entity.ActualRegistrationEntity;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
@@ -9,8 +9,7 @@ import org.mapstruct.MappingTarget;
 import java.util.List;
 
 /**
- * TODO Маппер переименуй в Mapper.
- * Маппер для {@link ActualRegistrationEntity} и {@link ActualRegistrationDto}
+ * Mapper для {@link ActualRegistrationEntity} и {@link ActualRegistrationDto}
  */
 @Mapper(componentModel = "spring")
 public interface ActualRegistrationMapper {
@@ -34,14 +33,11 @@ public interface ActualRegistrationMapper {
     List<ActualRegistrationDto> toDtoList(List<ActualRegistrationEntity> actualRegistrations);
 
     /**
-     * TODO после исправления последнего todo исправь javadoc.
-     * @param actualRegistrationEntity {@link ActualRegistrationEntity}
+     * @param actualRegistration {@link ActualRegistrationEntity}
      * @param actualRegistrationDto {@link ActualRegistrationDto}
      * @return {@link ActualRegistrationEntity}
      */
-    // TODO source удалить
-    @Mapping(target = "id", source = "id", ignore = true)
-    // TODO updateEntity переименуй в mergeToEntity. actualRegistrationEntity переименовать в actualRegistration
-    ActualRegistrationEntity updateEntity(@MappingTarget ActualRegistrationEntity actualRegistrationEntity,
+    @Mapping(target = "id", ignore = true)
+    ActualRegistrationEntity mergeToEntity(@MappingTarget ActualRegistrationEntity actualRegistration,
                                         ActualRegistrationDto actualRegistrationDto);
 }

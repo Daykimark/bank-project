@@ -1,6 +1,6 @@
 package com.bank.repository;
 
-import com.bank.model.AccountDetailsIdEntity;
+import com.bank.entity.AccountDetailsIdEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
