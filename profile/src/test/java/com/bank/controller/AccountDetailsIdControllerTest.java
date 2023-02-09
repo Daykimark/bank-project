@@ -29,8 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(AccountDetailsIdController.class)
 class AccountDetailsIdControllerTest extends AbstractTest {
 
-    private static DtoSupplier supplier;
-
     @MockBean
     private AccountDetailsIdServiceImpl service;
 
@@ -43,7 +41,7 @@ class AccountDetailsIdControllerTest extends AbstractTest {
 
     @BeforeAll
     static void setUp() {
-        supplier = new DtoSupplier();
+        DtoSupplier supplier = new DtoSupplier();
 
         accountDetailsId1 = supplier.getAccountDetailsId(1L, 1L,
                 supplier.getProfile(1L, 11L, "Hello@mail.ru", "JENYA", 88L,

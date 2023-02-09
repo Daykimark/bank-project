@@ -29,8 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(ProfileController.class)
 class ProfileControllerTest extends AbstractTest {
 
-    private static DtoSupplier supplier;
-
     @MockBean
     private ProfileServiceImpl service;
 
@@ -43,7 +41,7 @@ class ProfileControllerTest extends AbstractTest {
 
     @BeforeAll
     static void setUp() {
-        supplier = new DtoSupplier();
+        DtoSupplier supplier = new DtoSupplier();
 
         profile1 = supplier.getProfile(1L, 11L, "Hello@mail.ru", "JENYA", 88L,
                 90L, supplier.getPassport(1L, 89, 37882L, "lol", "john",

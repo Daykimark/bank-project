@@ -16,10 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ProfileMapperTest extends AbstractTest {
 
-    private static EntitySupplier supplier1;
-
-    private static DtoSupplier supplier2;
-
     private static ProfileMapperImpl mapper;
 
     private static ProfileEntity profile1;
@@ -28,8 +24,8 @@ class ProfileMapperTest extends AbstractTest {
 
     @BeforeAll
     static void setUp() {
-        supplier1 = new EntitySupplier();
-        supplier2 = new DtoSupplier();
+        EntitySupplier supplier1 = new EntitySupplier();
+        DtoSupplier supplier2 = new DtoSupplier();
         mapper = new ProfileMapperImpl();
 
         profile1 = supplier1.getProfile(1L, 11L, "Hello@mail.ru", "JENYA", 88L,

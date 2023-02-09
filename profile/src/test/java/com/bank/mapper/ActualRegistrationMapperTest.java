@@ -15,10 +15,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class ActualRegistrationMapperTest extends AbstractTest {
 
-    private static EntitySupplier supplier1;
-
-    private static DtoSupplier supplier2;
-
     private static ActualRegistrationMapperImpl mapper;
 
     private static ActualRegistrationEntity actualRegistration1;
@@ -27,8 +23,8 @@ class ActualRegistrationMapperTest extends AbstractTest {
 
     @BeforeAll
     static void setUp() {
-        supplier1 = new EntitySupplier();
-        supplier2 = new DtoSupplier();
+        EntitySupplier supplier1 = new EntitySupplier();
+        DtoSupplier supplier2 = new DtoSupplier();
         mapper = new ActualRegistrationMapperImpl();
 
         actualRegistration1 = supplier1.getActualRegistration(1L, "Russia", "Mos", "Moscow",

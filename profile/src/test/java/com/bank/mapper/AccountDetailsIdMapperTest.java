@@ -17,10 +17,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class AccountDetailsIdMapperTest extends AbstractTest {
 
-    private static EntitySupplier supplier1;
-
-    private static DtoSupplier supplier2;
-
     private static AccountDetailsIdMapperImpl mapper;
 
     private static AccountDetailsIdEntity accountDetailsId1;
@@ -29,8 +25,8 @@ class AccountDetailsIdMapperTest extends AbstractTest {
 
     @BeforeAll
     static void setUp() {
-        supplier1 = new EntitySupplier();
-        supplier2 = new DtoSupplier();
+        EntitySupplier supplier1 = new EntitySupplier();
+        DtoSupplier supplier2 = new DtoSupplier();
         mapper = new AccountDetailsIdMapperImpl();
 
         accountDetailsId1 = supplier1.getAccountDetailsId(1L, 1L,

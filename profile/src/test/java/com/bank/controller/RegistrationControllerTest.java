@@ -28,8 +28,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(RegistrationController.class)
 class RegistrationControllerTest extends AbstractTest {
 
-    private static DtoSupplier supplier;
-
     @MockBean
     private RegistrationServiceImpl service;
 
@@ -42,7 +40,7 @@ class RegistrationControllerTest extends AbstractTest {
 
     @BeforeAll
     static void setUp() {
-        supplier = new DtoSupplier();
+        DtoSupplier supplier = new DtoSupplier();
 
         registration1 = supplier.getRegistration(1L,
                 "Russia", "Mos", "Moso", "Some", "Soe",

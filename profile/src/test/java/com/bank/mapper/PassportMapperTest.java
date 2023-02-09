@@ -16,10 +16,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class PassportMapperTest extends AbstractTest {
 
-    private static EntitySupplier supplier1;
-
-    private static DtoSupplier supplier2;
-
     private static PassportMapperImpl mapper;
 
     private static PassportEntity passport1;
@@ -28,8 +24,8 @@ class PassportMapperTest extends AbstractTest {
 
     @BeforeAll
     static void setUp() {
-        supplier1 = new EntitySupplier();
-        supplier2 = new DtoSupplier();
+        EntitySupplier supplier1 = new EntitySupplier();
+        DtoSupplier supplier2 = new DtoSupplier();
         mapper = new PassportMapperImpl();
 
         passport1 = supplier1.getPassport(1L, 12, 37882L, "lol", "john",
