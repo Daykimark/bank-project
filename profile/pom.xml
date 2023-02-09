@@ -16,7 +16,15 @@
 
     <properties>
         <java.version>17</java.version>
+        <eureka.client.version>2.2.5.RELEASE</eureka.client.version>
     </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency>
+    </dependencies>
 
     <build>
         <plugins>
