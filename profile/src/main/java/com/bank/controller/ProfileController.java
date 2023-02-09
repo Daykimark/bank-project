@@ -1,7 +1,7 @@
 package com.bank.controller;
 
 import com.bank.dto.ProfileDto;
-import com.bank.model.ProfileEntity;
+import com.bank.entity.ProfileEntity;
 import com.bank.service.ProfileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,10 +39,8 @@ public class ProfileController {
      * @param profile {@link ProfileDto}
      * @return {@link ResponseEntity<ProfileDto>}
      */
-    //TODO save переименуй в create.
-    @PostMapping("/save")
-    //TODO save переименуй в create.
-    public ResponseEntity<ProfileDto> save(@RequestBody ProfileDto profile) {
+    @PostMapping("/create")
+    public ResponseEntity<ProfileDto> create(@RequestBody ProfileDto profile) {
         return ResponseEntity.ok(service.save(profile));
     }
 
@@ -58,7 +56,7 @@ public class ProfileController {
 
     /**
      * @param ids лист технических идентификаторов {@link ProfileEntity}
-     * @return {@link ResponseEntity} с листом {@link List<ProfileDto>}
+     * @return {@link ResponseEntity} {@link List<ProfileDto>}
      */
     @GetMapping("read/all")
     public ResponseEntity<List<ProfileDto>> readAllById(@RequestParam List<Long> ids) {

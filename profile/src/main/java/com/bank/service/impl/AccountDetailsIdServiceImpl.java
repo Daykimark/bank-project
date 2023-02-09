@@ -1,13 +1,14 @@
-package com.bank.service;
+package com.bank.service.impl;
 
 import com.bank.dto.AccountDetailsIdDto;
+import com.bank.entity.AccountDetailsIdEntity;
+import com.bank.exceptionManager.ExceptionManager;
 import com.bank.mapper.AccountDetailsIdMapper;
-import com.bank.model.AccountDetailsIdEntity;
 import com.bank.repository.AccountDetailsIdRepository;
+import com.bank.service.AccountDetailsIdService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
-    // TODO удали и оставь пустую строку.
+    
     private final AccountDetailsIdRepository repository;
     private final AccountDetailsIdMapper mapper;
 
@@ -28,10 +29,10 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
     @Override
     public AccountDetailsIdDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                    .orElseThrow(() ->
-                            // TODO функционал по выкидыванию эксепшена так же дублируется, так же вынести в один класс
-                            //  сделай общий класс в которой и if нижний и возврат эксепшена.
-                                new EntityNotFoundException("Сущность AccountDetailsId с айди " + id + " не найдена"))
+                .orElseThrow(() ->
+                        ExceptionManager
+                                .getEntityNotFoundException(
+                                        "Сущности АccountDetailsId с айди " + id + " не найдено"))
         );
     }
 
@@ -42,11 +43,9 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
     @Override
     public List<AccountDetailsIdDto> findAllById(List<Long> ids) {
         final List<AccountDetailsIdEntity> accountDetailsIds = repository.findAllById(ids);
-        // TODO вынести в отдельный класс эту проверку, так как дублируется функционал в разных impl.
-        if (accountDetailsIds.size() < ids.size()) {
-            throw new EntityNotFoundException("Одной или нескольких сущностей" +
-                    " AccountDetailsId с такими айди не существует " + ids);
-        }
+
+        ExceptionManager.getEntityNotFoundException(ids.size(), accountDetailsIds.size(),
+                "Одной или нескольких сущностей AccountDetailsId с такими айди не существует " + ids);
 
         return mapper.toDtoList(accountDetailsIds);
     }
@@ -70,11 +69,14 @@ public class AccountDetailsIdServiceImpl implements AccountDetailsIdService {
     @Override
     @Transactional
     public AccountDetailsIdDto update(Long id, AccountDetailsIdDto accountDetailsId) {
-        // TODO удали и оставь пустую строку.
+        
         final AccountDetailsIdEntity accountDetailsIdEntity = repository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Сущности AccountDetailsId с айди " + id + " не найдено")
-        );
-        // TODO удали и оставь пустую строку.
-        return mapper.toDto(repository.save(mapper.updateEntity(accountDetailsIdEntity, accountDetailsId)));
+                        .orElseThrow(() ->
+                                ExceptionManager
+                                        .getEntityNotFoundException(
+                                                "Сущности AccountDetailsId с айди " + id + " не нaйдено")
+                        );
+        
+        return mapper.toDto(repository.save(mapper.mergeToEntity(accountDetailsIdEntity, accountDetailsId)));
     }
 }

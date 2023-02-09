@@ -1,6 +1,6 @@
 package com.bank.repository;
 
-import com.bank.model.PassportEntity;
+import com.bank.entity.PassportEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

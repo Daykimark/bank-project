@@ -1,6 +1,6 @@
 package com.bank.repository;
 
-import com.bank.model.ProfileEntity;
+import com.bank.entity.ProfileEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

@@ -1,7 +1,7 @@
 package com.bank.controller;
 
 import com.bank.dto.PassportDto;
-import com.bank.model.PassportEntity;
+import com.bank.entity.PassportEntity;
 import com.bank.service.PassportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -39,10 +39,8 @@ public class PassportController {
      * @param passport {@link PassportDto}
      * @return {@link ResponseEntity<PassportDto>}
      */
-    //TODO save переименуй в create.
-    @PostMapping("/save")
-    //TODO save переименуй в create.
-    public ResponseEntity<PassportDto> save(@RequestBody PassportDto passport) {
+    @PostMapping("/create")
+    public ResponseEntity<PassportDto> create(@RequestBody PassportDto passport) {
         return ResponseEntity.ok(service.save(passport));
     }
 
@@ -58,8 +56,7 @@ public class PassportController {
 
     /**
      * @param ids лист технических идентификаторов {@link PassportDto}
-     * TODO удали "листом".
-     * @return {@link ResponseEntity} с листом {@link List<PassportDto>}
+     * @return {@link ResponseEntity} {@link List<PassportDto>}
      */
     @GetMapping("read/all")
     public ResponseEntity<List<PassportDto>> readAllById(@RequestParam List<Long> ids) {
