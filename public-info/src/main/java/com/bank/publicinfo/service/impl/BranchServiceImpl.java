@@ -5,6 +5,7 @@ import com.bank.publicinfo.entity.BranchEntity;
 import com.bank.publicinfo.mapper.BranchMapper;
 import com.bank.publicinfo.repository.BranchRepository;
 import com.bank.publicinfo.service.BranchService;
+import com.bank.publicinfo.util.EntityNotFoundSupplier;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,7 @@ public class BranchServiceImpl implements BranchService {
 
     private final BranchRepository repository;
     private final BranchMapper mapper;
-    // TODO notFoundIds переименовать supplierNotFound.
-    private final Supplier notFoundIds;
+    private final EntityNotFoundSupplier supplierNotFound;
 
     /**
      * @param ids список технических идентификаторов {@link BranchEntity}
@@ -34,7 +34,7 @@ public class BranchServiceImpl implements BranchService {
     @Override
     public List<BranchDto> findAllById(List<Long> ids) {
         final List<BranchEntity> branches = repository.findAllById(ids);
-        notFoundIds.checkForSizeAndLogging(MESSAGE, ids, branches);
+        supplierNotFound.checkForSizeAndLogging(MESSAGE, ids, branches);
         return mapper.toDtoList(branches);
     }
 
@@ -58,7 +58,7 @@ public class BranchServiceImpl implements BranchService {
     public BranchDto update(Long id, BranchDto branch) {
         final BranchEntity entity = repository.findById(id)
                 .orElseThrow(() -> (
-                        notFoundIds.loggingAndGet(MESSAGE, id)
+                        supplierNotFound.loggingAndGet(MESSAGE, id)
                 ));
 
         final BranchEntity updatedBranch = mapper.mergeToEntity(branch, entity);
@@ -72,6 +72,6 @@ public class BranchServiceImpl implements BranchService {
     @Override
     public BranchDto findById(Long id) {
         return mapper.toDto(repository.findById(id)
-                .orElseThrow(() -> notFoundIds.loggingAndGet(MESSAGE, id)));
+                .orElseThrow(() -> supplierNotFound.loggingAndGet(MESSAGE, id)));
     }
 }
